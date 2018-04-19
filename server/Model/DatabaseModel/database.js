@@ -1,0 +1,28 @@
+var mysql = require('mysql');
+var db=function(){
+    this.query = async function(query,placeholder){        
+        try {
+            var con= mysql.createConnection({
+                host: "localhost",
+                user: "root",
+                database: "internship_web",
+            })
+            con.connect();
+            let ret = await new Promise((resolve, reject) => {
+                con.query(query, placeholder, (err, result, fields) => {
+                    if (err){
+                        reject(new Error("khong the truy van database"));
+                    }
+                    resolve(result);
+                })
+            });
+            con.end();
+            return Promise.resolve(ret);
+        } catch (e) {
+            console.log("loi ket noi database");
+            return Promise.reject(e);
+        }
+    }
+}
+
+module.exports = db;
