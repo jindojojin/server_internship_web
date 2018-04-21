@@ -45,7 +45,8 @@ module.exports = userModel;
 
 var a = async function () {
     let a = await userModel.checkUser("16021031", "16021031");
-    console.log(a.usertoken);    
+    // console.log(a.usertoken);    
     let dbqr = await userModel.getProfile(a.usertoken);
+    console.log(dbqr);
 }
 a();

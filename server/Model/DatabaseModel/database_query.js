@@ -22,7 +22,7 @@ var database_query = {
             try {
                 let myquery = "SELECT * FROM ? WHERE ? = ?";
                 let result = await new database().query(myquery, [type, type + "ID", userID]);
-                return Promise.resolve(result);
+                return Promise.resolve(Object.assign({}, result[0]));
             } catch (error) {
                 return Promise.reject(error)
             }
