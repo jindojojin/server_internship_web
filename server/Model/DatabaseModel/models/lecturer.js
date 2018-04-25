@@ -16,19 +16,19 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		vnumail: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(50),
 			allowNull: true
 		},
-		gmail: {
-			type: DataTypes.STRING(20),
+		email: {
+			type: DataTypes.STRING(50),
 			allowNull: true
 		},
 		phoneNumber: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(15),
 			allowNull: true
 		},
 		note: {
-			type: DataTypes.TEXT,
+			type: DataTypes.STRING(200),
 			allowNull: true
 		}
 	}, {

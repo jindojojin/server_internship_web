@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
 			primaryKey: true,
 			autoIncrement: true
 		},
-		partner_account_userID: {
+		partnerID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
@@ -16,13 +16,33 @@ module.exports = function(sequelize, DataTypes) {
 				key: 'account_userID'
 			}
 		},
-		term_termID: {
+		termID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
 				model: 'term',
 				key: 'termID'
 			}
+		},
+		endDate: {
+			type: DataTypes.DATEONLY,
+			allowNull: false
+		},
+		startDate: {
+			type: DataTypes.DATEONLY,
+			allowNull: false
+		},
+		slot: {
+			type: DataTypes.INTEGER(4),
+			allowNull: false
+		},
+		title: {
+			type: DataTypes.STRING(200),
+			allowNull: false
+		},
+		content: {
+			type: DataTypes.TEXT,
+			allowNull: false
 		}
 	}, {
 		tableName: 'internship_job'
