@@ -16,7 +16,7 @@ var userModel = {
                 return Promise.reject(new Error("mat khau khong dung"));
             }
         } catch (error) {
-            return Promise.reject(e);
+            return Promise.reject(error);
         }
     },
     

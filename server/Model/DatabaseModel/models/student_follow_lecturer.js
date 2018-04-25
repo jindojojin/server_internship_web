@@ -1,30 +1,30 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('internship_job', {
-		jobID: {
+	return sequelize.define('student_follow_lecturer', {
+		studentID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
-		},
-		partner_account_userID: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
 			references: {
-				model: 'partner',
+				model: 'student',
 				key: 'account_userID'
 			}
 		},
-		term_termID: {
+		lecturerID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
-				model: 'term',
-				key: 'termID'
+				model: 'lecturer',
+				key: 'account_userID'
 			}
+		},
+		status: {
+			type: DataTypes.STRING(10),
+			allowNull: false,
+			defaultValue: 'waiting'
 		}
 	}, {
-		tableName: 'internship_job'
+		tableName: 'student_follow_lecturer'
 	});
 };

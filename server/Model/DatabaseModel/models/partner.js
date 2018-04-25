@@ -2,22 +2,28 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('partner', {
-		partnerID: {
-			type: DataTypes.STRING(50),
+		account_userID: {
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
-			primaryKey: true
+			primaryKey: true,
+			references: {
+				model: 'account',
+				key: 'userID'
+			}
 		},
 		name: {
 			type: DataTypes.STRING(100),
-			allowNull: false
+			allowNull: true,
+			unique: true
 		},
 		email: {
 			type: DataTypes.STRING(100),
-			allowNull: false
+			allowNull: true,
+			unique: true
 		},
 		logo: {
 			type: DataTypes.STRING(100),
-			allowNull: false
+			allowNull: true
 		}
 	}, {
 		tableName: 'partner'

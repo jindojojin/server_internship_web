@@ -13,7 +13,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		detail: {
 			type: DataTypes.STRING(200),
-			allowNull: false
+			allowNull: true
 		}
 	}, {
 		tableName: 'skill'

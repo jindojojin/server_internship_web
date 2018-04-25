@@ -1,33 +1,10 @@
 -- phpMyAdmin SQL Dump
 -- version 4.7.4
 -- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Apr 24, 2018 at 12:08 PM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `internship_web`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `account`
---
-
 CREATE TABLE `account` (
   `userID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `username` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -38,11 +15,6 @@ CREATE TABLE `account` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
---
--- Dumping data for table `account`
---
-
 INSERT INTO `account` (`userID`, `username`, `password`, `nickname`, `salt`, `type`, `createdAt`, `updatedAt`) VALUES
 ('16021000', '16021000', '80c4f7a8b5a90dc5d355e8b27af049b8', '16021000', '9fbb2378a106a32f4de6', 'student', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 ('16021001', '16021001', 'a0887610ad6b6df71f18f65e552a5592', '16021001', '2d855718b9897a075701', 'student', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
@@ -1061,12 +1033,6 @@ INSERT INTO `account` (`userID`, `username`, `password`, `nickname`, `salt`, `ty
 ('partner3', 'partner33', '6b128cce625bac5dd7d4aa0e35e232fd', 'partner33', '8faf3b56030deddb134e', 'partner', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 ('partner4', 'partner44', 'ccd372507cf09e921bb9a66cbdfb59e3', 'partner44', '8ba158904c4ed579b0b7', 'partner', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `admin`
---
-
 CREATE TABLE `admin` (
   `adminID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `firtName` varchar(20) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1076,23 +1042,11 @@ CREATE TABLE `admin` (
   `email` varchar(20) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `comment`
---
-
 CREATE TABLE `comment` (
   `commentID` bigint(18) NOT NULL,
   `content` varchar(500) COLLATE utf8mb4_vietnamese_ci NOT NULL,
   `userID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `commentofpartner`
---
 
 CREATE TABLE `commentofpartner` (
   `studentID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1102,22 +1056,11 @@ CREATE TABLE `commentofpartner` (
   `content` varchar(1000) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `commentreport`
---
-
 CREATE TABLE `commentreport` (
   `commentID` bigint(18) NOT NULL,
   `planReportID` bigint(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `file`
---
 
 CREATE TABLE `file` (
   `fileID` bigint(6) NOT NULL,
@@ -1126,11 +1069,6 @@ CREATE TABLE `file` (
   `path` varchar(200) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `internship_job`
---
 
 CREATE TABLE `internship_job` (
   `jobID` int(6) NOT NULL,
@@ -1138,11 +1076,7 @@ CREATE TABLE `internship_job` (
   `termID` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `internship_term`
---
 
 CREATE TABLE `internship_term` (
   `termID` int(3) NOT NULL,
@@ -1152,11 +1086,6 @@ CREATE TABLE `internship_term` (
   `endDate` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `lecturer`
---
 
 CREATE TABLE `lecturer` (
   `lecturerID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1168,11 +1097,6 @@ CREATE TABLE `lecturer` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `message`
---
 
 CREATE TABLE `message` (
   `senderID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1181,11 +1105,6 @@ CREATE TABLE `message` (
   `content` varchar(1000) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `partner`
---
 
 CREATE TABLE `partner` (
   `partnerID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1194,11 +1113,6 @@ CREATE TABLE `partner` (
   `logo` varchar(100) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table ` planreport`
---
 
 CREATE TABLE ` planreport` (
   `planReportID` bigint(10) NOT NULL,
@@ -1209,11 +1123,6 @@ CREATE TABLE ` planreport` (
   `content` varchar(1000) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
-
---
--- Table structure for table `result_evaluation`
---
 
 CREATE TABLE `result_evaluation` (
   `studentID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1223,11 +1132,7 @@ CREATE TABLE `result_evaluation` (
   `comment` varchar(1000) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `skill`
---
 
 CREATE TABLE `skill` (
   `skillID` tinyint(3) NOT NULL,
@@ -1235,11 +1140,7 @@ CREATE TABLE `skill` (
   `detail` varchar(200) COLLATE utf8mb4_vietnamese_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `student`
---
 
 CREATE TABLE `student` (
   `studentID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1264,11 +1165,7 @@ CREATE TABLE `student` (
   `note` text COLLATE utf8mb4_vietnamese_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
--- --------------------------------------------------------
 
---
--- Table structure for table `student_skill`
---
 
 CREATE TABLE `student_skill` (
   `studentID` varchar(50) COLLATE utf8mb4_vietnamese_ci NOT NULL,
@@ -1276,217 +1173,125 @@ CREATE TABLE `student_skill` (
   `level` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_vietnamese_ci;
 
---
--- Indexes for dumped tables
---
 
---
--- Indexes for table `account`
---
 ALTER TABLE `account`
   ADD PRIMARY KEY (`userID`),
   ADD UNIQUE KEY `username` (`username`);
 
---
--- Indexes for table `admin`
---
+
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`adminID`);
 
---
--- Indexes for table `comment`
---
+
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`commentID`),
   ADD KEY `comment_fk0` (`userID`);
 
---
--- Indexes for table `commentofpartner`
---
+
 ALTER TABLE `commentofpartner`
   ADD PRIMARY KEY (`studentID`,`partnerID`,`jobID`),
   ADD KEY `commentOfPartner_fk1` (`partnerID`),
   ADD KEY `commentOfPartner_fk2` (`jobID`);
 
---
--- Indexes for table `commentreport`
---
 ALTER TABLE `commentreport`
   ADD PRIMARY KEY (`commentID`,`planReportID`),
   ADD KEY `commentReport_fk1` (`planReportID`);
 
---
--- Indexes for table `file`
---
 ALTER TABLE `file`
   ADD PRIMARY KEY (`fileID`);
 
---
--- Indexes for table `internship_job`
---
 ALTER TABLE `internship_job`
   ADD PRIMARY KEY (`jobID`),
   ADD KEY `internship_job_fk0` (`partnerID`),
   ADD KEY `internship_job_fk1` (`termID`);
 
---
--- Indexes for table `internship_term`
---
 ALTER TABLE `internship_term`
   ADD PRIMARY KEY (`termID`);
 
---
--- Indexes for table `lecturer`
---
 ALTER TABLE `lecturer`
   ADD PRIMARY KEY (`lecturerID`);
 
---
--- Indexes for table `message`
---
 ALTER TABLE `message`
   ADD PRIMARY KEY (`senderID`,`receiverID`),
   ADD KEY `message_fk1` (`receiverID`);
 
---
--- Indexes for table `partner`
---
 ALTER TABLE `partner`
   ADD PRIMARY KEY (`partnerID`);
 
---
--- Indexes for table ` planreport`
---
 ALTER TABLE ` planreport`
   ADD PRIMARY KEY (`planReportID`),
   ADD KEY ` planReport_fk0` (`studentID`),
   ADD KEY ` planReport_fk1` (`jobID`),
   ADD KEY ` planReport_fk2` (`fileID`);
 
---
--- Indexes for table `result_evaluation`
---
 ALTER TABLE `result_evaluation`
   ADD PRIMARY KEY (`studentID`,`fileID`,`lecturerID`),
   ADD KEY `result_evaluation_fk1` (`fileID`),
   ADD KEY `result_evaluation_fk2` (`lecturerID`);
 
---
--- Indexes for table `skill`
---
 ALTER TABLE `skill`
   ADD PRIMARY KEY (`skillID`);
 
---
--- Indexes for table `student`
---
 ALTER TABLE `student`
   ADD PRIMARY KEY (`studentID`);
 
---
--- Indexes for table `student_skill`
---
 ALTER TABLE `student_skill`
   ADD PRIMARY KEY (`studentID`,`skillID`),
   ADD KEY `student_skill_fk1` (`skillID`);
 
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `comment`
---
 ALTER TABLE `comment`
   MODIFY `commentID` bigint(18) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `file`
---
+
 ALTER TABLE `file`
   MODIFY `fileID` bigint(6) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `internship_job`
---
 ALTER TABLE `internship_job`
   MODIFY `jobID` int(6) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `internship_term`
---
+
 ALTER TABLE `internship_term`
   MODIFY `termID` int(3) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table ` planreport`
---
+
 ALTER TABLE ` planreport`
   MODIFY `planReportID` bigint(10) NOT NULL AUTO_INCREMENT;
 
---
--- Constraints for dumped tables
---
 
---
--- Constraints for table `comment`
---
+
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_fk0` FOREIGN KEY (`userID`) REFERENCES `account` (`userID`);
 
---
--- Constraints for table `commentofpartner`
---
 ALTER TABLE `commentofpartner`
   ADD CONSTRAINT `commentOfPartner_fk0` FOREIGN KEY (`studentID`) REFERENCES `student` (`studentID`),
   ADD CONSTRAINT `commentOfPartner_fk1` FOREIGN KEY (`partnerID`) REFERENCES `partner` (`partnerID`),
   ADD CONSTRAINT `commentOfPartner_fk2` FOREIGN KEY (`jobID`) REFERENCES `internship_job` (`jobID`);
 
---
--- Constraints for table `commentreport`
---
 ALTER TABLE `commentreport`
   ADD CONSTRAINT `commentReport_fk0` FOREIGN KEY (`commentID`) REFERENCES `comment` (`commentID`),
   ADD CONSTRAINT `commentReport_fk1` FOREIGN KEY (`planReportID`) REFERENCES ` planreport` (`planReportID`);
 
---
--- Constraints for table `internship_job`
---
 ALTER TABLE `internship_job`
   ADD CONSTRAINT `internship_job_fk0` FOREIGN KEY (`partnerID`) REFERENCES `partner` (`partnerID`),
   ADD CONSTRAINT `internship_job_fk1` FOREIGN KEY (`termID`) REFERENCES `internship_term` (`termID`);
 
---
--- Constraints for table `message`
---
+
 ALTER TABLE `message`
   ADD CONSTRAINT `message_fk0` FOREIGN KEY (`senderID`) REFERENCES `account` (`userID`),
   ADD CONSTRAINT `message_fk1` FOREIGN KEY (`receiverID`) REFERENCES `account` (`userID`);
 
---
--- Constraints for table ` planreport`
---
 ALTER TABLE ` planreport`
   ADD CONSTRAINT ` planReport_fk0` FOREIGN KEY (`studentID`) REFERENCES `student` (`studentID`),
   ADD CONSTRAINT ` planReport_fk1` FOREIGN KEY (`jobID`) REFERENCES `internship_job` (`jobID`),
   ADD CONSTRAINT ` planReport_fk2` FOREIGN KEY (`fileID`) REFERENCES `file` (`fileID`);
 
---
--- Constraints for table `result_evaluation`
---
+
 ALTER TABLE `result_evaluation`
   ADD CONSTRAINT `result_evaluation_fk0` FOREIGN KEY (`studentID`) REFERENCES `student` (`studentID`),
   ADD CONSTRAINT `result_evaluation_fk1` FOREIGN KEY (`fileID`) REFERENCES `file` (`fileID`),
   ADD CONSTRAINT `result_evaluation_fk2` FOREIGN KEY (`lecturerID`) REFERENCES `lecturer` (`lecturerID`);
 
---
--- Constraints for table `student_skill`
---
 ALTER TABLE `student_skill`
   ADD CONSTRAINT `student_skill_fk0` FOREIGN KEY (`studentID`) REFERENCES `student` (`studentID`),
   ADD CONSTRAINT `student_skill_fk1` FOREIGN KEY (`skillID`) REFERENCES `skill` (`skillID`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

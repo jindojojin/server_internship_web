@@ -1,17 +1,17 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('student_skill', {
-		skillID: {
-			type: DataTypes.INTEGER(3),
+	return sequelize.define('student_follow_job', {
+		internship_job_jobID: {
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			references: {
-				model: 'skill',
-				key: 'skillID'
+				model: 'internship_job',
+				key: 'jobID'
 			}
 		},
-		studentID: {
+		student_account_userID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
@@ -20,11 +20,12 @@ module.exports = function(sequelize, DataTypes) {
 				key: 'account_userID'
 			}
 		},
-		level: {
-			type: DataTypes.INTEGER(1),
-			allowNull: false
+		status: {
+			type: DataTypes.STRING(10),
+			allowNull: false,
+			defaultValue: 'waiting'
 		}
 	}, {
-		tableName: 'student_skill'
+		tableName: 'student_follow_job'
 	});
 };

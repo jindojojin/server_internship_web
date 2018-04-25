@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 // const acc = require('./models/account')
-var db = new Sequelize('internship_web', 'root', '', {
+var sequelize = new Sequelize('internship_web', 'root', '', {
         host: 'localhost',
         // port:'3306',
         dialect: 'mysql',
@@ -18,7 +18,7 @@ var db = new Sequelize('internship_web', 'root', '', {
         operatorsAliases: false,
     })
 
-    module.exports = db;
+    module.exports = sequelize;
 //  var account = new acc(sequelize,Sequelize);
 //  sequelize.sync();
 // account.create({

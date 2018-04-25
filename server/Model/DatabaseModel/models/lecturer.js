@@ -2,30 +2,30 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('lecturer', {
-		lecturerID: {
-			type: DataTypes.STRING(50),
+		account_userID: {
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
-			primaryKey: true
+			primaryKey: true,
+			references: {
+				model: 'account',
+				key: 'userID'
+			}
 		},
-		firstName: {
-			type: DataTypes.STRING(20),
-			allowNull: false
-		},
-		lastName: {
-			type: DataTypes.STRING(10),
-			allowNull: false
+		name: {
+			type: DataTypes.STRING(50),
+			allowNull: true
 		},
 		vnumail: {
 			type: DataTypes.STRING(20),
-			allowNull: false
+			allowNull: true
 		},
 		gmail: {
 			type: DataTypes.STRING(20),
-			allowNull: false
+			allowNull: true
 		},
 		phoneNumber: {
 			type: DataTypes.STRING(20),
-			allowNull: false
+			allowNull: true
 		},
 		note: {
 			type: DataTypes.TEXT,

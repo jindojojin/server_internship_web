@@ -1,30 +1,30 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define(' planreport', {
-		planReportID: {
-			type: DataTypes.BIGINT,
+	return sequelize.define('plan_report', {
+		 plan_reportID: {
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
 		},
 		studentID: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
 				model: 'student',
-				key: 'studentID'
+				key: 'account_userID'
 			}
 		},
 		jobID: {
-			type: DataTypes.INTEGER(6),
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {
 				model: 'internship_job',
 				key: 'jobID'
 			}
 		},
-		fileID: {
+		file_fileID: {
 			type: DataTypes.BIGINT,
 			allowNull: false,
 			references: {
@@ -34,13 +34,18 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		title: {
 			type: DataTypes.STRING(200),
-			allowNull: false
+			allowNull: true
 		},
 		content: {
 			type: DataTypes.STRING(1000),
-			allowNull: false
+			allowNull: true
+		},
+		isFinal: {
+			type: DataTypes.INTEGER(4),
+			allowNull: false,
+			defaultValue: '0'
 		}
 	}, {
-		tableName: ' planreport'
+		tableName: 'plan_report'
 	});
 };

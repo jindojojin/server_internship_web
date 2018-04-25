@@ -1,12 +1,13 @@
 var Sequelize = require('sequelize')
-var db = require('./db');
-var account = require('./models/account')
+var sequelize = require('./sequelize');
+let account = require('./models/account')
+
+var model_required = require('./switchRequireModelByUser') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
 
 var database_query = {
     getUser: async function (username) {
         try {
-            let account = require('./models/account')
-            let acc = new account(db,Sequelize);
+            let acc = new account(sequelize,Sequelize);
             let user =await acc.findOne({
                 where: {username: username},
               })
@@ -20,31 +21,32 @@ var database_query = {
 
     },
 
+    getUserByType: async function(type){
+        try {
+            let acc = new account(sequelize,Sequelize);
+            let arr =await acc.findAll({
+                where: {type: type},
+              })
+            let result=[];
+            arr.forEach(user => {
+                result.push(user.get({plain:true}));
+            });
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(new Error("không tìm thấy kết quả phù hợp"))
+        }
+    },
+
     getUserInfor: async function (userID, type) {
-        if (typeof userID !== 'string') {
+        if (typeof userID != 'number') {  // userID phải là số
             return Promise.reject(new Error("userID khong hop le"));
         } else {
-            let model;
-            switch (type) {
-                case 'student':
-                    model= require('./models/student');
-                    break;
-                case 'lecturer':
-                    model = require('./models/lecturer');
-                    break;
-                case 'partner':
-                    model = require('./models/partner');
-                    break;
-                case 'admin':
-                    model = require('./models/admin');
-                    break;
-                default:
-                    return Promise.reject(new Error("không nhận dạng được kiểu người dùng"))
-            }
-            let usertype = new model(db,Sequelize);
+            let model = new model_required(type);  // chọn bảng thông tin theo kiểu người dùng
+            if(model == null) return Promise.reject(new Error("không nhận dạng được kiểu người dùng "+type));
+            let usertable = new model(sequelize,Sequelize);
             try {
-                let userInfor = await usertype.findOne({
-                    where: {studentID: userID},
+                let userInfor = await usertable.findOne({
+                    where: {account_userID: userID},
                   })
                 return Promise.resolve(userInfor.get({plain:true}));
                 // let myquery = "SELECT * FROM ? WHERE ? = ?";
@@ -62,3 +64,6 @@ module.exports = database_query;
 
 
 
+// var a= 145234;
+// console.log(typeof a);
+// database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));

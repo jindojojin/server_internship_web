@@ -1,26 +1,26 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('file', {
-		fileID: {
-			type: DataTypes.BIGINT,
+	return sequelize.define('term', {
+		termID: {
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
 		},
-		fileName: {
+		start: {
+			type: DataTypes.DATEONLY,
+			allowNull: false
+		},
+		end: {
+			type: DataTypes.DATEONLY,
+			allowNull: false
+		},
+		title: {
 			type: DataTypes.STRING(100),
-			allowNull: false
-		},
-		fileType: {
-			type: DataTypes.STRING(5),
-			allowNull: false
-		},
-		path: {
-			type: DataTypes.STRING(200),
 			allowNull: false
 		}
 	}, {
-		tableName: 'file'
+		tableName: 'term'
 	});
 };
