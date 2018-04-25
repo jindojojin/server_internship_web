@@ -9,7 +9,7 @@ var userModel = {
             let hash = res.password;
             if (secure.compare(password, hash, salt)) {
                 let token = secure.createUserToken(res);
-                var user = {userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token };
+                var user = { userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token };
                 // console.log(user);
                 return Promise.resolve(user);
             } else {
@@ -20,23 +20,27 @@ var userModel = {
         }
     },
 
-    getProfile: async function(userID){
+    getProfile: async function (userID) {
         let type;
         await database_query.getUserByID(userID)
-        .then( res => {
-            type = res.type;            
-        })
-        .catch(e => Promise.reject(e))
-        try {
-            let result = await database_query.getUserInfor(userID,type);
-        return Promise.resolve(result);
-        } catch (error) {
-            return Promise.reject(error);
+            .then(res => {
+                type = res.type;
+            })
+            .catch(e => Promise.reject(e))
+        if (typeof userID != 'number') {  // userID phải là số
+            return Promise.reject(new Error("userID khong hop le"));
+        } else {
+            try {
+                let result = await database_query.getUserInfor(userID, type);
+                return Promise.resolve(result);
+            } catch (error) {
+                return Promise.reject(error);
+            }
         }
-        
-        
+
+
     },
-    
+
     // getProfile:async function(token){
     //     let user =secure.verifyUserToken(token);
     //     let type;
@@ -54,7 +58,7 @@ var userModel = {
     //         return Promise.reject(new Error("khong xem duoc thong tin cua nguoi dung nay"));
     //     }   
     // },
-    checkPermission: function(){
+    checkPermission: function () {
 
     }
 }

@@ -10,7 +10,7 @@ module.exports = {
             .then(userToken => res.send(userToken))
             .catch(e => {
                 console.log(e);
-                res.send("bạn đã nhập sai tên đăng nhập hoặc mật khẩu")
+                res.send(null)
             });
     },
     getUserProfile: function (req, res) {
@@ -20,9 +20,8 @@ module.exports = {
             .then(userInfor => res.send(userInfor))
             .catch(e => {
                 console.log(e);                
-                res.send("không tồn tại người dùng này hoặc máy chủ bị lỗi");
+                res.send(null);
             })
-
     },
     change_password: function (req, res) {
         var username = req.body.username;
