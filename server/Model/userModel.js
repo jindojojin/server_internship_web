@@ -9,7 +9,7 @@ var userModel = {
             let hash = res.password;
             if (secure.compare(password, hash, salt)) {
                 let token = secure.createUserToken(res);
-                var user = { username: res.username, nickname: res.nickname, usertoken: token };
+                var user = {userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token };
                 // console.log(user);
                 return Promise.resolve(user);
             } else {
@@ -19,24 +19,41 @@ var userModel = {
             return Promise.reject(error);
         }
     },
-    
-    getProfile:async function(token){
-        let user =secure.verifyUserToken(token);
+
+    getProfile: async function(userID){
         let type;
-        switch(user.permission){
-            case 1: {type = "admin"; break;}
-            case 2: {type = "lecturer"; break;}
-            case 3: {type = "student"; break;}
-            case 4: {type = "partner"; break;}
-            default: {type =""; break;}        
-        }
+        await database_query.getUserByID(userID)
+        .then( res => {
+            type = res.type;            
+        })
+        .catch(e => Promise.reject(e))
         try {
-            let ret = await database_query.getUserInfor(user.username,type);
-            return Promise.resolve(ret);
+            let result = await database_query.getUserInfor(userID,type);
+        return Promise.resolve(result);
         } catch (error) {
-            return Promise.reject(new Error("khong xem duoc thong tin cua nguoi dung nay"));
-        }   
+            return Promise.reject(error);
+        }
+        
+        
     },
+    
+    // getProfile:async function(token){
+    //     let user =secure.verifyUserToken(token);
+    //     let type;
+    //     switch(user.permission){
+    //         case 1: {type = "admin"; break;}
+    //         case 2: {type = "lecturer"; break;}
+    //         case 3: {type = "student"; break;}
+    //         case 4: {type = "partner"; break;}
+    //         default: {type =""; break;}        
+    //     }
+    //     try {
+    //         let ret = await database_query.getUserInfor(user.username,type);
+    //         return Promise.resolve(ret);
+    //     } catch (error) {
+    //         return Promise.reject(new Error("khong xem duoc thong tin cua nguoi dung nay"));
+    //     }   
+    // },
     checkPermission: function(){
 
     }
@@ -46,7 +63,7 @@ module.exports = userModel;
 // var a = async function () {
 //     let a = await userModel.checkUser("16021031", "16021031");
 //     // console.log(a.usertoken);    
-//     let dbqr = await userModel.getProfile(a.usertoken);
+//     let dbqr = await userModel.getProfile(1);
 //     console.log(dbqr);
 // }
 // a();

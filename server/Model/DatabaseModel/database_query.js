@@ -20,7 +20,20 @@ var database_query = {
         }
 
     },
-
+    getUserByID: async function (userID) {
+        try {
+            let acc = new account(sequelize,Sequelize);
+            let user =await acc.findOne({
+                where: {userID: userID},
+              })
+            return Promise.resolve(user.get({plain:true}));            
+            // let myquery = "SELECT * FROM account WHERE username = ?"
+            // let result = await new database().query(myquery, [username]);
+            // return Promise.resolve(Object.assign({}, result[0]));
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
     getUserByType: async function(type){
         try {
             let acc = new account(sequelize,Sequelize);
@@ -41,7 +54,7 @@ var database_query = {
         if (typeof userID != 'number') {  // userID phải là số
             return Promise.reject(new Error("userID khong hop le"));
         } else {
-            let model = new model_required(type);  // chọn bảng thông tin theo kiểu người dùng
+            let model = model_required(type);  // chọn bảng thông tin theo kiểu người dùng
             if(model == null) return Promise.reject(new Error("không nhận dạng được kiểu người dùng "+type));
             let usertable = new model(sequelize,Sequelize);
             try {
@@ -61,7 +74,7 @@ var database_query = {
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
 // database_query.getUserInfor("16021031","student").then( res => console.log(res)).catch(e => console.log(e));
-
+// database_query.getUserByID(1).then(r => console.log(r));
 
 
 // var a= 145234;
