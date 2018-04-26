@@ -1,6 +1,7 @@
 
 var secure = require('./secure')
 var database_query = require('./DatabaseModel/database_query');
+var database_update = require('./DatabaseModel/database_update')
 var userModel = {
     checkUser: async function (username, password) {
         try {
@@ -37,8 +38,26 @@ var userModel = {
                 return Promise.reject(error);
             }
         }
+    },
 
-
+    changePassword: async function (username, old_password, new_password) {
+        try {
+            let user = await database_query.getUser(username);
+            let salt = user.salt;
+            let hash = user.password;
+            if (secure.compare(old_password, hash, salt)) {
+                console.log("da xac nhan dược người dùng");
+                let new_salt = secure.createSalt();
+                let new_hash = secure.encrypt(new_password, new_salt);
+                let result = await database_update.change_password(username, new_hash, new_salt);
+                console.log(result);
+                return Promise.resolve(result);
+            } else {
+                return Promise.reject(false);
+            }
+        } catch (error) {
+            return Promise.reject(false);
+        }
     },
 
     // getProfile:async function(token){

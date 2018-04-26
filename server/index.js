@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
+const router = express.Router();
 app.use(express.static('Data')); // hỗ trợ truy cập vào thư mục Data từ client
-app.use((req, res, next) => {   // hỗ trợ nhận request post dạng json từ client
+router.use((req, res, next) => {   // hỗ trợ nhận request post dạng json từ client
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type,X-Requested-With');
     next();

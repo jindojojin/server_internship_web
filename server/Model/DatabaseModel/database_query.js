@@ -90,7 +90,7 @@ module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
 // database_query.getUserInfor(1601,"student").then( res => console.log(res)).catch(e => console.log(e));
 // database_query.getUserByID(1).then(r => console.log(r));
-database_query.getListJobs(1).then(r=> console.log(r)).catch(e => console.log(e));
+// database_query.getListJobs(1).then(r=> console.log(r)).catch(e => console.log(e));
 // var a= 145234;
 // console.log(typeof a);
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));

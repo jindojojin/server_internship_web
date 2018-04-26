@@ -23,10 +23,16 @@ module.exports = {
                 res.send(null);
             })
     },
+
+    getMessages: function (req, res){
+
+    },
+
     change_password: function (req, res) {
         var username = req.body.username;
         var old_password = req.body.old_password;
         var new_password = req.body.new_password;
-        var check = database
+        user.changePassword(username,old_password,new_password)
+        .then( r => res.send(r)).catch( e => res.send(e));
     }
 }
