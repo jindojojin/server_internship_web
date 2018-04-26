@@ -60,12 +60,23 @@ var database_query = {
     getListJobs: async function (startID) {
         try {
             let internship_job = require('./models/internship_job')
+            let partnerTable = require('./models/partner')
             let job = new internship_job(sequelize, Sequelize);
+            let partner = new partnerTable(sequelize,Sequelize);
+            job.belongsTo(partner,{foreignKey:'partnerID', targetKey:'account_userID'});
+            // partner.hasMany(job,{foreignKey: 'partnerID', sourceKey: 'account_userID'});
             let arr = await job.findAll({
-                limit: 20,
+                include:[
+                    {
+                        model: partner,
+                        required : true,
+                        attributes:['name', 'logo'],                        
+                    }
+                ],
                 where: {
                     jobID: { [Op.gte]: startID }
                 },
+                limit: 20,                
                 raw:true
             });
             return Promise.resolve(arr);
@@ -79,7 +90,7 @@ module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
 // database_query.getUserInfor(1601,"student").then( res => console.log(res)).catch(e => console.log(e));
 // database_query.getUserByID(1).then(r => console.log(r));
-// database_query.getListJobs(1).then(r=> console.log(r))
+database_query.getListJobs(1).then(r=> console.log(r)).catch(e => console.log(e));
 // var a= 145234;
 // console.log(typeof a);
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));
