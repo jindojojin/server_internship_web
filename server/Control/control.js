@@ -1,5 +1,4 @@
 var user_router = require('./user_router')
-var job_router = require('./job_router')
 var student_router = require('./student_router')
 const jsonParser = require('body-parser').json();  // nhận json từ client
 module.exports= {
@@ -11,7 +10,7 @@ module.exports= {
         app.get('/user/id=:userID/profile',(req,res)=> user_router.getUserProfile(req,res)); 
         //trả về thông tin chi tiết của user
         
-        app.get('/user/id=:userID/messages',(req,res)=> user_router.getMessages(req,res)); // chưa viết
+        app.get('/user/id=:userID/messages/start=:start/total=:total',(req,res)=> user_router.getMessages(req,res)); // chưa viết
         // trả về danh sách 20 tin nhắn đã nhận/gửi gần đây của người dùng
 
         app.post('/user/id=:userID/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));

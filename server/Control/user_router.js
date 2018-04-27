@@ -38,7 +38,7 @@ module.exports = {
 
     getListJobs: function(req,res){
         let startID = parseInt(req.params.startID);
-        job_model.getJobs(startID).then( r => res.send(r)).catch(e =>{
+        user.getJobs(startID).then( r => res.send(r)).catch(e =>{
             console.log(e);
             res.send(null);
         })
@@ -47,7 +47,7 @@ module.exports = {
     getListUsers: function(req,res){
         let startID = parseInt(req.params.startID);
         let type = req.params.type;
-        job_model.getUsers(startID,type).then( r => res.send(r)).catch(e =>{
+        user.getUsers(startID,type).then( r => res.send(r)).catch(e =>{
             console.log(e);
             res.send(null);
         })
