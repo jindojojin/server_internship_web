@@ -11,7 +11,10 @@ module.exports= {
         //trả về thông tin chi tiết của user
         
         app.get('/user/id=:userID/messages/start=:start/total=:total',(req,res)=> user_router.getMessages(req,res)); // chưa viết
-        // trả về danh sách 20 tin nhắn đã nhận/gửi gần đây của người dùng
+        // trả về danh sách total tin nhắn đã nhận gần đây của người dùng bắt đầu từ start theo thứ tự tìm kiếm
+
+        app.post('/user/id=:userID/messages/action=:action',jsonParser,(req,res)=>user_router.sendMessage(req,res)) //chưa viết
+        // action= send/reply message, trả về true hoặc false
 
         app.post('/user/id=:userID/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));
         // thay đổi mật khẩu ; trả về true hoặc false
@@ -23,7 +26,7 @@ module.exports= {
         // trả về danh sách 20 bài đăng thực tập bắt đầu từ startID
 
         app.get('/list/users/type=:type/start=:start/total=:total',(req,res)=>user_router.getListUsers(req,res));
-        // trả về danh sách 20 giảng viên/ đối tác/ admin / sinh viên bắt đầu từ startID
+        // trả về danh sách có total giảng viên/ đối tác/ admin / sinh viên bắt đầu từ start theo thứ tự tìm kiếm
               
         app.get('/student/id=:id/action=:action/target=:target/targetID=:targetID',(req,res)=>student_router.follow(req,res));
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID

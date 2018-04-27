@@ -82,26 +82,16 @@ var userModel = {
         }
     },
 
-    // getProfile:async function(token){
-    //     let user =secure.verifyUserToken(token);
-    //     let type;
-    //     switch(user.permission){
-    //         case 1: {type = "admin"; break;}
-    //         case 2: {type = "lecturer"; break;}
-    //         case 3: {type = "student"; break;}
-    //         case 4: {type = "partner"; break;}
-    //         default: {type =""; break;}        
-    //     }
-    //     try {
-    //         let ret = await database_query.getUserInfor(user.username,type);
-    //         return Promise.resolve(ret);
-    //     } catch (error) {
-    //         return Promise.reject(new Error("khong xem duoc thong tin cua nguoi dung nay"));
-    //     }   
-    // },
-    checkPermission: function () {
+    getMessages: async function(userID,start,total){
+        if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
+        try {
+            let result = await database_query.getMessages(userID,start,total);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
 
-    }
 }
 module.exports = userModel;
 

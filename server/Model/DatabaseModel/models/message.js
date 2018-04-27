@@ -27,6 +27,16 @@ module.exports = function(sequelize, DataTypes) {
 		content: {
 			type: DataTypes.STRING(1000),
 			allowNull: false
+		},
+		createdAt: {
+			type: DataTypes.DATE,
+			allowNull: false,
+			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+		},
+		status: {
+			type: DataTypes.STRING(6),
+			allowNull: false,
+			defaultValue: 'unread'
 		}
 	}, {
 		tableName: 'message'

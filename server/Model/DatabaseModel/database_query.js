@@ -21,7 +21,7 @@ var database_query = {
             let acc = new model_required('account');
             let user = await acc.findOne({
                 where: { userID: userID },
-                raw:true
+                raw: true
             })
             return Promise.resolve(user);
         } catch (error) {
@@ -52,22 +52,22 @@ var database_query = {
             return Promise.reject(new Error("khong tim duoc du lieu nguoi dung này"));
         }
     },
-    getListJobs: async function (start,total) {
+    getListJobs: async function (start, total) {
         try {
             let job = new model_required('internship_job');
             let partner = new model_required('partner');
-            job.belongsTo(partner,{foreignKey:'partnerID', targetKey:'account_userID'});
+            job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
             let arr = await job.findAll({
-                include:[
+                include: [
                     {
                         model: partner,
-                        required : true,
-                        attributes:['name', 'logo'],                        
+                        required: true,
+                        attributes: ['name', 'logo'],
                     }
                 ],
-                offset: start-1,
-                limit: total,                
-                raw:true
+                offset: start - 1,
+                limit: total,
+                raw: true
             });
             return Promise.resolve(arr);
         } catch (error) {
@@ -76,13 +76,13 @@ var database_query = {
 
     },
 
-    getListUsers: async function (start,total,userType) {
+    getListUsers: async function (start, total, userType) {
         try {
             let user = new model_required(userType);
             let arr = await user.findAll({
-                offset:start-1,
-                limit: total,                
-                raw:true
+                offset: start - 1,
+                limit: total,
+                raw: true
             });
             return Promise.resolve(arr);
         } catch (error) {
@@ -90,6 +90,24 @@ var database_query = {
         }
 
     },
+
+    getMessages: async function (userID, start, total) {
+        try {
+            let mes = new model_required('message');
+            let arr = await mes.findAll({
+                where:{
+                    receiverID:userID
+                },
+                order:[['createdAt', 'DESC']],
+                offset: start - 1,
+                limit: total,
+                raw: true
+            })
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 };
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
@@ -98,4 +116,5 @@ module.exports = database_query;
 // database_query.getListJobs(1).then(r=> console.log(r)).catch(e => console.log(e));
 // var a= 145234;
 // console.log(typeof a);
+database_query.getMessages(4,1,5).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));

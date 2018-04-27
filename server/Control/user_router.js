@@ -24,8 +24,17 @@ module.exports = {
             })
     },
 
-    getMessages: function (req, res){
+    sendMessage: function(req,res){
 
+    },
+
+    getMessages: function (req, res){
+        let userID = req.params.userID;
+        let start = parseInt(req.params.start);
+        let total = parseInt(req.params.total);
+        user.getMessages(userID,start,total).then(
+            r => res.send(r)
+        ).catch( e => res.send(null));
     },
 
     change_password: function (req, res) {
@@ -33,7 +42,7 @@ module.exports = {
         let old_password = req.body.old_password;
         let new_password = req.body.new_password;
         user.changePassword(username,old_password,new_password)
-        .then( r => res.send(r)).catch( e => res.send(e));
+        .then( r => res.send(true)).catch( e => res.send(null));
     },
 
     getListJobs: function(req,res){
