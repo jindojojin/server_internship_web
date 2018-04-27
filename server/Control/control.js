@@ -28,7 +28,7 @@ module.exports= {
         app.get('/list/partners/startID=:startID',(req,res)=>job_router.getListPartners(req,res)); //chưa viết
         // trả về danh sách 20 đối tác bắt đầu từ startID
 
-        app.get('/student/action=:action/target=:target/targetID=:targetID',(req,res)=>student_router.follow(req,res));
+        app.get('/student/id=:id/action=:action/target=:target/targetID=:targetID',(req,res)=>student_router.follow(req,res));
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID
         // thực hiện follow hoặc unfollow, trả về true hoặc false
     }

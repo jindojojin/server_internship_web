@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('student_follow_job', {
-		internship_job_jobID: {
+		jobID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 				key: 'jobID'
 			}
 		},
-		student_account_userID: {
+		studentID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,

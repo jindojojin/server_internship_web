@@ -2,7 +2,7 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('student_follow_partner', {
-		student_account_userID: {
+		studentID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
 				key: 'account_userID'
 			}
 		},
-		partner_account_userID: {
+		partnerID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,

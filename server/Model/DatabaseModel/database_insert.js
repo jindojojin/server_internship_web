@@ -23,7 +23,33 @@ module.exports = {
         }
     },
 
-    insertFollow: async function (studentID, targetType, targetID){
+    insertStudentFollowPartner: async function (studentID,partnerID){
+        try {
+            let table = new model_required('student_follow_partner'); 
+            let result = await table.create({studentID:studentID,partnerID:partnerID});
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
 
+    insertStudentFollowJob: async function (studentID,jobID){
+        try {
+            let table = new model_required('student_follow_job'); 
+            let result = await table.create({studentID:studentID,jobID:jobID,status:'waiting'});
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+
+    insertStudentFollowLecturer: async function (studentID,lecturerID){
+        try {
+            let table = new model_required('student_follow_lecturer'); 
+            let result = await table.create({studentID:studentID,lecturerID:lecturerID,status:'waiting'});
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 }
