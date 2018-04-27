@@ -37,8 +37,9 @@ module.exports = {
     },
 
     getListJobs: function(req,res){
-        let startID = parseInt(req.params.startID);
-        user.getJobs(startID).then( r => res.send(r)).catch(e =>{
+        let start = parseInt(req.params.start);
+        let total = parseInt(req.params.total);
+        user.getJobs(start,total).then( r => res.send(r)).catch(e =>{
             console.log(e);
             res.send(null);
         })

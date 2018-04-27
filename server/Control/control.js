@@ -19,7 +19,7 @@ module.exports= {
         app.post('/user/id=:userID/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
-        app.get('/list/jobs/startID=:startID',(req,res)=>user_router.getListJobs(req,res));
+        app.get('/list/jobs/start=:start/total=:total',(req,res)=>user_router.getListJobs(req,res));
         // trả về danh sách 20 bài đăng thực tập bắt đầu từ startID
 
         app.get('/list/users/type=:type/start=:start/total=:total',(req,res)=>user_router.getListUsers(req,res));

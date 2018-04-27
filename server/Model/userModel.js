@@ -59,10 +59,10 @@ var userModel = {
             return Promise.reject(false);
         }
     },
-    getJobs: async function (startID) {
-        if (typeof startID != 'number' || startID < 1) return Promise.reject(new Error("startID không hợp lệ"));
+    getJobs: async function (start,total) {
+        if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
-            let result = await database_query.getListJobs(startID);
+            let result = await database_query.getListJobs(start,total);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
