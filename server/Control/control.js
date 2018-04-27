@@ -20,14 +20,12 @@ module.exports= {
         app.post('/user/id=:userID/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
-        app.get('/list/jobs/startID=:startID',(req,res)=>job_router.getListJobs(req,res));
+        app.get('/list/jobs/startID=:startID',(req,res)=>user_router.getListJobs(req,res));
         // trả về danh sách 20 bài đăng thực tập bắt đầu từ startID
 
-        app.get('/list/lecturers/startID=:startID',(req,res)=>job_router.getListLecturers(req,res)); //chưa viết
-        // trả về danh sách 20 giảng viên bắt đầu từ startID
-        app.get('/list/partners/startID=:startID',(req,res)=>job_router.getListPartners(req,res)); //chưa viết
-        // trả về danh sách 20 đối tác bắt đầu từ startID
-
+        app.get('/list/users/type=:type/startID=:startID',(req,res)=>user_router.getListUsers(req,res));
+        // trả về danh sách 20 giảng viên/ đối tác/ admin / sinh viên bắt đầu từ startID
+              
         app.get('/student/id=:id/action=:action/target=:target/targetID=:targetID',(req,res)=>student_router.follow(req,res));
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID
         // thực hiện follow hoặc unfollow, trả về true hoặc false

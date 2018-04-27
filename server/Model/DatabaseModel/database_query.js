@@ -77,6 +77,32 @@ var database_query = {
         }
 
     },
+
+    getListUsers: async function (startID,userType) {
+        try {
+            // let job = new model_required('lecturer');
+            let user = new model_required(userType);
+            // job.belongsTo(partner,{foreignKey:'partnerID', targetKey:'account_userID'});
+            let arr = await user.findAll({
+                // include:[
+                //     {
+                //         model: partner,
+                //         required : true,
+                //         attributes:['name', 'logo'],                        
+                //     }
+                // ],
+                where: {
+                    account_userID: { [Op.gte]: startID }
+                },
+                limit: 20,                
+                raw:true
+            });
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+
+    },
 };
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));

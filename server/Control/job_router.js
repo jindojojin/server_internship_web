@@ -8,5 +8,14 @@ var job_router={
         })
     },
 
+    getListUsers: function(req,res){
+        let startID = parseInt(req.params.startID);
+        let type = req.params.type;
+        job_model.getUsers(startID,type).then( r => res.send(r)).catch(e =>{
+            console.log(e);
+            res.send(null);
+        })
+    },
+
 }
 module.exports= job_router;
