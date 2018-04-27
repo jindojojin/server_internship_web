@@ -1,14 +1,12 @@
 var Sequelize = require('sequelize')
-var sequelize = require('./sequelize');
+// var sequelize = require('./sequelize');
 const Op = Sequelize.Op;
-let account = require('./models/account')
-
 var model_required = require('./switchRequireModelByUser') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
 
 var database_query = {
     getUser: async function (username) {
         try {
-            let acc = new account(sequelize, Sequelize);
+            let acc = new model_required('account');
             let user = await acc.findOne({
                 where: { username: username },
                 raw: true
@@ -21,7 +19,7 @@ var database_query = {
     },
     getUserByID: async function (userID) {
         try {
-            let acc = new account(sequelize, Sequelize);
+            let acc = new model_required('account');
             let user = await acc.findOne({
                 where: { userID: userID },
                 raw:true
@@ -33,7 +31,7 @@ var database_query = {
     },
     getUserByType: async function (type) {
         try {
-            let acc = new account(sequelize, Sequelize);
+            let acc = new model_required('account');
             let arr = await acc.findAll({
                 where: { type: type },
                 raw: true
@@ -44,11 +42,9 @@ var database_query = {
         }
     },
     getUserInfor: async function (userID, type) {
-        let model = model_required(type);  // chọn bảng thông tin theo kiểu người dùng
-        if (model == null) return Promise.reject(new Error("không nhận dạng được kiểu người dùng " + type));
-        let usertable = new model(sequelize, Sequelize);
+        let userTable = new model_required(type);// chọn bảng thông tin theo kiểu người dùng
         try {
-            let userInfor = await usertable.findOne({
+            let userInfor = await userTable.findOne({
                 where: { account_userID: userID },
                 raw: true
             })
@@ -59,12 +55,9 @@ var database_query = {
     },
     getListJobs: async function (startID) {
         try {
-            let internship_job = require('./models/internship_job')
-            let partnerTable = require('./models/partner')
-            let job = new internship_job(sequelize, Sequelize);
-            let partner = new partnerTable(sequelize,Sequelize);
+            let job = new model_required('internship_job');
+            let partner = new model_required('partner');
             job.belongsTo(partner,{foreignKey:'partnerID', targetKey:'account_userID'});
-            // partner.hasMany(job,{foreignKey: 'partnerID', sourceKey: 'account_userID'});
             let arr = await job.findAll({
                 include:[
                     {
