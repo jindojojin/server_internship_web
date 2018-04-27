@@ -78,7 +78,7 @@ var database_query = {
 
     },
 
-    getListUsers: async function (startID,userType) {
+    getListUsers: async function (start,total,userType) {
         try {
             // let job = new model_required('lecturer');
             let user = new model_required(userType);
@@ -91,10 +91,11 @@ var database_query = {
                 //         attributes:['name', 'logo'],                        
                 //     }
                 // ],
-                where: {
-                    account_userID: { [Op.gte]: startID }
-                },
-                limit: 20,                
+                // where: {
+                //     account_userID: { [Op.gte]: startID }
+                // },
+                offset:start-1,
+                limit: total,                
                 raw:true
             });
             return Promise.resolve(arr);

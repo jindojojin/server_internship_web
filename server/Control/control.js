@@ -22,7 +22,7 @@ module.exports= {
         app.get('/list/jobs/startID=:startID',(req,res)=>user_router.getListJobs(req,res));
         // trả về danh sách 20 bài đăng thực tập bắt đầu từ startID
 
-        app.get('/list/users/type=:type/startID=:startID',(req,res)=>user_router.getListUsers(req,res));
+        app.get('/list/users/type=:type/start=:start/total=:total',(req,res)=>user_router.getListUsers(req,res));
         // trả về danh sách 20 giảng viên/ đối tác/ admin / sinh viên bắt đầu từ startID
               
         app.get('/student/id=:id/action=:action/target=:target/targetID=:targetID',(req,res)=>student_router.follow(req,res));

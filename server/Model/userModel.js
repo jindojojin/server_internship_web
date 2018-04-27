@@ -68,14 +68,14 @@ var userModel = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    getUsers: async function (startID, userType) {
-        if (typeof startID != 'number' || startID < 1) return Promise.reject(new Error("startID không hợp lệ"));
+    getUsers: async function (start, total, userType) {
+        if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         if (userType != 'admin' &&
             userType != 'lecturer' &&
             userType != 'student' &&
             userType != 'partner') return Promise.reject(new Error("kiểu người dùng không hợp lệ"));
         try {
-            let result = await database_query.getListUsers(startID, userType);
+            let result = await database_query.getListUsers(start,total, userType);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));

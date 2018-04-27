@@ -29,9 +29,9 @@ module.exports = {
     },
 
     change_password: function (req, res) {
-        var username = req.body.username;
-        var old_password = req.body.old_password;
-        var new_password = req.body.new_password;
+        let username = req.body.username;
+        let old_password = req.body.old_password;
+        let new_password = req.body.new_password;
         user.changePassword(username,old_password,new_password)
         .then( r => res.send(r)).catch( e => res.send(e));
     },
@@ -45,9 +45,10 @@ module.exports = {
     },
 
     getListUsers: function(req,res){
-        let startID = parseInt(req.params.startID);
+        let start = parseInt(req.params.start);
+        let total = parseInt(req.params.total)
         let type = req.params.type;
-        user.getUsers(startID,type).then( r => res.send(r)).catch(e =>{
+        user.getUsers(start,total,type).then( r => res.send(r)).catch(e =>{
             console.log(e);
             res.send(null);
         })
