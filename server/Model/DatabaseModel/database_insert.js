@@ -51,5 +51,14 @@ module.exports = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    insertMessage: async function (message){
+        try {
+            let table = new model_required('message');
+            let result = await table.create(message);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 }

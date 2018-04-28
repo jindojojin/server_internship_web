@@ -10,7 +10,7 @@ module.exports= {
         app.get('/user/id=:userID/profile',(req,res)=> user_router.getUserProfile(req,res)); 
         //trả về thông tin chi tiết của user
         
-        app.get('/user/id=:userID/messages/start=:start/total=:total',(req,res)=> user_router.getMessages(req,res)); // chưa viết
+        app.get('/user/id=:userID/messages/action=view/start=:start/total=:total',(req,res)=> user_router.getMessages(req,res));
         // trả về danh sách total tin nhắn đã nhận gần đây của người dùng bắt đầu từ start theo thứ tự tìm kiếm
 
         app.post('/user/id=:userID/messages/action=:action',jsonParser,(req,res)=>user_router.sendMessage(req,res)) //chưa viết

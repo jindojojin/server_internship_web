@@ -2,10 +2,15 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('message', {
-		senderID: {
+		messageID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
+			autoIncrement: true
+		},
+		senderID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false,
 			references: {
 				model: 'account',
 				key: 'userID'
@@ -14,7 +19,6 @@ module.exports = function(sequelize, DataTypes) {
 		receiverID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
-			primaryKey: true,
 			references: {
 				model: 'account',
 				key: 'userID'
@@ -28,15 +32,15 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(1000),
 			allowNull: false
 		},
-		createdAt: {
-			type: DataTypes.DATE,
-			allowNull: false,
-			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
-		},
 		status: {
 			type: DataTypes.STRING(6),
 			allowNull: false,
 			defaultValue: 'unread'
+		},
+		createdAt: {
+			type: DataTypes.DATE,
+			allowNull: false,
+			defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
 		}
 	}, {
 		tableName: 'message'

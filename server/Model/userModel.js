@@ -1,7 +1,9 @@
 
 var secure = require('./secure')
 var database_query = require('./DatabaseModel/database_query');
-var database_update = require('./DatabaseModel/database_update')
+var database_update = require('./DatabaseModel/database_update');
+var database_insert = require('./DatabaseModel/database_insert');
+var database_update = require('./DatabaseModel/database_update');
 var userModel = {
     checkUser: async function (username, password) {
         try {
@@ -20,7 +22,6 @@ var userModel = {
             return Promise.reject(error);
         }
     },
-
     getProfile: async function (userID) {
         let type;
         await database_query.getUserByID(userID)
@@ -39,7 +40,6 @@ var userModel = {
             }
         }
     },
-
     changePassword: async function (username, old_password, new_password) {
         try {
             let user = await database_query.getUser(username);
@@ -59,10 +59,10 @@ var userModel = {
             return Promise.reject(false);
         }
     },
-    getJobs: async function (start,total) {
+    getJobs: async function (start, total) {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
-            let result = await database_query.getListJobs(start,total);
+            let result = await database_query.getListJobs(start, total);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
@@ -75,22 +75,55 @@ var userModel = {
             userType != 'student' &&
             userType != 'partner') return Promise.reject(new Error("kiểu người dùng không hợp lệ"));
         try {
-            let result = await database_query.getListUsers(start,total, userType);
+            let result = await database_query.getListUsers(start, total, userType);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-
-    getMessages: async function(userID,start,total){
+    getMessages: async function (userID, start, total) {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
-            let result = await database_query.getMessages(userID,start,total);
+            let result = await database_query.getMessages(userID, start, total);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
+    sendMessage: async function (userID, action, content) {
+        let message;
+        try {
+            switch (action) {
+                case 'send':
+                    message = { // tao 1 doi tuong ban ghi message de insert
+                        senderID: userID,
+                        receiverID: content.receiverID,
+                        title: content.title,
+                        content: content.content,
+                    }
+
+                    break;
+                case 'reply':
+                    let old_message = await database_query.getMessagesByID(content.replyFor);
+                    console.log(old_message);
+                    let regex= require('../regex');
+                    message = { // tao 1 doi tuong ban ghi message de insert
+                        senderID: userID,
+                        receiverID: old_message.senderID,
+                        title: (regex.isReplyMessage(old_message.title)) ? (old_message.title) : ('Re: '+ old_message.title),
+                        content: content.content,
+                    }
+                    break;
+                default:
+                    return Promise.resolve(new Error("không nhận dạng được hành động ( reply/ send)"));
+                    break;
+            }
+            let result = await database_insert.insertMessage(message);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    }
 
 }
 module.exports = userModel;

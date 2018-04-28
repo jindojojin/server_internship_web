@@ -75,7 +75,6 @@ var database_query = {
         }
 
     },
-
     getListUsers: async function (start, total, userType) {
         try {
             let user = new model_required(userType);
@@ -90,7 +89,6 @@ var database_query = {
         }
 
     },
-
     getMessages: async function (userID, start, total) {
         try {
             let mes = new model_required('message');
@@ -107,6 +105,20 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    getMessagesByID: async function( messageID){
+        try {
+            let mes = new model_required('message');
+            let message = await mes.findAll({
+                where:{
+                    messageID: messageID
+                },
+                raw: true
+            })
+            return Promise.resolve(message[0]);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;
@@ -116,5 +128,6 @@ module.exports = database_query;
 // database_query.getListJobs(1).then(r=> console.log(r)).catch(e => console.log(e));
 // var a= 145234;
 // console.log(typeof a);
-database_query.getMessages(4,1,5).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getMessages(4,1,5).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));
+// database_query.getMessagesByID(1).then(r => console.log(r)).catch(e => log(e));
