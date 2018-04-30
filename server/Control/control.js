@@ -1,6 +1,14 @@
-var user_router = require('./user_router')
-var student_router = require('./student_router')
+var user_router = require('./user_router');
+var student_router = require('./student_router');
 const jsonParser = require('body-parser').json();  // nhận json từ client
+// const user_auth = require('./authentication_router');
+
+// const secure_router = express.Router();
+// secure_router.use(function (req, res, next) {
+//     console.log("dfasdfasdlfjasldfkjlasdfjlasdkfj");
+//     res.send("da vao xac thuc");
+//     next(req, res);
+// });
 module.exports= {
     route : function(app){        
         app.get('/',(req,res)=>{res.send("<h1>Trần Quang Linh<h1>")});
@@ -13,7 +21,7 @@ module.exports= {
         app.get('/user/id=:userID/messages/action=view/start=:start/total=:total',(req,res)=> user_router.getMessages(req,res));
         // trả về danh sách total tin nhắn đã nhận gần đây của người dùng bắt đầu từ start theo thứ tự tìm kiếm
 
-        app.post('/user/id=:userID/messages/action=:action',jsonParser,(req,res)=>user_router.sendMessage(req,res)) //chưa viết
+        app.post('/user/id=:userID/messages/action=:action',jsonParser,(req,res)=>user_router.sendMessage(req,res))
         // action= send/reply message, trả về true hoặc false
 
         app.post('/user/id=:userID/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));
@@ -23,7 +31,7 @@ module.exports= {
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
         app.get('/list/jobs/start=:start/total=:total',(req,res)=>user_router.getListJobs(req,res));
-        // trả về danh sách 20 bài đăng thực tập bắt đầu từ startID
+        // trả về danh sách total bài đăng thực tập bắt đầu từ startID
 
         app.get('/list/users/type=:type/start=:start/total=:total',(req,res)=>user_router.getListUsers(req,res));
         // trả về danh sách có total giảng viên/ đối tác/ admin / sinh viên bắt đầu từ start theo thứ tự tìm kiếm
