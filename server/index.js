@@ -27,7 +27,7 @@ control.route(app); // truyền cho control điều khiển
 
 
 app.get('/f',(req,res)=>{
-    res.cookie('cookie_name' , 'cookie_value').send('Cookie is set');
+    res.cookie('cookie_name' , 'cookie_value',{ maxAge: 1000 * 60 * 10, httpOnly: false }).send('Cookie is set');
 })
 
 

@@ -69,7 +69,7 @@ var userModel = {
                 delete element['partner.name'];
                 delete element['partner.logo'];
             });
-            return Promise.resolve(result);
+            return Promise.resolve(JSON.stringify(result));
         } catch (error) {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
