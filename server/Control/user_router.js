@@ -7,7 +7,9 @@ module.exports = {
         console.log(password);
         console.log("o tren la password");
         user.checkUser(username, password)
-            .then(userToken => res.send(userToken))
+            .then(userToken => {
+                res.cookie('authorization',{ token: userToken.usertoken, httpOnly: true }).send({usernickname:userToken.nickname, userID:userToken.userID});
+            })
             .catch(e => {
                 console.log(e);
                 res.send(null)

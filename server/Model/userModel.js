@@ -63,8 +63,15 @@ var userModel = {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
             let result = await database_query.getListJobs(start, total);
+            result.forEach(element => {
+                element.partner_name = element['partner.name'];
+                element.partner_logo = element['partner.logo'];
+                delete element['partner.name'];
+                delete element['partner.logo'];
+            });
             return Promise.resolve(result);
         } catch (error) {
+            console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
