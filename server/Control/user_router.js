@@ -1,19 +1,24 @@
 const user = require('../Model/userModel');
 module.exports = {
     validate_user: function (req, res) {
-        console.log("da nhận 1 yêu cầu validate");
-        let username = req.body.username;
-        let password = req.body.userpassword;
-        console.log(password);
-        console.log("o tren la password");
-        user.checkUser(username, password)
-            .then(userToken => {
-                res.cookie('authorization',{ token: userToken.usertoken, httpOnly: true }).send({usernickname:userToken.nickname, userID:userToken.userID});
-            })
-            .catch(e => {
-                console.log(e);
-                res.send(null)
-            });
+        // if(req.cookies.usertoken != undefined){ res.redirect('/home') }
+        // else{
+            console.log("da nhận 1 yêu cầu validate");
+            let username = req.body.username;
+            let password = req.body.userpassword;
+            console.log(password);
+            console.log("o tren la password");
+            user.checkUser(username, password)
+                .then(userToken => {
+                    res.send(JSON.stringify(userToken));//
+                    // console.log('cookie created successfully');
+                })
+                .catch(e => {
+                    console.log(e);
+                    res.send(null)
+                });
+        // }
+        
     },
     getUserProfile: function (req, res) {
         console.log("da nhận 1 yêu cầu truy cập profile");
