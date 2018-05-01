@@ -6,6 +6,7 @@ module.exports = {
             // console.log("da nhận 1 yêu cầu validate");
             let username = req.body.username;
             let password = req.body.userpassword;
+            
             // console.log(password);
             // console.log("o tren la password");
             user.checkUser(username, password)

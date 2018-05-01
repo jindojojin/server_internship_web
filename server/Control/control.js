@@ -27,7 +27,7 @@ module.exports= {
         app.post('/user/id=:userID/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));
         // thay đổi mật khẩu ; trả về true hoặc false
 
-        app.post('/user/id=:userID/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết
+        app.post('/user/id=:userID/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết + phải kiểm tra xem có phải là profile của người dùng đó không
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
         app.get('/list/jobs/start=:start/total=:total',(req,res)=>user_router.getListJobs(req,res));
@@ -39,5 +39,13 @@ module.exports= {
         app.get('/student/id=:id/action=:action/target=:target/targetID=:targetID',(req,res)=>student_router.follow(req,res));
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID
         // thực hiện follow hoặc unfollow, trả về true hoặc false
+
+        app.get('lecturer/id=:id/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res));
+        // trả về mảng các sinh viên đã follow
+        
+        app.get('lecturer/id=:id/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa viết
+        // thực hiện hành động accept/deny đối với sinh viên đã đăng kí hướng dẫn, khi giáo viên này đồng ý thì tất cả các yêu cầu khác của sinh viên bị xóa bỏ
+
+
     }
 }

@@ -19,8 +19,7 @@ var secure = {
             return  jwt.verify(token,jwtsecure)
         } catch (error) {
             return null;
-        }
-        
+        }        
     }
 }
 module.exports = secure;
