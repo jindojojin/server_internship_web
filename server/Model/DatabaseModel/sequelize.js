@@ -16,6 +16,7 @@ var sequelize = new Sequelize('internship_web', 'root', '', {
         },
         // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators
         operatorsAliases: false,
+        logging: false
     })
 
     module.exports = sequelize;

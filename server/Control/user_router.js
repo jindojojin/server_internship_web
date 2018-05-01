@@ -3,11 +3,11 @@ module.exports = {
     validate_user: function (req, res) {
         // if(req.cookies.usertoken != undefined){ res.redirect('/home') }
         // else{
-            console.log("da nhận 1 yêu cầu validate");
+            // console.log("da nhận 1 yêu cầu validate");
             let username = req.body.username;
             let password = req.body.userpassword;
-            console.log(password);
-            console.log("o tren la password");
+            // console.log(password);
+            // console.log("o tren la password");
             user.checkUser(username, password)
                 .then(userToken => {
                     res.send(JSON.stringify(userToken));//
