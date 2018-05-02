@@ -92,7 +92,11 @@ var userModel = {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
             let result = await database_query.getMessages(userID, start, total);
-            return Promise.resolve(result);
+            result.forEach(element => {
+                element.senderName = element['account.nickname'];
+                delete element['account.nickname'];
+            });
+            return Promise.resolve(JSON.stringify(result));
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }

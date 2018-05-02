@@ -48,11 +48,13 @@ module.exports = {
     },
 
     getMessages: function (req, res) {
+        console.log("da nhận được 1 yêu cầu xem tin nhắn");
+        
         let userID = req.params.userID;
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         user.getMessages(userID, start, total).then(
-            r => res.send(r)
+            r => {console.log(r);res.send(r)}
         ).catch(e => res.send(null));
     },
 

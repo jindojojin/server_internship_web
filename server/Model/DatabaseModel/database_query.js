@@ -92,7 +92,17 @@ var database_query = {
     getMessages: async function (userID, start, total) {
         try {
             let mes = new model_required('message');
+            let account = new model_required('account');
+            mes.belongsTo(account, { foreignKey: 'senderID', targetKey: 'userID' });
+            
             let arr = await mes.findAll({
+                include: [
+                    {
+                        model: account,
+                        required: true,
+                        attributes: ['nickname'],
+                    }
+                ],
                 where:{
                     receiverID:userID
                 },
