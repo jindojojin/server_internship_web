@@ -12,7 +12,7 @@ var userModel = {
             let hash = res.password;
             if (secure.compare(password, hash, salt)) {
                 let token = secure.createUserToken(res);
-                var user = { userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token };
+                var user = { userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token, usertype: res.type };
                 // console.log(user);
                 return Promise.resolve(user);
             } else {
