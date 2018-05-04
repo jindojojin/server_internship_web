@@ -129,6 +129,19 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+
+    getTerms: async function(){
+        try {
+            let term = new model_required("term");
+            let arr = await term.findAll({
+                raw: true
+            }
+            )
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;
@@ -141,3 +154,4 @@ module.exports = database_query;
 // database_query.getMessages(4,1,5).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));
 // database_query.getMessagesByID(1).then(r => console.log(r)).catch(e => log(e));
+// database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));
