@@ -1,5 +1,6 @@
 var user_router = require('./user_router');
 var student_router = require('./student_router');
+var admin_router = require('./admin_router');
 const jsonParser = require('body-parser').json();  // nhận json từ client
 // const user_auth = require('./authentication_router');
 
@@ -40,12 +41,12 @@ module.exports= {
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID
         // thực hiện follow hoặc unfollow, trả về true hoặc false
 
-        app.get('lecturer/id=:id/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res));
+        app.get('/lecturer/id=:id/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res));
         // trả về mảng các sinh viên đã follow
         
-        app.get('lecturer/id=:id/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa viết
+        app.get('/lecturer/id=:id/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa viết
         // thực hiện hành động accept/deny đối với sinh viên đã đăng kí hướng dẫn, khi giáo viên này đồng ý thì tất cả các yêu cầu khác của sinh viên bị xóa bỏ
 
-        app.get('admin/getTerms', (req,res)=> admin_router.getTerms(req,res))
+        app.get('/admin/getTerms', (req,res)=>admin_router.getTerms(req,res));
     }
 }
