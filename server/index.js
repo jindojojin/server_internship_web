@@ -10,12 +10,12 @@ app.use((req, res, next) => {   // hỗ trợ nhận request post/get chứa coo
 });
 
 
-
+cookieParser = require('cookie-parser')
+app.use(cookieParser());  // hộ trợ đọc cookie từ client
 
 
 // //////////////////cài đặt bảo mật
-// cookieParser = require('cookie-parser')
-// app.use(cookieParser());  // hộ trợ đọc cookie từ client
+
 // //yêu cầu là người dùng
 // var user_require = express.Router();
 // user_require.use((req,res,next)=>{

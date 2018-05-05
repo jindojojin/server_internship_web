@@ -33,7 +33,7 @@ module.exports = {
     },
 
     sendMessage: function (req, res) {
-        let userID = parseInt(req.params.userID);
+        let userID = parseInt(req.cookies.userID);
         let action = req.params.action;
         let content = req.body;
         user.sendMessage(userID, action, content).then(
@@ -50,7 +50,7 @@ module.exports = {
     getMessages: function (req, res) {
         console.log("da nhận được 1 yêu cầu xem tin nhắn");
         
-        let userID = req.params.userID;
+        let userID =parseInt(req.cookies.userID);
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         user.getMessages(userID, start, total).then(

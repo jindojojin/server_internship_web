@@ -1,7 +1,7 @@
 var student_model = require('../Model/studentModel')
 var student_router = {
     follow: async function (req, res) {
-        let studentID = parseInt(req.params.id);
+        let studentID = parseInt(req.cookies.userID);
         let action = req.params.action;
         let target = req.params.target;
         let targetID = parseInt(req.params.targetID);
