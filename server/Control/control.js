@@ -1,6 +1,7 @@
 var user_router = require('./user_router');
 var student_router = require('./student_router');
 var admin_router = require('./admin_router');
+var lecturer_router = require('./lecturer_router')
 const jsonParser = require('body-parser').json();  // nhận json từ client
 // const user_auth = require('./authentication_router');
 
@@ -28,7 +29,7 @@ module.exports= {
         app.post('/user/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));
         // thay đổi mật khẩu ; trả về true hoặc false
 
-        app.post('/user/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết + phải kiểm tra xem có phải là profile của người dùng đó không
+        app.post('/user/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết 
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
         app.get('/list/jobs/start=:start/total=:total',(req,res)=>user_router.getListJobs(req,res));
@@ -41,7 +42,7 @@ module.exports= {
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID
         // thực hiện follow hoặc unfollow, trả về true hoặc false
 
-        app.get('/lecturer/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res));
+        app.get('/lecturer/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res)); // chưa viết
         // trả về mảng các sinh viên đã follow
         
         app.get('/lecturer/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa viết
@@ -49,5 +50,10 @@ module.exports= {
 
         app.get('/admin/getTerms', (req,res)=>admin_router.getTerms(req,res));
         // lấy thông tin các kì thực tập
+
+        app.get('admin/createTerm',(req,res)=> admin_router.createTerm(req,res)); // chưa viết xong phần router, model chưa rõ ràng
+        //thêm đợt thực tập
+
+        
     }
 }

@@ -142,7 +142,43 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    },
+
+    getStudentFollowLecturer:async function(lecturerID){
+        try {
+            let table = new model_required("student_follow_lecturer");
+            let acc = new model_required("account");
+            let student = new model_required("student");
+            table.belongsTo(acc,{foreignKey: 'studentID', targetKey:'userID'});
+            acc.belongsTo(student,{foreignKey:'userID',targetKey:'account_userID'});
+            let arr = await table.findAll({
+                include: [
+                    {
+                        model: acc,
+                        // required: true,
+                        attributes: ['nickname'],
+                        include:[
+                            {
+                                model: student,
+                                // required:true,
+                                attributes:['studentCode'],
+                            }
+                        ]
+                    }
+                ],
+                where:{
+                    lecturerID:lecturerID,
+                    status:'waiting'
+                },
+                attributes:[],
+                raw: true
+            }
+            )
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
 };
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
@@ -155,3 +191,4 @@ module.exports = database_query;
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));
 // database_query.getMessagesByID(1).then(r => console.log(r)).catch(e => log(e));
 // database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));
+// database_query.getStudentFollowLecturer(20004).then(r => console.log(r)).catch( e => console.log(e))

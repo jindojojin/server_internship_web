@@ -10,7 +10,18 @@ var admin_router ={
             console.log(e);
             res.send(null);
         })
-
+    },
+    createTerm(req,res){
+        console.log("đã nhận được 1 yêu cầu thêm đợt thực tập");
+        admin_model.createTerm(null,null,null)
+        .then(
+            r => res.send(true)
+        )
+        .catch( e => {
+            console.log(e);
+            res.send(null);
+        })
+        
     }
 }
 module.exports= admin_router;

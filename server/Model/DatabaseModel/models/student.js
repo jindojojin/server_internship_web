@@ -2,18 +2,9 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('student', {
-		account_userID: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			primaryKey: true,
-			references: {
-				model: 'account',
-				key: 'userID'
-			}
-		},
-		name: {
-			type: DataTypes.STRING(50),
-			allowNull: true
+		studentCode: {
+			type: DataTypes.STRING(8),
+			allowNull: false
 		},
 		class: {
 			type: DataTypes.STRING(50),
@@ -31,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(50),
 			allowNull: true
 		},
+		name: {
+			type: DataTypes.STRING(50),
+			allowNull: true
+		},
 		dateOfBirth: {
 			type: DataTypes.DATEONLY,
 			allowNull: true
@@ -39,16 +34,12 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(20),
 			allowNull: true
 		},
-		cpa: {
+		gpa: {
 			type: DataTypes.INTEGER(2),
 			allowNull: true
 		},
 		graduationYear: {
 			type: "YEAR(4)",
-			allowNull: true
-		},
-		picture: {
-			type: DataTypes.TEXT,
 			allowNull: true
 		},
 		email: {
@@ -83,9 +74,18 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.TEXT,
 			allowNull: true
 		},
-		studentCode: {
-			type: DataTypes.STRING(8),
-			allowNull: false
+		picture: {
+			type: DataTypes.TEXT,
+			allowNull: true
+		},
+		account_userID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false,
+			primaryKey: true,
+			references: {
+				model: 'account',
+				key: 'userID'
+			}
 		}
 	}, {
 		tableName: 'student'

@@ -33,13 +33,13 @@ module.exports = {
     },
 
     sendMessage: function (req, res) {
+        console.log(req.body);
         let userID = parseInt(req.cookies.userID);
         let action = req.params.action;
         let content = req.body;
         user.sendMessage(userID, action, content).then(
             r => res.send(true)
         ).catch(
-
             e => {
                 console.log(e);
                 res.send(false)
@@ -54,7 +54,7 @@ module.exports = {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         user.getMessages(userID, start, total).then(
-            r => {console.log(r);res.send(r)}
+            r => {res.send(r)}
         ).catch(e => res.send(null));
     },
 

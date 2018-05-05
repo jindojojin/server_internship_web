@@ -2,7 +2,7 @@ var Sequelize = require('sequelize')
 var sequelize = require('./sequelize');
 var model_required = require('./switchRequireModelByUser') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
 
-module.exports = {
+var database_insert = {
     insertAccount: async function (listAccount) {
         try {
             let acc = new model_required('account');
@@ -139,3 +139,6 @@ module.exports = {
         }
     },
 }
+
+module.exports = database_insert;
+// database_insert.insertTerm({start:'20101001',end:'20111001',title:'học kì ảo'}).then(r => console.log(r)).catch(e => console.log(e));
