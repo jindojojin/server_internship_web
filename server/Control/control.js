@@ -48,5 +48,6 @@ module.exports= {
         // thực hiện hành động accept/deny đối với sinh viên đã đăng kí hướng dẫn, khi giáo viên này đồng ý thì tất cả các yêu cầu khác của sinh viên bị xóa bỏ
 
         app.get('/admin/getTerms', (req,res)=>admin_router.getTerms(req,res));
+        // lấy thông tin các kì thực tập
     }
 }

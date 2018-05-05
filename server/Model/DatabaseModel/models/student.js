@@ -82,6 +82,10 @@ module.exports = function(sequelize, DataTypes) {
 		note: {
 			type: DataTypes.TEXT,
 			allowNull: true
+		},
+		studentCode: {
+			type: DataTypes.STRING(8),
+			allowNull: false
 		}
 	}, {
 		tableName: 'student'

@@ -21,16 +21,16 @@ function a() {
 
 function b(){
     let val=[];
-    let arr = db_q.getUserByType('partner');
+    let arr = db_q.getUserByType('student');
     arr.then( arrayOfType =>{
         let listProfile=[];
         arrayOfType.forEach(user => {
-            listProfile.push({name: user.nickname,account_userID: user.userID,email:user.username+'@'+user.username+'.com'});
+            listProfile.push({name: user.nickname,account_userID: user.userID,vnumail:user.username+'@vnu.edu.vn',studentCode:user.nickname});
         });
-        db.insertProfile(listProfile,'partner').then(
+        db.insertProfile(listProfile,'student').then(
             r => console.log("thành công")
         )
         .catch(e => console.log("that bai"))
     })
 }
-//b();  //sinh du liêu profile cho account có trong bảng account( nếu chưa được thêm trước đó)
+// b();  //sinh du liêu profile cho account có trong bảng account( nếu chưa được thêm trước đó)
