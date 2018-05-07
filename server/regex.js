@@ -6,9 +6,9 @@ var regex ={
 
     isValidDate: function(s) {
         // format D(D)/M(M)/(YY)YY
-        var dateFormat = /^\d{4}[\.|\/|-]\d{2}[\.|\/|-]\d{2}$/;    
+        var dateFormat = /^\d{4}[\.|\-|-]\d{2}[\.|\-|-]\d{2}$/;    
         if (dateFormat.test(s)) {
-            let arr = s.split("/");
+            let arr = s.split("-");
             let year = parseInt(arr[0]);
             if(year<=2010) return false;
             let month = parseInt(arr[1]);
@@ -27,9 +27,9 @@ var regex ={
 }
 module.exports = regex;
 
-// console.log( regex.isValidDate("12/12/1201"));
+// console.log( regex.isValidDate("2018-12-01"));
 // console.log("12/12/2341".split('/'));
 
 // console.log( regex.isReplyMessage('Re:adfasdfksdf fda sdlkfjsdf fas dlfjasdf1231 312312'));
-// var x = "2013/12/01";
-// console.log(x.replace(/\//g,""));
+// var x = "2013-12-01";
+// console.log(x.replace(/\-/g,""));

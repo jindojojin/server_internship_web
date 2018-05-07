@@ -16,8 +16,8 @@ var adminModel = {
     createTerm: async function (startDate, endDate, title) {
         try {
             if( ! regex.isValidDate(startDate) || ! regex.isValidDate(endDate)) return Promise.reject(new Error("định dạng ngày không hợp lệ"))
-            let start= startDate.replace(/\//g,"");// xóa bỏ dấu /
-            let end = endDate.replace(/\//g,"");   // xóa bỏ dấu /     
+            let start= startDate.replace(/\-/g,"");// xóa bỏ dấu -
+            let end = endDate.replace(/\-/g,"");   // xóa bỏ dấu -     
             let term = { start: start, end: end, title: title }
             let result = await database_insert.insertTerm(term);
             console.log(result);

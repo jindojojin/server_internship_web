@@ -13,7 +13,10 @@ var admin_router ={
     },
     createTerm(req,res){
         console.log("đã nhận được 1 yêu cầu thêm đợt thực tập");
-        admin_model.createTerm(null,null,null)
+        let start = req.body.start;
+        let end = req.body.end;
+        let title = req.body.title;
+        admin_model.createTerm(start,end,title)
         .then(
             r => res.send(true)
         )
