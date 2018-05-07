@@ -51,9 +51,7 @@ module.exports= {
         app.get('/admin/getTerms', (req,res)=>admin_router.getTerms(req,res));
         // lấy thông tin các kì thực tập
 
-        app.get('admin/createTerm',(req,res)=> admin_router.createTerm(req,res)); // chưa viết xong phần router, model chưa rõ ràng
-        //thêm đợt thực tập
-
-        
+        app.post('admin/createTerm',jsonParser,(req,res)=> admin_router.createTerm(req,res)); // chưa viết xong phần router, model chưa rõ ràng
+        //thêm đợt thực tập        
     }
 }
