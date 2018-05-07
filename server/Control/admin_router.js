@@ -25,6 +25,20 @@ var admin_router ={
             res.send(null);
         })
         
+    },
+
+    deleteTerm(req,res){
+        console.log("đã nhận được 1 yêu cầu xóa đợt thực tập");
+        let termID = parseInt(req.params.termID);
+        admin_model.deleteTerm(termID)
+        .then(
+            r=> res.send(true)
+        )
+        .catch(e =>{
+            console.log(e);
+            res.send(null);
+        })
+        console.log(termID);
     }
 }
 module.exports= admin_router;
