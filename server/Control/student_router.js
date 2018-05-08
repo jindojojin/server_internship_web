@@ -7,14 +7,31 @@ var student_router = {
         let targetID = parseInt(req.params.targetID);
         switch (action) {
             case 'follow':
-                student_model.follow(studentID, target, targetID).then(r => res.send(r)).catch(e => res.send(e));
+                student_model.follow(studentID, target, targetID).then(r => {
+                    res.status(200);
+                    res.send();
+                }).catch(e => {
+                    console.log(e);
+                    res.status(500);
+                    res.send();
+                });
                 break;
             case 'unfollow':
-                student_model.unfollow(studentID, target, targetID).then(r => res.send(r)).catch(e => res.send(e));
+                student_model.unfollow(studentID, target, targetID).then(r => {
+                    res.status(200);
+                    res.send();
+                }).catch(e => {
+                    console.log(e);
+                    res.status(500);
+                    res.send();
+                });
                 break;
-            default:
-                res.send(false)
+            default: {
+                res.status(400);//bad request
+                res.send();
                 break;
+            }
+
         };
     },
 }

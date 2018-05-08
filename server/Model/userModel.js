@@ -14,7 +14,7 @@ var userModel = {
                 let token = secure.createUserToken(res);
                 var user = { userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token, usertype: res.type };
                 // console.log(user);
-                return Promise.resolve(user);
+                return Promise.resolve( JSON.stringify(user));
             } else {
                 return Promise.reject(new Error("mat khau khong dung"));
             }
@@ -34,7 +34,7 @@ var userModel = {
         } else {
             try {
                 let result = await database_query.getUserInfor(userID, type);
-                return Promise.resolve(result);
+                return Promise.resolve(JSON.stringify(result));
             } catch (error) {
                 return Promise.reject(error);
             }
