@@ -47,6 +47,20 @@ var database_delete = {
             return Promise.reject(error)
         }
     },
+
+    deleteTerm: async function(termID){
+        try {
+            let table = new model_required('term'); 
+            let result = await table.destroy({
+                where: {
+                  termID:termID
+                }
+              });
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    }
 }
 
 module.exports = database_delete;

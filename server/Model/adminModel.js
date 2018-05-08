@@ -1,5 +1,7 @@
 var database_query = require('./DatabaseModel/database_query');
 var database_insert = require('./DatabaseModel/database_insert');
+var database_delete = require('./DatabaseModel/database_delete');
+var database_update = require('./DatabaseModel/database_update');
 var regex = require('../regex')
 var adminModel = {
     getTerms: async function () {
@@ -21,6 +23,15 @@ var adminModel = {
             let term = { start: start, end: end, title: title }
             let result = await database_insert.insertTerm(term);
             console.log(result);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+
+    deleteTerm: async function(termID){
+        try {
+            let result = await database_delete.deleteTerm(termID);
             return Promise.resolve(JSON.stringify(result));
         } catch (error) {
             return Promise.reject(error);

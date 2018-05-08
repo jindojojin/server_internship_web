@@ -4,10 +4,12 @@ var admin_router ={
         console.log("đã nhận được yêu cầu xem danh sách học kì");
         admin_model.getTerms()
         .then(
-            r => res.send(r)
+            r =>{res.status(200); 
+            res.send(r)}
         )
         .catch( e => {
             console.log(e);
+            res.status(500);
             res.send(null);
         })
     },
@@ -18,10 +20,12 @@ var admin_router ={
         let title = req.body.title;
         admin_model.createTerm(start,end,title)
         .then(
-            r => res.send(true)
+            r => {res.status(201); 
+                res.send()}
         )
         .catch( e => {
             console.log(e);
+            res.status(500);
             res.send(null);
         })
         
@@ -32,10 +36,12 @@ var admin_router ={
         let termID = parseInt(req.params.termID);
         admin_model.deleteTerm(termID)
         .then(
-            r=> res.send(true)
+            r=>{res.status(204); 
+                res.send()}
         )
         .catch(e =>{
             console.log(e);
+            res.status(500);            
             res.send(null);
         })
         console.log(termID);
