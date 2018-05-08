@@ -61,7 +61,7 @@ var database_insert = {
         try {
             let table = new model_required('term');
             let result = await table.create(term);
-            return Promise.resolve(result);
+            return Promise.resolve("đã thêm học kỳ thành công");
         } catch (error) {
             return Promise.reject(error)
         }
