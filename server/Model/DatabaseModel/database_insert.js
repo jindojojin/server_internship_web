@@ -142,3 +142,4 @@ var database_insert = {
 
 module.exports = database_insert;
 // database_insert.insertTerm({start:'20101001',end:'20111001',title:'học kì ảo'}).then(r => console.log(r)).catch(e => console.log(e));
+// database_insert.insertStudentFollowPartner(1,20016).then(r => console.log(r)).catch(e => console.log(e));
