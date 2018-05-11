@@ -59,15 +59,26 @@ var userModel = {
             return Promise.reject(false);
         }
     },
-    getJobs: async function (start, total) {
+    getJobs: async function (start, total, userID) {// userID: id của người lấy danh sách này=> tác dụng đối với sinh viên ( đã đăng kí hay chưa)
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
+            let listFollowed = await database_query.getListJobStudentFollow(userID);
+            console.log(listFollowed);
+            console.log("danh sách trả về");
+            
+            //////// chưa xử lý thêm thuộc tính status => dự định dùng 2 vòng for 
             let result = await database_query.getListJobs(start, total);
             result.forEach(element => {
                 element.partner_name = element['partner.name'];
                 element.partner_logo = element['partner.logo'];
                 delete element['partner.name'];
                 delete element['partner.logo'];
+                element.status="unfollowed";
+                listFollowed.forEach(jobFollowed => {
+                    if(parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])){
+                        element.status ="followed"
+                    }
+                });
             });
             return Promise.resolve(JSON.stringify(result));
         } catch (error) {
@@ -146,3 +157,5 @@ module.exports = userModel;
 //     console.log(dbqr);
 // }
 // a();
+
+// userModel.getJobs(1,10,1).then(r=>console.log(r)).catch(e => console.log(e));

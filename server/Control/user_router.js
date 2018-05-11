@@ -96,6 +96,7 @@ module.exports = {
     getListJobs: function (req, res) {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
+        let userID = parseInt(req.cookies.userID);
         user.getJobs(start, total).then(r => {
             res.status(200);
             res.send(r);

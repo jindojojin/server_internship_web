@@ -52,6 +52,29 @@ var database_query = {
             return Promise.reject(new Error("khong tim duoc du lieu nguoi dung này"));
         }
     },
+    getListJobStudentFollow: async function(studentID){
+        try {
+            let student_follow_job = new model_required("student_follow_job");
+            let internship_job = new model_required("internship_job");
+            student_follow_job.belongsTo(internship_job,{foreignKey:'jobID', targetKey:'jobID'});
+            let arr = await student_follow_job.findAll({
+                include:[
+                    {
+                        model: internship_job,
+                        require: true,
+                    }
+                ],
+                where:{
+                    studentID: studentID
+                },
+                attributes:[],                
+                raw: true
+            })
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(new Error("try vấn thất bại"));            
+        }
+    },
     getListJobs: async function (start, total) {
         try {
             let job = new model_required('internship_job');
@@ -216,3 +239,4 @@ module.exports = database_query;
 // database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));
 // database_query.getStudentFollowLecturer(20004).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getJobByID(3).then(r => console.log(r)).catch( e => console.log(e))
+// database_query.getListJobStudentFollow(1).then(r => console.log(r)).catch( e => console.log(e))
