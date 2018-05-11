@@ -17,6 +17,21 @@ var lecturer_router = {
             })
     },
     acceptStudent: function (req, res) {
+        let action= req.params.action;
+        let studentID = parseInt(req.params.studentID);
+        let lecturerID = parseInt(req.cookies.userID);
+        lecturer_model.acceptStudent(action,studentID,lecturerID)
+        .then(
+            r => {
+                res.status(200);
+                res.send()
+            }
+        )
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })
     },
 }
 module.exports = lecturer_router

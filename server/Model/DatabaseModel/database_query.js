@@ -179,6 +179,29 @@ var database_query = {
             return Promise.reject(error);
         }
     },
+
+    getJobByID: async function(jobID){
+        try {
+            let job = new model_required('internship_job');
+            let partner = new model_required('partner');
+            job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
+            let arr = await job.findOne({
+                include: [
+                    {
+                        model: partner,
+                        required: true,
+                        attributes: ['name', 'logo'],
+                    }
+                ],
+                where:[{jobID:jobID}],
+                raw: true
+            });
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+            
+        }
+    }
 };
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
@@ -192,3 +215,4 @@ module.exports = database_query;
 // database_query.getMessagesByID(1).then(r => console.log(r)).catch(e => log(e));
 // database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));
 // database_query.getStudentFollowLecturer(20004).then(r => console.log(r)).catch( e => console.log(e))
+// database_query.getJobByID(3).then(r => console.log(r)).catch( e => console.log(e))

@@ -3,7 +3,7 @@ var secure = require('./secure')
 var database_query = require('./DatabaseModel/database_query');
 var database_update = require('./DatabaseModel/database_update');
 var database_insert = require('./DatabaseModel/database_insert');
-var database_update = require('./DatabaseModel/database_update');
+var database_delete = require('./DatabaseModel/database_delete');
 var userModel = {
     checkUser: async function (username, password) {
         try {

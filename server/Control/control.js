@@ -2,6 +2,7 @@ var user_router = require('./user_router');
 var student_router = require('./student_router');
 var admin_router = require('./admin_router');
 var lecturer_router = require('./lecturer_router');
+var partner_router = require('./partner_router');
 var jsonParser = require('body-parser').json();  // nhận json từ client
 
 module.exports= {
@@ -49,13 +50,15 @@ module.exports= {
        
        
        
-        app.get('/lecturer/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res)); // chưa viết
+        app.get('/lecturer/getStudentsFollowMe',(req,res)=>lecturer_router.getStudentFollowMe(req,res)); 
         // trả về mảng các sinh viên đã follow
         
-        app.get('/lecturer/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa viết
+        app.get('/lecturer/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa kiểm tra
         // thực hiện hành động accept/deny đối với sinh viên đã đăng kí hướng dẫn, khi giáo viên này đồng ý thì tất cả các yêu cầu khác của sinh viên bị xóa bỏ
 
         
+        app.get('/partner/action=:action/jobID=:jobID/studentID=:studentID',(req,res)=>partner_router.acceptStudent(req,res));
+        // thực hiện hafnnh động accept hoặc deny đối với sinh viên đăng kí job có id = jobID của partner này
         
         
         
