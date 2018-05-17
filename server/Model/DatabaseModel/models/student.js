@@ -7,11 +7,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false
 		},
 		class: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.STRING(20),
 			allowNull: true
 		},
 		grade: {
-			type: DataTypes.INTEGER(2),
+			type: DataTypes.STRING(20),
 			allowNull: true
 		},
 		majors: {
@@ -19,11 +19,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		address: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.STRING(200),
 			allowNull: true
 		},
 		name: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		dateOfBirth: {
@@ -31,11 +31,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		vnumail: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		gpa: {
-			type: DataTypes.INTEGER(2),
+			type: DataTypes.STRING(5),
 			allowNull: true
 		},
 		graduationYear: {
@@ -43,15 +43,15 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		email: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		skypeID: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		facebook: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		phoneNumber: {
@@ -63,11 +63,11 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		favorite: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.STRING(500),
 			allowNull: true
 		},
 		orientation: {
-			type: DataTypes.STRING(50),
+			type: DataTypes.STRING(500),
 			allowNull: true
 		},
 		note: {

@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize')
 var sequelize = require('./sequelize');
-var model_required = require('./switchRequireModelByUser') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
+var model_required = require('./switchRequireModel') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
 
 var database_insert = {
     insertAccount: async function (listAccount) {

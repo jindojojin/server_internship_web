@@ -73,6 +73,13 @@ module.exports= {
         app.get('/admin/deleteTerm/termID=:termID',(req,res)=> admin_router.deleteTerm(req,res));
         //xóa đợt thực tập
 
+        app.post('/admin/CRUD/account',jsonParser,(req,res)=> admin_router.createAccount(req,res)); // chưa viết
+        // tạo account mới 
+        app.put('/admin/CRUD/account',jsonParser,(req,res)=> admin_router.updateAccount(req,res)); //chưa viết
+        // update account
+        app.delete('/admin/CRUD/account/userID=:userID',(req,res)=> admin_router.deleteAccount(req,res)); // chưa viết
+        // delete account
+
 
         // app.use('**',(req,res)=>{res.status(400); res.send("Server không phục vụ yêu cầu này, vui lòng kiểm tra lại đường dẫn")} );
     }

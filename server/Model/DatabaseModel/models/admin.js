@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		vnumail: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		phoneNumber: {
@@ -24,7 +24,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		},
 		email: {
-			type: DataTypes.STRING(20),
+			type: DataTypes.STRING(100),
 			allowNull: true
 		}
 	}, {

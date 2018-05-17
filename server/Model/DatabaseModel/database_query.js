@@ -1,6 +1,6 @@
 var Sequelize = require('sequelize')
 const Op = Sequelize.Op;
-var model_required = require('./switchRequireModelByUser') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
+var model_required = require('./switchRequireModel') // lựa chọn bảng trong database phù hợp với kiểu người dùng;
 
 var database_query = {
     getUser: async function (username) {

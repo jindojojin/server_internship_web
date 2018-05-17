@@ -45,6 +45,48 @@ var admin_router ={
             res.send(null);
         })
         console.log(termID);
-    }
+    },
+
+    updateTerm(req,res){
+
+    },
+    
+    createAccount(req,res){
+        console.log("đã nhận được 1 yêu cầu thêm tài khoản");
+        let start = req.body.start;
+        let end = req.body.end;
+        let title = req.body.title;
+        admin_model.createTerm(start,end,title)
+        .then(
+            r => {res.status(201); 
+                res.send()}
+        )
+        .catch( e => {
+            console.log(e);
+            res.status(500);
+            res.send(null);
+        })
+        
+    },
+
+    deleteAccount(req,res){
+        console.log("đã nhận được 1 yêu cầu xóa tài khoản");
+        let termID = parseInt(req.params.termID);
+        admin_model.deleteTerm(termID)
+        .then(
+            r=>{res.status(204); 
+                res.send()}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send(null);
+        })
+        console.log(termID);
+    },
+
+    updateAccount(req,res){
+
+    },
 }
 module.exports= admin_router;
