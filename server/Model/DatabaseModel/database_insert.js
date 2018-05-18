@@ -6,7 +6,7 @@ var database_insert = {
     insertAccount: async function (listAccount) {
         try {
             let acc = new model_required('account');
-            let result = await acc.bulkCreate(listAccount);
+            let result = await acc.bulkCreate(listAccount,{raw:true});
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error)

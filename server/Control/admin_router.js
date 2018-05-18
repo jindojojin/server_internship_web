@@ -44,7 +44,7 @@ var admin_router ={
             res.status(500);            
             res.send(null);
         })
-        console.log(termID);
+        // console.log(termID);
     },
 
     updateTerm(req,res){
@@ -53,10 +53,10 @@ var admin_router ={
     
     createAccount(req,res){
         console.log("đã nhận được 1 yêu cầu thêm tài khoản");
-        let start = req.body.start;
-        let end = req.body.end;
-        let title = req.body.title;
-        admin_model.createTerm(start,end,title)
+        let username = req.body.username;
+        let password = req.body.password;
+        let type = req.body.type;
+        admin_model.createAccount(username,password,type)
         .then(
             r => {res.status(201); 
                 res.send()}
@@ -65,14 +65,13 @@ var admin_router ={
             console.log(e);
             res.status(500);
             res.send(null);
-        })
-        
+        })        
     },
 
     deleteAccount(req,res){
         console.log("đã nhận được 1 yêu cầu xóa tài khoản");
-        let termID = parseInt(req.params.termID);
-        admin_model.deleteTerm(termID)
+        let userID = req.params.userID;
+        admin_model.deleteAccount(userID)
         .then(
             r=>{res.status(204); 
                 res.send()}
@@ -82,7 +81,6 @@ var admin_router ={
             res.status(500);            
             res.send(null);
         })
-        console.log(termID);
     },
 
     updateAccount(req,res){

@@ -17,7 +17,6 @@ var database_delete = {
             return Promise.reject(error)
         }
     },
-
     deleteStudentFollowJob: async function(studentID,jobID) {
         try {
             let table = new model_required('student_follow_job'); 
@@ -32,7 +31,6 @@ var database_delete = {
             return Promise.reject(error)
         }
     },
-
     deleteStudentFollowLecturer: async function(studentID,lecturerID) {
         try {
             let table = new model_required('student_follow_lecturer'); 
@@ -47,7 +45,6 @@ var database_delete = {
             return Promise.reject(error)
         }
     },
-
     deleteAccount:async function(userID){
         try {
             let table = new model_required('account'); 
