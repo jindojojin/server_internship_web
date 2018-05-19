@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 
 app.use((req, res, next) => {   // hỗ trợ nhận request post/get chứa cookie dạng json từ client
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
@@ -109,7 +111,7 @@ app.use(cookieParser());  // hộ trợ đọc cookie từ client
 
 
 
-app.use(express.static('Data')); // hỗ trợ truy cập vào thư mục Data từ client
+app.use('/data',express.static('Data')); // hỗ trợ truy cập vào thư mục Data từ client
 
 
 

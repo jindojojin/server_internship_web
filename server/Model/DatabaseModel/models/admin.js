@@ -26,6 +26,10 @@ module.exports = function(sequelize, DataTypes) {
 		email: {
 			type: DataTypes.STRING(100),
 			allowNull: true
+		},
+		logo: {
+			type: DataTypes.TEXT,
+			allowNull: false
 		}
 	}, {
 		tableName: 'admin'

@@ -30,6 +30,10 @@ module.exports = function(sequelize, DataTypes) {
 		note: {
 			type: DataTypes.STRING(200),
 			allowNull: true
+		},
+		logo: {
+			type: DataTypes.TEXT,
+			allowNull: false
 		}
 	}, {
 		tableName: 'lecturer'

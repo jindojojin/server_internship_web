@@ -1,9 +1,10 @@
-
 var secure = require('./secure')
 var database_query = require('./DatabaseModel/database_query');
 var database_update = require('./DatabaseModel/database_update');
 var database_insert = require('./DatabaseModel/database_insert');
 var database_delete = require('./DatabaseModel/database_delete');
+
+var secure = require('../Model/secure')
 var userModel = {
     checkUser: async function (username, password) {
         try {
@@ -38,6 +39,24 @@ var userModel = {
             } catch (error) {
                 return Promise.reject(error);
             }
+        }
+    },
+    updateProfile: async function(userID,userType,logo,infor){
+        try {
+            if(logo != null){
+                var path = require('path');
+                // // tạo ra đường dẫn để lưu vào database
+                let databasePath = "/Data/img"+userID+"__"+secure.createSalt()+secure.createSalt()+logo.name;
+                // // tạo đường dẫn để ghi file
+                var file = path.join(__dirname,"..",databasePath);
+                await logo.mv(file);
+                infor.logo = databasePath;
+            }        
+        await database_update.update_profile(userType,userID,infor);
+        return Promise.resolve("success update profile")
+        } catch (error) {
+            console.log(error);
+            return Promise.reject( new Error("update profile fail"))
         }
     },
     changePassword: async function (username, old_password, new_password) {

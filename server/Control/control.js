@@ -4,6 +4,7 @@ var admin_router = require('./admin_router');
 var lecturer_router = require('./lecturer_router');
 var partner_router = require('./partner_router');
 var jsonParser = require('body-parser').json();  // nhận json từ client
+var multer = require('multer');
 
 module.exports= {
     route : function(app){        
@@ -22,7 +23,7 @@ module.exports= {
         app.post('/user/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));
         // thay đổi mật khẩu ; trả về true hoặc false
 
-        app.post('/user/update/profile',jsonParser,(req,res)=>user_router.change_profile(req,res)); //chưa viết 
+        app.post('/user/update/profile',(req,res)=>user_router.change_profile(req,res)); //chưa viết 
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
         

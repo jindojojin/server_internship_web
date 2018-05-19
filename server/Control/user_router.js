@@ -40,7 +40,6 @@ module.exports = {
                 res.send();
             })
     },
-
     sendMessage: function (req, res) {
         console.log(req.body);
         let userID = parseInt(req.cookies.userID);
@@ -59,7 +58,6 @@ module.exports = {
             }
         )
     },
-
     getMessages: function (req, res) {
         console.log("da nhận được 1 yêu cầu xem tin nhắn");
 
@@ -77,7 +75,6 @@ module.exports = {
             res.send();
         });
     },
-
     change_password: function (req, res) {
         let username = req.body.username;
         let old_password = req.body.old_password;
@@ -92,7 +89,6 @@ module.exports = {
                 res.send();
             });
     },
-
     getListJobs: function (req, res) {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
@@ -106,7 +102,6 @@ module.exports = {
             res.send();
         });
     },
-
     getListUsers: function (req, res) {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total)
@@ -120,4 +115,19 @@ module.exports = {
             res.send();
         });
     },
+    change_profile: function(req,res){
+        let userType = req.cookies.userType;
+        let userID = parseInt(req.cookies.userID);
+        let logo = (req.files)?req.files.logo:null;
+        let infor = JSON.parse(req.body.infor);
+        user.updateProfile(userID,userType,logo,infor)
+        .then(r => {
+            res.status(201);
+            res.send();
+        }).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    }
 }
