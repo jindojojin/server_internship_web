@@ -2,6 +2,14 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('student', {
+		name: {
+			type: DataTypes.STRING(100),
+			allowNull: true
+		},
+		dateOfBirth: {
+			type: DataTypes.DATEONLY,
+			allowNull: true
+		},
 		studentCode: {
 			type: DataTypes.STRING(8),
 			allowNull: false
@@ -22,24 +30,16 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(200),
 			allowNull: true
 		},
-		name: {
-			type: DataTypes.STRING(100),
-			allowNull: true
-		},
-		dateOfBirth: {
-			type: DataTypes.DATEONLY,
-			allowNull: true
-		},
-		vnumail: {
-			type: DataTypes.STRING(100),
-			allowNull: true
-		},
 		gpa: {
 			type: DataTypes.STRING(5),
 			allowNull: true
 		},
 		graduationYear: {
 			type: "YEAR(4)",
+			allowNull: true
+		},
+		vnumail: {
+			type: DataTypes.STRING(100),
 			allowNull: true
 		},
 		email: {
