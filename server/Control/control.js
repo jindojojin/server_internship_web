@@ -78,6 +78,9 @@ module.exports= {
         app.get('/admin/deleteTerm/termID=:termID',(req,res)=> admin_router.deleteTerm(req,res));
         //xóa đợt thực tập
 
+        app.put('/admin/updateTerm/termID=:termID',jsonParser,(req,res)=> admin_router.updateTerm(req,res));
+        //sửa các đợt thực tập
+
         app.post('/admin/CRUD/account',jsonParser,(req,res)=> admin_router.createAccount(req,res)); // chưa viết
         // tạo account mới 
         app.put('/admin/CRUD/account',jsonParser,(req,res)=> admin_router.updateAccount(req,res)); //chưa viết

@@ -10,7 +10,7 @@ var admin_router ={
         .catch( e => {
             console.log(e);
             res.status(500);
-            res.send(null);
+            res.send();
         })
     },
     createTerm(req,res){
@@ -26,7 +26,7 @@ var admin_router ={
         .catch( e => {
             console.log(e);
             res.status(500);
-            res.send(null);
+            res.send();
         })
         
     },
@@ -42,13 +42,25 @@ var admin_router ={
         .catch(e =>{
             console.log(e);
             res.status(500);            
-            res.send(null);
+            res.send();
         })
         // console.log(termID);
     },
 
     updateTerm(req,res){
-
+        console.log("đã nhận được 1 yêu cầu sửa học kì");
+        let termID= req.params.termID;
+        let newContent = req.body;
+        admin_model.updateTerm(termID,newContent)
+        .then(
+            r => {res.status(201); 
+                res.send()}
+        )
+        .catch( e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })        
     },
     
     createAccount(req,res){
@@ -64,7 +76,7 @@ var admin_router ={
         .catch( e => {
             console.log(e);
             res.status(500);
-            res.send(null);
+            res.send();
         })        
     },
 
@@ -79,7 +91,7 @@ var admin_router ={
         .catch(e =>{
             console.log(e);
             res.status(500);            
-            res.send(null);
+            res.send();
         })
     },
 

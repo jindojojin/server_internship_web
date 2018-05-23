@@ -103,6 +103,19 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    update_term: async function (termID, newContent) {
+        try {
+            let term = model_require("term");
+            await term.update(newContent, {
+                where: {
+                    termID:termID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
 
@@ -132,3 +145,4 @@ let profile = {
 }
 
 // database_update.update_profile('student',1032,profile).then(r=> console.log("Thành công")).catch(e => console.log(e));
+// database_update.update_term(6,{start:"2018041",end:"20180601",title:"Học kì 3"}).then(r=> console.log("Thành công")).catch(e => console.log(e));
