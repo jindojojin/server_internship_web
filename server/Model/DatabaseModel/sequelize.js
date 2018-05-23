@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 // const acc = require('./models/account')
-var sequelize = new Sequelize('internship_web', 'root', '', {
+var sequelize = new Sequelize('internship_web', 'root', '00000', {
         host: 'localhost',
         // port:'3306',
         dialect: 'mysql',

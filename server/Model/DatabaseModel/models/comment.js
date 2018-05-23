@@ -14,19 +14,11 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		account_userID: {
 			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			references: {
-				model: 'account',
-				key: 'userID'
-			}
+			allowNull: false
 		},
 		 plan_report_ plan_reportID: {
 			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			references: {
-				model: 'plan_report',
-				key: ' plan_reportID'
-			}
+			allowNull: false
 		}
 	}, {
 		tableName: 'comment'
