@@ -102,6 +102,21 @@ module.exports = {
             res.send();
         });
     },
+    searchJobs: function(req,res){
+        let start = parseInt(req.params.start);
+        let total = parseInt(req.params.total);
+        let userID = parseInt(req.cookies.userID);
+        let searchKey = req.body.keySearch;
+        let typeOfKey= req.body.typeOfKey;
+        user.searchJobs(searchKey,typeOfKey,start, total,userID).then(r => {
+            res.status(200);
+            res.send(r);
+        }).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    },
     getListUsers: function (req, res) {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total)

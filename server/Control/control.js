@@ -36,6 +36,10 @@ module.exports= {
 
         app.get('/list/users/type=:type/start=:start/total=:total',(req,res)=>user_router.getListUsers(req,res));
         // trả về danh sách có total giảng viên/ đối tác/ admin / sinh viên bắt đầu từ start theo thứ tự tìm kiếm
+
+        app.post('/list/jobs/start=:start/total=:total',(req,res)=> user_router.searchJobs(req,res));
+        // trả về danh sách có total bài đăng thực tập bắt đầu từ startID khi nhận được request post có dạng : 
+        //{"keySearch":"<Nội dung tìm kiếm>", "typeOfKey":"<kiểu tìm kiếm>"} trong đó <kiểu tìm kiếm> là title/ partnerName/ content
               
         
         

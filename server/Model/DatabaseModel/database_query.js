@@ -98,6 +98,75 @@ var database_query = {
         }
 
     },
+
+    getListJobsByKeySearch: async function(key,typeofKey,start,total){
+        try {
+            let job = new model_required('internship_job');
+            let partner = new model_required('partner');
+            job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
+            let arr;// luu ket qua tra ve;
+            switch(typeofKey){
+                case "content":{
+                     arr = await job.findAll({
+                        include: [
+                            {
+                                model: partner,
+                                required: true,
+                                attributes: ['name', 'logo'],
+                                
+                            }
+                        ],
+                        where: { content:{[Op.like]:key}},
+                        offset: start - 1,
+                        limit: total,
+                        raw: true
+                    });
+                    break;
+                }
+                case "partnerName":{
+                     arr = await job.findAll({
+                        include: [
+                            {
+                                model: partner,
+                                required: true,
+                                attributes: ['name', 'logo'],
+                                where:{ name:{
+                                    [Op.like]:key
+                                }}
+                            }
+                        ],
+                        offset: start - 1,
+                        limit: total,
+                        raw: true
+                    });
+                    break;
+                }
+                case "title":{
+                     arr = await job.findAll({
+                        include: [
+                            {
+                                model: partner,
+                                required: true,
+                                attributes: ['name', 'logo'],
+                            }
+                        ],
+                        where:{
+                            title:{[Op.like]:key}
+                        },
+                        offset: start - 1,
+                        limit: total,
+                        raw: true
+                    });
+                    break;
+                }
+                default: return Promise.reject(new Error("khong xac dinh kieu tim kiem"))
+            }
+            
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
     getListUsers: async function (start, total, userType) {
         try {
             let user = new model_required(userType);
@@ -153,7 +222,6 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-
     getTerms: async function(){
         try {
             let term = new model_required("term");
@@ -166,7 +234,6 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-
     getStudentFollowLecturer:async function(lecturerID){
         try {
             let table = new model_required("student_follow_lecturer");
@@ -202,7 +269,6 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-
     getJobByID: async function(jobID){
         try {
             let job = new model_required('internship_job');
@@ -240,3 +306,5 @@ module.exports = database_query;
 // database_query.getStudentFollowLecturer(20004).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getJobByID(3).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListJobStudentFollow(1).then(r => console.log(r)).catch( e => console.log(e))
+// database_query.getListJobsByKeySearch("%The%requirements%","content",1,10).then(r => console.log(r)).catch( e => console.log(e))
+

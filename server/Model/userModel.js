@@ -82,11 +82,37 @@ var userModel = {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
             let listFollowed = await database_query.getListJobStudentFollow(userID);
-            console.log(listFollowed);
             console.log("danh sách trả về");
+            console.log(listFollowed);
             
-            //////// chưa xử lý thêm thuộc tính status => dự định dùng 2 vòng for 
             let result = await database_query.getListJobs(start, total);
+            result.forEach(element => {
+                element.partner_name = element['partner.name'];
+                element.partner_logo = element['partner.logo'];
+                delete element['partner.name'];
+                delete element['partner.logo'];
+                element.status="unfollowed";
+                listFollowed.forEach(jobFollowed => { //duyet ket qua tìm được vơi danh sách đã follow
+                    if(parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])){ // nếu trùng nhau thì đổi trạng thái cho job
+                        element.status ="followed"
+                    }
+                });
+            });
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    searchJobs: async function(searchKey,typeOfKey,start,total,userID){
+        let key = '%'+searchKey.replace(/\ /g,'%')+'%'; // tạo ra chuổi dùng để truy vấn database
+        if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
+        try { // giống hệt hàm getJobs
+            let listFollowed = await database_query.getListJobStudentFollow(userID);
+            // console.log("danh sách trả về");
+            // console.log(listFollowed);
+            
+            let result = await database_query.getListJobsByKeySearch(key,typeOfKey,start,total);
             result.forEach(element => {
                 element.partner_name = element['partner.name'];
                 element.partner_logo = element['partner.logo'];
@@ -178,3 +204,5 @@ module.exports = userModel;
 // a();
 
 // userModel.getJobs(1,10,1).then(r=>console.log(r)).catch(e => console.log(e));
+
+// userModel.searchJobs("Công việc","title",1,10,1).then( r => console.log(r)).catch(e => console.log(e));
