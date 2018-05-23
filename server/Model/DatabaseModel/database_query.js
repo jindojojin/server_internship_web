@@ -307,4 +307,4 @@ module.exports = database_query;
 // database_query.getJobByID(3).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListJobStudentFollow(1).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListJobsByKeySearch("%The%requirements%","content",1,10).then(r => console.log(r)).catch( e => console.log(e))
-
+database_query.getListUsers(1,10,"partner").then(r => console.log(r)).catch(e => console.log(e));

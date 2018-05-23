@@ -1,5 +1,5 @@
 var SequelizeAuto = require('sequelize-auto')
-var auto = new SequelizeAuto('internship_web', 'root', '00000');
+var auto = new SequelizeAuto('internship_web', 'root', '');
 
 auto.run(function (err) {
   if (err) throw err;

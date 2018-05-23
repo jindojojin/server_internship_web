@@ -2,6 +2,30 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('admin', {
+		name: {
+			type: DataTypes.STRING(50),
+			allowNull: true
+		},
+		department: {
+			type: DataTypes.STRING(200),
+			allowNull: false
+		},
+		vnumail: {
+			type: DataTypes.STRING(100),
+			allowNull: true
+		},
+		email: {
+			type: DataTypes.STRING(100),
+			allowNull: true
+		},
+		phoneNumber: {
+			type: DataTypes.STRING(20),
+			allowNull: true
+		},
+		node: {
+			type: DataTypes.STRING(500),
+			allowNull: false
+		},
 		account_userID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
@@ -11,21 +35,9 @@ module.exports = function(sequelize, DataTypes) {
 				key: 'userID'
 			}
 		},
-		name: {
-			type: DataTypes.STRING(50),
-			allowNull: true
-		},
-		vnumail: {
-			type: DataTypes.STRING(20),
-			allowNull: true
-		},
-		phoneNumber: {
-			type: DataTypes.STRING(20),
-			allowNull: true
-		},
-		email: {
-			type: DataTypes.STRING(20),
-			allowNull: true
+		logo: {
+			type: DataTypes.TEXT,
+			allowNull: false
 		}
 	}, {
 		tableName: 'admin'

@@ -43,6 +43,14 @@ module.exports = function(sequelize, DataTypes) {
 		content: {
 			type: DataTypes.TEXT,
 			allowNull: false
+		},
+		requirements: {
+			type: DataTypes.STRING(500),
+			allowNull: false
+		},
+		salary: {
+			type: DataTypes.STRING(200),
+			allowNull: false
 		}
 	}, {
 		tableName: 'internship_job'

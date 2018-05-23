@@ -5,15 +5,27 @@ module.exports = function(sequelize, DataTypes) {
 		lecturerID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
-			primaryKey: true
+			primaryKey: true,
+			references: {
+				model: 'lecturer',
+				key: 'account_userID'
+			}
 		},
 		studentID: {
 			type: DataTypes.INTEGER(11),
-			allowNull: false
+			allowNull: false,
+			references: {
+				model: 'student',
+				key: 'account_userID'
+			}
 		},
 		plan_reportID: {
 			type: DataTypes.INTEGER(11),
-			allowNull: false
+			allowNull: false,
+			references: {
+				model: 'plan_report',
+				key: ' plan_reportID'
+			}
 		},
 		mark: {
 			type: DataTypes.INTEGER(1),
