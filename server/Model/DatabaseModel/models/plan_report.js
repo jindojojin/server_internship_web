@@ -18,7 +18,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		jobID: {
 			type: DataTypes.INTEGER(11),
-			allowNull: false,
+			allowNull: true,
 			references: {
 				model: 'internship_job',
 				key: 'jobID'
@@ -26,7 +26,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		file_fileID: {
 			type: DataTypes.BIGINT,
-			allowNull: false,
+			allowNull: true,
 			references: {
 				model: 'file',
 				key: 'fileID'
