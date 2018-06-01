@@ -181,6 +181,28 @@ var database_query = {
         }
 
     },
+    getListUserStudentFollow: async function(studentID){
+        try {
+            let student_follow_partner = new model_required("student_follow_partner");
+            let student_follow_lecturer = model_required("student_follow_lecturer");
+            let arrPartner = await student_follow_partner.findAll({
+                where:{studentID: studentID},
+                attributes:[['partnerID','userID']],
+                raw:true
+            })
+            let arrLecturer = await student_follow_lecturer.findAll({
+                where:{studentID: studentID},
+                attributes:[['lecturerID','userID']],
+                raw:true
+            })
+            arrLecturer.forEach(element => {
+                arrPartner.push(element);
+            });          
+            return Promise.resolve(arrPartner);
+        } catch (error) {
+            return Promise.reject(new Error("try vấn thất bại"));            
+        }
+    },
     getMessages: async function (userID, start, total) {
         try {
             let mes = new model_required('message');
@@ -308,3 +330,4 @@ module.exports = database_query;
 // database_query.getListJobStudentFollow(1).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListJobsByKeySearch("%The%requirements%","content",1,10).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListUsers(1,10,"partner").then(r => console.log(r)).catch(e => console.log(e));
+database_query.getListUserStudentFollow(2).then(r => console.log(r)).catch(e => console.log(e));

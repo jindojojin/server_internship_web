@@ -82,8 +82,8 @@ var userModel = {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
             let listFollowed = await database_query.getListJobStudentFollow(userID);
-            console.log("danh sách trả về");
-            console.log(listFollowed);
+            // console.log("danh sách trả về");
+            // console.log(listFollowed);
 
             let result = await database_query.getListJobs(start, total);
             result.forEach(element => {
@@ -107,8 +107,8 @@ var userModel = {
     getJob: async function (id, userID) {
         try {
             let listFollowed = await database_query.getListJobStudentFollow(userID);
-            console.log("danh sách trả về");
-            console.log(listFollowed);
+            // console.log("danh sách trả về");
+            // console.log(listFollowed);
 
             let element = await database_query.getJobByID(id);
             element.partner_name = element['partner.name'];
@@ -154,14 +154,23 @@ var userModel = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    getUsers: async function (start, total, userType) {
+    getUsers: async function (start, total, userType, userID) {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         if (userType != 'admin' &&
             userType != 'lecturer' &&
             userType != 'student' &&
             userType != 'partner') return Promise.reject(new Error("kiểu người dùng không hợp lệ"));
         try {
+            let listUserFollowed = await database_query.getListUserStudentFollow(userID);
             let result = await database_query.getListUsers(start, total, userType);
+            result.forEach(element => {
+                element.status="unfollowed";
+                listUserFollowed.forEach(userFollowed => { //duyet ket qua tìm được vơi danh sách đã follow
+                    if (parseInt(userFollowed['userID']) == parseInt(element['account_userID'])) { // nếu trùng nhau thì đổi trạng thái cho job
+                        element.status = "followed"
+                    }
+                });
+            });
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
@@ -230,3 +239,4 @@ module.exports = userModel;
 
 // userModel.searchJobs("Công việc","title",1,10,1).then( r => console.log(r)).catch(e => console.log(e));
 // userModel.getJob(3, 2).then(r => console.log(r)).catch(e => console.log(e))
+// userModel.getUsers(1,19,"lecturer","2").then(r => console.log(r)).catch(e => console.log(e));
