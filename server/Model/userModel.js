@@ -15,7 +15,7 @@ var userModel = {
                 let token = secure.createUserToken(res);
                 var user = { userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token, usertype: res.type };
                 // console.log(user);
-                return Promise.resolve( JSON.stringify(user));
+                return Promise.resolve(JSON.stringify(user));
             } else {
                 return Promise.reject(new Error("mat khau khong dung"));
             }
@@ -41,22 +41,22 @@ var userModel = {
             }
         }
     },
-    updateProfile: async function(userID,userType,logo,infor){
+    updateProfile: async function (userID, userType, logo, infor) {
         try {
-            if(logo != null){
+            if (logo != null) {
                 var path = require('path');
                 // // tạo ra đường dẫn để lưu vào database
-                let databasePath = "/Data/img"+userID+"__"+secure.createSalt()+secure.createSalt()+logo.name;
+                let databasePath = "/Data/img" + userID + "__" + secure.createSalt() + secure.createSalt() + logo.name;
                 // // tạo đường dẫn để ghi file
-                var file = path.join(__dirname,"..",databasePath);
+                var file = path.join(__dirname, "..", databasePath);
                 await logo.mv(file);
                 infor.logo = databasePath;
-            }        
-        await database_update.update_profile(userType,userID,infor);
-        return Promise.resolve("success update profile")
+            }
+            await database_update.update_profile(userType, userID, infor);
+            return Promise.resolve("success update profile")
         } catch (error) {
             console.log(error);
-            return Promise.reject( new Error("update profile fail"))
+            return Promise.reject(new Error("update profile fail"))
         }
     },
     changePassword: async function (username, old_password, new_password) {
@@ -84,17 +84,17 @@ var userModel = {
             let listFollowed = await database_query.getListJobStudentFollow(userID);
             console.log("danh sách trả về");
             console.log(listFollowed);
-            
+
             let result = await database_query.getListJobs(start, total);
             result.forEach(element => {
                 element.partner_name = element['partner.name'];
                 element.partner_logo = element['partner.logo'];
                 delete element['partner.name'];
                 delete element['partner.logo'];
-                element.status="unfollowed";
+                element.status = "unfollowed";
                 listFollowed.forEach(jobFollowed => { //duyet ket qua tìm được vơi danh sách đã follow
-                    if(parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])){ // nếu trùng nhau thì đổi trạng thái cho job
-                        element.status ="followed"
+                    if (parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])) { // nếu trùng nhau thì đổi trạng thái cho job
+                        element.status = "followed"
                     }
                 });
             });
@@ -104,24 +104,47 @@ var userModel = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    searchJobs: async function(searchKey,typeOfKey,start,total,userID){
-        let key = '%'+searchKey.replace(/\ /g,'%')+'%'; // tạo ra chuổi dùng để truy vấn database
+    getJob: async function (id, userID) {
+        try {
+            let listFollowed = await database_query.getListJobStudentFollow(userID);
+            console.log("danh sách trả về");
+            console.log(listFollowed);
+
+            let element = await database_query.getJobByID(id);
+            element.partner_name = element['partner.name'];
+            element.partner_logo = element['partner.logo'];
+            delete element['partner.name'];
+            delete element['partner.logo'];
+            element.status = "unfollowed";
+            listFollowed.forEach(jobFollowed => { //duyet ket qua tìm được vơi danh sách đã follow
+                if (parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])) { // nếu trùng nhau thì đổi trạng thái cho job
+                    element.status = "followed"
+                }
+            });
+            return Promise.resolve(JSON.stringify(element));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    searchJobs: async function (searchKey, typeOfKey, start, total, userID) {
+        let key = '%' + searchKey.replace(/\ /g, '%') + '%'; // tạo ra chuổi dùng để truy vấn database
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try { // giống hệt hàm getJobs
             let listFollowed = await database_query.getListJobStudentFollow(userID);
             // console.log("danh sách trả về");
             // console.log(listFollowed);
-            
-            let result = await database_query.getListJobsByKeySearch(key,typeOfKey,start,total);
+
+            let result = await database_query.getListJobsByKeySearch(key, typeOfKey, start, total);
             result.forEach(element => {
                 element.partner_name = element['partner.name'];
                 element.partner_logo = element['partner.logo'];
                 delete element['partner.name'];
                 delete element['partner.logo'];
-                element.status="unfollowed";
+                element.status = "unfollowed";
                 listFollowed.forEach(jobFollowed => {
-                    if(parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])){
-                        element.status ="followed"
+                    if (parseInt(jobFollowed['internship_job.jobID']) == parseInt(element['jobID'])) {
+                        element.status = "followed"
                     }
                 });
             });
@@ -173,11 +196,11 @@ var userModel = {
                 case 'reply':
                     let old_message = await database_query.getMessagesByID(content.replyFor);
                     console.log(old_message);
-                    let regex= require('../regex');
+                    let regex = require('../regex');
                     message = { // tao 1 doi tuong ban ghi message de insert
                         senderID: userID,
                         receiverID: old_message.senderID,
-                        title: (regex.isReplyMessage(old_message.title)) ? (old_message.title) : ('Re: '+ old_message.title),
+                        title: (regex.isReplyMessage(old_message.title)) ? (old_message.title) : ('Re: ' + old_message.title),
                         content: content.content,
                     }
                     break;
@@ -206,3 +229,4 @@ module.exports = userModel;
 // userModel.getJobs(1,10,1).then(r=>console.log(r)).catch(e => console.log(e));
 
 // userModel.searchJobs("Công việc","title",1,10,1).then( r => console.log(r)).catch(e => console.log(e));
+// userModel.getJob(3, 2).then(r => console.log(r)).catch(e => console.log(e))

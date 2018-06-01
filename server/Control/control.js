@@ -30,14 +30,15 @@ module.exports= {
         
         
         
-        
+        app.get('/job/id=:id',(req,res)=> user_router.getJob(req,res));
+        //trả về chi tiết của công việc có jobid là :id
         app.get('/list/jobs/start=:start/total=:total',(req,res)=>user_router.getListJobs(req,res));
         // trả về danh sách total bài đăng thực tập bắt đầu từ startID
 
         app.get('/list/users/type=:type/start=:start/total=:total',(req,res)=>user_router.getListUsers(req,res));
         // trả về danh sách có total giảng viên/ đối tác/ admin / sinh viên bắt đầu từ start theo thứ tự tìm kiếm
 
-        app.post('/list/jobs/start=:start/total=:total',(req,res)=> user_router.searchJobs(req,res));
+        app.post('/list/jobs/start=:start/total=:total',jsonParser,(req,res)=> user_router.searchJobs(req,res));
         // trả về danh sách có total bài đăng thực tập bắt đầu từ startID khi nhận được request post có dạng : 
         //{"keySearch":"<Nội dung tìm kiếm>", "typeOfKey":"<kiểu tìm kiếm>"} trong đó <kiểu tìm kiếm> là title/ partnerName/ content
               

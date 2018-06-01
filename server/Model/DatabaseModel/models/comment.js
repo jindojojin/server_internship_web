@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(500),
 			allowNull: false
 		},
-		account_userID: {
+		commenterID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			references: {

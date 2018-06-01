@@ -106,6 +106,7 @@ module.exports = {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         let userID = parseInt(req.cookies.userID);
+        // console.log(req.body);
         let searchKey = req.body.keySearch;
         let typeOfKey= req.body.typeOfKey;
         user.searchJobs(searchKey,typeOfKey,start, total,userID).then(r => {
@@ -139,6 +140,20 @@ module.exports = {
         .then(r => {
             res.status(201);
             res.send();
+        }).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    },
+    getJob: function(req,res){
+        console.log("đã nhận được một yêu cầu xem chi tiết công việc")
+        let id = parseInt(req.params.id);
+        let userID = parseInt(req.cookies.userID);
+        user.getJob(id,userID)
+        .then(r => {
+            res.status(200);
+            res.send(r);
         }).catch(e => {
             console.log(e);
             res.status(500);
