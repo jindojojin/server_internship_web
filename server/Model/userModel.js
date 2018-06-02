@@ -239,4 +239,4 @@ module.exports = userModel;
 
 // userModel.searchJobs("Công việc","title",1,10,1).then( r => console.log(r)).catch(e => console.log(e));
 // userModel.getJob(3, 2).then(r => console.log(r)).catch(e => console.log(e))
-// userModel.getUsers(1,19,"lecturer","2").then(r => console.log(r)).catch(e => console.log(e));
+// userModel.getUsers(1,19,"partner","2").then(r => console.log(r)).catch(e => console.log(e));

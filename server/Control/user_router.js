@@ -59,7 +59,7 @@ module.exports = {
         )
     },
     getMessages: function (req, res) {
-        console.log("da nhận được 1 yêu cầu xem tin nhắn");
+        // console.log("da nhận được 1 yêu cầu xem tin nhắn");
 
         let userID = parseInt(req.cookies.userID);
         let start = parseInt(req.params.start);
@@ -120,9 +120,11 @@ module.exports = {
     },
     getListUsers: function (req, res) {
         let start = parseInt(req.params.start);
-        let total = parseInt(req.params.total)
+        let total = parseInt(req.params.total);
+        let userID = req.cookies.userID;
+        // console.log(userID);
         let type = req.params.type;
-        user.getUsers(start, total, type).then(r => {
+        user.getUsers(start, total,type,userID).then(r => {
             res.status(200);
             res.send(r);
         }).catch(e => {

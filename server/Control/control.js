@@ -51,7 +51,9 @@ module.exports= {
         //action = follow/ unfollow ; target = partner/ lecturer/ job  ; targetId: partnerID/ lecturerID / jobID
         // thực hiện follow hoặc unfollow, trả về true hoặc false
 
-       
+       app.get('/student/listPartnersFollowed',(req,res)=> student_router.sendListPartnersStudentFollow(req,res));
+       app.get('/student/lecturerFollowed',(req,res)=> student_router.sendLecturerFollowed(req,res));
+       app.get('/student/listJobsFollowed',(req,res)=> student_router.sendListJobsStudentFollow(req,res));
        
        
        

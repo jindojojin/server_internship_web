@@ -61,7 +61,11 @@ var student_model = {
                 element.slot = element['internship_job.slot'];
                 element.title = element['internship_job.title'];
                 element.content = element['internship_job.content'];
+                element.partnerName = element['internship_job.partner.name'];
+                element.partnerLogo = element['internship_job.partner.logo'];
                 
+                
+
                 delete element['internship_job.jobID'];
                 delete element['internship_job.partnerID'];
                 delete element['internship_job.termID'];
@@ -70,6 +74,9 @@ var student_model = {
                 delete element['internship_job.slot'];
                 delete element['internship_job.title'];
                 delete element['internship_job.content'];
+                delete element['internship_job.partner.name'];
+                delete element['internship_job.partner.logo'];
+                
             });
             return Promise.resolve(JSON.stringify(result));
         } catch (error) {
@@ -77,6 +84,45 @@ var student_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
+    getListPartnerStudentFollow: async function (studentID) {
+        try {
+            let result = await database_query.getListPartnersStudentFollow(studentID);
+            result.forEach(element => {
+                element.name = element['partner.name'];
+                element.logo = element['partner.logo'];
+                element.partnerID = element['partner.account_userID'];
+                element.phoneNumber = element['partner.phoneNumber'];
+                delete element['partner.name'];
+                delete element['partner.logo'];
+                delete element['partner.account_userID'];
+                delete element['partner.phoneNumber'];
+            });
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+
+    getLecturerStudentFollow:async function(studentID){
+        try {
+            let result = await database_query.getLecturerStudentFollow(studentID)
+            result.forEach(element => {
+                element.name = element['lecturer.name'];
+                element.logo = element['lecturer.logo'];
+                element.lecturerID = element['lecturer.account_userID'];
+                element.phoneNumber = element['lecturer.phoneNumber'];
+                delete element['lecturer.name'];
+                delete element['lecturer.logo'];
+                delete element['lecturer.account_userID'];
+                delete element['lecturer.phoneNumber'];
+            });
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    }
 }
 module.exports = student_model;
 

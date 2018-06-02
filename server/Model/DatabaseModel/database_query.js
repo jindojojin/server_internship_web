@@ -56,13 +56,21 @@ var database_query = {
         try {
             let student_follow_job = new model_required("student_follow_job");
             let internship_job = new model_required("internship_job");
+            let partner = model_required("partner");
             student_follow_job.belongsTo(internship_job,{foreignKey:'jobID', targetKey:'jobID'});
+            internship_job.belongsTo(partner,{foreignKey:'partnerID', targetKey:'account_userID'});
             let arr = await student_follow_job.findAll({
                 include:[
                     {
                         model: internship_job,
                         require: true,
-                    }
+                        include:{
+                            model: partner,
+                            require:true,
+                            attributes:['name','logo']
+                        }
+                    },
+                    
                 ],
                 where:{
                     studentID: studentID
@@ -72,6 +80,7 @@ var database_query = {
             })
             return Promise.resolve(arr);
         } catch (error) {
+            console.log(error);
             return Promise.reject(new Error("try vấn thất bại"));            
         }
     },
@@ -98,7 +107,6 @@ var database_query = {
         }
 
     },
-
     getListJobsByKeySearch: async function(key,typeofKey,start,total){
         try {
             let job = new model_required('internship_job');
@@ -200,6 +208,42 @@ var database_query = {
             });          
             return Promise.resolve(arrPartner);
         } catch (error) {
+            return Promise.reject(new Error("try vấn thất bại"));            
+        }
+    },
+    getLecturerStudentFollow: async function(studentID){
+        try {
+            let student_follow_lecturer = model_required("student_follow_lecturer");
+            let lecturer = model_required("lecturer");
+            student_follow_lecturer.belongsTo(lecturer,{foreignKey:'lecturerID',targetKey:'account_userID'})
+            let arrLecturer = await student_follow_lecturer.findAll({
+                include:[{
+                    model:lecturer,
+                }],
+                where:{studentID: studentID},
+                raw:true
+            })
+            return Promise.resolve(arrLecturer);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("try vấn thất bại"));            
+        }
+    },
+    getListPartnersStudentFollow: async function(studentID){
+        try {
+            let student_follow_partner = model_required("student_follow_partner");
+            let partner = model_required("partner");
+            student_follow_partner.belongsTo(partner,{foreignKey:'partnerID',targetKey:'account_userID'})
+            let arrPartner = await student_follow_partner.findAll({
+                include:[{
+                    model:partner,
+                }],
+                where:{studentID: studentID},
+                raw:true
+            })
+            return Promise.resolve(arrPartner);
+        } catch (error) {
+            console.log(error);
             return Promise.reject(new Error("try vấn thất bại"));            
         }
     },
@@ -330,4 +374,6 @@ module.exports = database_query;
 // database_query.getListJobStudentFollow(1).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListJobsByKeySearch("%The%requirements%","content",1,10).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListUsers(1,10,"partner").then(r => console.log(r)).catch(e => console.log(e));
-database_query.getListUserStudentFollow(2).then(r => console.log(r)).catch(e => console.log(e));
+// database_query.getListUserStudentFollow(2).then(r => console.log(r)).catch(e => console.log(e));
+// database_query.getListPartnersStudentFollow(2).then(r => console.log(r)).catch(e => console.log(e));
+// database_query.getLecturerStudentFollow(2).then(r => console.log(r)).catch(e => console.log(e));

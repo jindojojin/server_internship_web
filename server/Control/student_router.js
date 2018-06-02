@@ -35,6 +35,45 @@ var student_router = {
 
         };
     },
+    sendLecturerFollowed: async function (req,res) {
+        let studentID = req.cookies.userID;
+        student_model.getLecturerStudentFollow(studentID)
+            .then(r => {
+                res.status(200);
+                res.send(r);
+            })
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            })
+    },
+    sendListJobsStudentFollow: async function(req,res){
+        let studentID = req.cookies.userID;
+        student_model.getListJobStudentFollow(studentID)
+            .then(r => {
+                res.status(200);
+                res.send(r);
+            })
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            })
+    },
+    sendListPartnersStudentFollow: async function(req,res){
+        let studentID = req.cookies.userID;
+        student_model.getListPartnerStudentFollow(studentID)
+            .then(r => {
+                res.status(200);
+                res.send(r);
+            })
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            })
+    }
 }
 
 // console.log(parseInt('1234f45'));
