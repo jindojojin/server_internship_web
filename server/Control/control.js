@@ -19,6 +19,9 @@ module.exports= {
 
         app.post('/user/messages/action=:action',jsonParser,(req,res)=>user_router.sendMessage(req,res))
         // action= send/reply message, trả về true hoặc false
+        app.get('/user/message/action=markRead/messageID=:messageID',(req,res)=>user_router.markMessageAsRead(req,res))
+        app.get('/user/message/action=markUnRead/messageID=:messageID',(req,res)=>user_router.markMessageAsUnread(req,res))
+        
 
         app.post('/user/update/password',jsonParser,(req,res)=>user_router.change_password(req,res));
         // thay đổi mật khẩu ; trả về true hoặc false
@@ -63,7 +66,7 @@ module.exports= {
         
         app.get('/lecturer/action=:action/studentID=:studentID',(req,res)=>lecturer_router.acceptStudent(req,res)); //chưa kiểm tra
         // thực hiện hành động accept/deny đối với sinh viên đã đăng kí hướng dẫn, khi giáo viên này đồng ý thì tất cả các yêu cầu khác của sinh viên bị xóa bỏ
-
+        app.get('/lecturer/getListStudent',(req,res)=>lecturer_router.getListStudent(req,res));
         
         app.get('/partner/action=:action/jobID=:jobID/studentID=:studentID',(req,res)=>partner_router.acceptStudent(req,res));
         // thực hiện hafnnh động accept hoặc deny đối với sinh viên đăng kí job có id = jobID của partner này

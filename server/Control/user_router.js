@@ -1,4 +1,4 @@
-const user = require('../Model/userModel');
+ const user = require('../Model/userModel');
 module.exports = {
     validate_user: function (req, res) {
         // if(req.cookies.usertoken != undefined){ res.redirect('/home') }
@@ -70,6 +70,32 @@ module.exports = {
                 res.send(r);
             }
         ).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    },
+    markMessageAsRead:async function(req,res){
+        console.log("đã nhận được yêu cầu đánh dấu tin nhắn là đã đọc");
+        
+        let messageID=parseInt( req.params.messageID);
+        user.markMessageAsReadOrUnread(messageID,"read")
+        .then(r => {
+            res.status(200);
+            res.send();
+        }).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    },
+    markMessageAsUnread:async function(req,res){
+        let messageID=parseInt( req.params.messageID);
+        user.markMessageAsReadOrUnread(messageID,"unread")
+        .then(r => {
+            res.status(200);
+            res.send();
+        }).catch(e => {
             console.log(e);
             res.status(500);
             res.send();

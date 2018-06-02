@@ -356,6 +356,41 @@ var database_query = {
             return Promise.reject(error);
             
         }
+    },
+    getStudentAcceptedByLecturer:async function(lecturerID){
+        try {
+            let table = new model_required("student_follow_lecturer");
+            let acc = new model_required("account");
+            let student = new model_required("student");
+            table.belongsTo(acc,{foreignKey: 'studentID', targetKey:'userID'});
+            acc.belongsTo(student,{foreignKey:'userID',targetKey:'account_userID'});
+            let arr = await table.findAll({
+                include: [
+                    {
+                        model: acc,
+                        // required: true,
+                        attributes: ['nickname'],
+                        include:[
+                            {
+                                model: student,
+                                // required:true,
+                                attributes:['studentCode'],
+                            }
+                        ]
+                    }
+                ],
+                where:{
+                    lecturerID:lecturerID,
+                    status:'accepted'
+                },
+                attributes:[],
+                raw: true
+            }
+            )
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;

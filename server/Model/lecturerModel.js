@@ -42,6 +42,25 @@ var lecturer_model = {
             console.log(error);
             return Promise.reject(new Error("thêm bảng thất bại"));
         }
+    },
+    getMyStudents: async function(lecturerID){
+        try {
+            let result = await database_query.getStudentAcceptedByLecturer(lecturerID);
+            result.forEach(element => {
+                element.studentName = element['account.nickname'];
+                element.studentCode = element['account.student.studentCode'];
+                element.userID = element['account.student.account_userID'];
+
+                delete element['account.nickname'];
+                delete element['account.student.studentCode'];
+                delete element['account.student.account_userID'];
+
+            });
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
     }
 }
 module.exports = lecturer_model;

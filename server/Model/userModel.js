@@ -164,7 +164,7 @@ var userModel = {
             let listUserFollowed = await database_query.getListUserStudentFollow(userID);
             let result = await database_query.getListUsers(start, total, userType);
             result.forEach(element => {
-                element.status="unfollowed";
+                element.status = "unfollowed";
                 listUserFollowed.forEach(userFollowed => { //duyet ket qua tìm được vơi danh sách đã follow
                     if (parseInt(userFollowed['userID']) == parseInt(element['account_userID'])) { // nếu trùng nhau thì đổi trạng thái cho job
                         element.status = "followed"
@@ -200,24 +200,29 @@ var userModel = {
                         title: content.title,
                         content: content.content,
                     }
-
                     break;
                 case 'reply':
-                    let old_message = await database_query.getMessagesByID(content.replyFor);
-                    console.log(old_message);
-                    let regex = require('../regex');
                     message = { // tao 1 doi tuong ban ghi message de insert
                         senderID: userID,
-                        receiverID: old_message.senderID,
-                        title: (regex.isReplyMessage(old_message.title)) ? (old_message.title) : ('Re: ' + old_message.title),
+                        receiverID: content.receiverID,
+                        title: content.title,
                         content: content.content,
                     }
+                    break;
                     break;
                 default:
                     return Promise.resolve(new Error("không nhận dạng được hành động ( reply/ send)"));
                     break;
             }
             let result = await database_insert.insertMessage(message);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    markMessageAsReadOrUnread:async function(messageID,read_or_unread){
+        try {
+            let result = database_update.update_message(messageID,{status:read_or_unread})
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error)

@@ -33,5 +33,21 @@ var lecturer_router = {
             res.send();
         })
     },
+    getListStudent(req,res){
+        console.log("đã nhận được 1 yêu cầu xem student đang hướng dẫn của lecturer");
+        let lecturerID = req.cookies.userID;
+        lecturer_model.getMyStudents(lecturerID)
+            .then(
+                r => {
+                    res.status(200);
+                    res.send(r)
+                }
+            )
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            })
+    }
 }
 module.exports = lecturer_router

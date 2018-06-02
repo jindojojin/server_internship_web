@@ -116,6 +116,19 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    update_message: async function(messageID,newContent){
+        try {
+            let term = model_require("message");
+            await term.update(newContent, {
+                where: {
+                    messageID:messageID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
 
