@@ -32,8 +32,8 @@ var models = function (type) {
         case 'lecturer_student':
             model = new require('./models/lecturer_student')(sequelize, Sequelize);
             break;
-        case 'comment' :
-            model = new require('./models/comment')(sequelize, Sequelize);
+        case 'comments' :
+            model = new require('./models/comments')(sequelize, Sequelize);
             break;
         case 'file' :
             model = new require('./models/file')(sequelize, Sequelize);

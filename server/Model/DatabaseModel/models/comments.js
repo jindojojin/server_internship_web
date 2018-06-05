@@ -1,34 +1,30 @@
 /* jshint indent: 1 */
 
 module.exports = function(sequelize, DataTypes) {
-	return sequelize.define('comment', {
-		commentID: {
+	return sequelize.define('comments', {
+		planReportID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
-			autoIncrement: true
+			references: {
+				model: 'plan_report',
+				key: 'planReportID'
+			}
 		},
 		content: {
-			type: DataTypes.STRING(500),
+			type: DataTypes.STRING(1000),
 			allowNull: false
 		},
 		commenterID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
+			primaryKey: true,
 			references: {
 				model: 'account',
 				key: 'userID'
 			}
-		},
-		 plan_report_ plan_reportID: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			references: {
-				model: 'plan_report',
-				key: ' plan_reportID'
-			}
 		}
 	}, {
-		tableName: 'comment'
+		tableName: 'comments'
 	});
 };

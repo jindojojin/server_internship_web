@@ -3,17 +3,13 @@
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('file', {
 		fileID: {
-			type: DataTypes.BIGINT,
+			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
 		},
 		fileName: {
 			type: DataTypes.STRING(100),
-			allowNull: false
-		},
-		fileType: {
-			type: DataTypes.STRING(5),
 			allowNull: false
 		},
 		path: {

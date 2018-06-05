@@ -1,6 +1,9 @@
 var database_insert = require('./DatabaseModel/database_insert')
 var database_delete = require('./DatabaseModel/database_delete')
 var database_query = require('./DatabaseModel/database_query')
+var database_update = require('./DatabaseModel/database_update')
+var secure = require('./secure')
+
 
 var student_model = {
     follow: async function (studentID, target, targetID) {
@@ -51,7 +54,7 @@ var student_model = {
 
     getListJobStudentFollow: async function (studentID) {
         try {
-            let result = await database_query.getListJobStudentFollow(studentID);
+            let result = await database_query.getListJobStudentFollow(studentID,"all");
             result.forEach(element => {
                 element.jobID = element['internship_job.jobID'];
                 element.partnerID = element['internship_job.partnerID'];
@@ -122,8 +125,63 @@ var student_model = {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
+    },
+    getPlanReport:async function(studentID){
+        try {
+            let job= await database_query.getListJobStudentFollow(studentID,"working");
+
+            let arr = await database_query.getPlanReport(studentID,job[0].jobID);
+            let result=[];
+
+            for(let element of arr){                
+                element.comments = await database_query.getListComment(element.planReportID); /////////////đang lỗi
+                result.push(element);
+            };
+            
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    changePlanReportFile:async function(studentID,planReportID,fileUpload){
+        try {
+            // console.log("planReportID:"+planReportID);
+            let planReport = await database_query.getPlanReportByID(planReportID);
+            // console.log("studentID:"+studentID);
+            // console.log(fileUpload);
+            
+            
+            if(planReport[0].studentID != studentID) return Promise.reject(new Error("Student này không phải chủ của báo cáo được yêu cầu sửa đổi"));
+            var path = require('path');
+                // // tạo ra đường dẫn để lưu vào database
+                let databasePath = "/Data/Student/reportData/" + studentID + "__" + secure.createSalt() + secure.createSalt() + fileUpload.name;
+                // // tạo đường dẫn để ghi file
+                var file = path.join(__dirname, "..", databasePath);
+                await fileUpload.mv(file);
+            if(planReport[0]['file.fileID'] == null){ //đã tồn tại file báo cáo
+                // console.log("file chưa có trong database");
+                
+                let fileToInsert= {fileName:fileUpload.name,path:databasePath};
+                await database_insert.insertFile( fileToInsert);
+            }else{
+                // console.log("file đã có trong database");
+                
+                let oldFilePath= planReport[0]['file.path']; // lấy đường dẫn đến file báo cáo cũ
+                var oldFile = path.join(__dirname, "..", oldFilePath);
+                let fileToUpdate = {fileName:fileUpload.name,path:databasePath};
+                await database_update.update_file(planReport[0]['file.fileID'],fileToUpdate);
+                let fs = require('fs');
+                await fs.unlinkSync(oldFile)  ;//xóa file cũ khỏi bộ nhớ
+            }            
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
     }
 }
 module.exports = student_model;
 
 // student_model.getListJobStudentFollow(1).then( r=> console.log(r)).catch(e => console.log(e));
+// student_model.getPlanReport(3).then( r=> console.log(r)).catch(e => console.log(e));

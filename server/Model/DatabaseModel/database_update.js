@@ -129,6 +129,19 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    update_file:async function(fileID, newFile){
+        try {
+            let file = model_require("file");
+            await file.update(newFile, {
+                where: {
+                    fileID: fileID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
 

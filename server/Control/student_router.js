@@ -1,6 +1,6 @@
 var student_model = require('../Model/studentModel')
 var student_router = {
-    follow: async function (req, res) {
+    follow:function (req, res) {
         let studentID = parseInt(req.cookies.userID);
         console.log(studentID);
         let action = req.params.action;
@@ -35,7 +35,7 @@ var student_router = {
 
         };
     },
-    sendLecturerFollowed: async function (req,res) {
+    sendLecturerFollowed: function (req,res) {
         let studentID = req.cookies.userID;
         student_model.getLecturerStudentFollow(studentID)
             .then(r => {
@@ -48,7 +48,7 @@ var student_router = {
                 res.send();
             })
     },
-    sendListJobsStudentFollow: async function(req,res){
+    sendListJobsStudentFollow: function(req,res){
         let studentID = req.cookies.userID;
         student_model.getListJobStudentFollow(studentID)
             .then(r => {
@@ -61,7 +61,7 @@ var student_router = {
                 res.send();
             })
     },
-    sendListPartnersStudentFollow: async function(req,res){
+    sendListPartnersStudentFollow: function(req,res){
         let studentID = req.cookies.userID;
         student_model.getListPartnerStudentFollow(studentID)
             .then(r => {
@@ -73,6 +73,34 @@ var student_router = {
                 res.status(500);
                 res.send();
             })
+    },
+    sendListPlanReport:function(req,res){
+        let studentID = req.cookies.userID;
+        student_model.getPlanReport(studentID)
+            .then(r => {
+                res.status(200);
+                res.send(r);
+            })
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            })
+    },
+    changeFileInPlanReport:function(req,res){
+        let studentID = req.cookies.userID;
+        let fileUpload = (req.files)?req.files.fileUpload:null;
+        let planRePortID = req.body.planReportID;
+        student_model.changePlanReportFile(studentID,planRePortID,fileUpload)
+        .then(r => {
+            res.status(201);
+            res.send(r);
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })
     }
 }
 
