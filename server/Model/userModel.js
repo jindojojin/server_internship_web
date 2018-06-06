@@ -81,7 +81,7 @@ var userModel = {
     getJobs: async function (start, total, userID) {// userID: id của người lấy danh sách này=> tác dụng đối với sinh viên ( đã đăng kí hay chưa)
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
-            let listFollowed = await database_query.getListJobStudentFollow(userID);
+            let listFollowed = await database_query.getListJobStudentFollow(userID,"all");
             // console.log("danh sách trả về");
             // console.log(listFollowed);
 
@@ -106,7 +106,7 @@ var userModel = {
     },
     getJob: async function (id, userID) {
         try {
-            let listFollowed = await database_query.getListJobStudentFollow(userID);
+            let listFollowed = await database_query.getListJobStudentFollow(userID,"all");
             // console.log("danh sách trả về");
             // console.log(listFollowed);
 
