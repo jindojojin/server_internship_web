@@ -74,6 +74,10 @@ module.exports = {
         app.get('/lecturer/action=:action/studentID=:studentID', (req, res) => lecturer_router.acceptStudent(req, res)); //chưa kiểm tra
         // thực hiện hành động accept/deny đối với sinh viên đã đăng kí hướng dẫn, khi giáo viên này đồng ý thì tất cả các yêu cầu khác của sinh viên bị xóa bỏ
         app.get('/lecturer/getListStudent', (req, res) => lecturer_router.getListStudent(req, res));
+        // trả về danh sách sinh viên đang hướng dẫn
+        app.get('/lecturer/PlanReports/studentID=:studentID',(req,res)=> lecturer_router.sendListPlanReportOfStudent(req,res));
+        // trả về các báo cáo thực tập của học sinh có id = studentID
+
 
         app.get('/partner/action=:action/jobID=:jobID/studentID=:studentID', (req, res) => partner_router.acceptStudent(req, res));
         // thực hiện hafnnh động accept hoặc deny đối với sinh viên đăng kí job có id = jobID của partner này

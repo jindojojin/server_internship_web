@@ -1,4 +1,6 @@
 var lecturer_model = require('../Model/lecturerModel')
+var student_model = require('../Model/studentModel')
+
 var lecturer_router = {
     getStudentFollowMe: function (req, res) {
         console.log("đã nhận được 1 yêu cầu xem student follow lecturer");
@@ -48,6 +50,21 @@ var lecturer_router = {
                 res.status(500);
                 res.send();
             })
+    },
+    sendListPlanReportOfStudent:async function(req,res){
+        console.log("đã nhận được một yêu cầu xem báo cáo từ lecturer");
+        let studentID = req.params.studentID;
+        student_model.getPlanReport(studentID)
+        .then(r => {
+            res.status(200);
+            res.send(r);
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })      
+        
     }
 }
 module.exports = lecturer_router

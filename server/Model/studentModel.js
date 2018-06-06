@@ -127,6 +127,7 @@ var student_model = {
         }
     },
     getPlanReport:async function(studentID){
+        console.log(studentID);
         try {
             let job= await database_query.getListJobStudentFollow(studentID,"working");
 
