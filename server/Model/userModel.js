@@ -220,10 +220,18 @@ var userModel = {
             return Promise.reject(error)
         }
     },
-    markMessageAsReadOrUnread:async function(messageID,read_or_unread){
+    markMessageAsReadOrUnread: async function (messageID, read_or_unread) {
         try {
-            let result = database_update.update_message(messageID,{status:read_or_unread})
+            let result = database_update.update_message(messageID, { status: read_or_unread })
             return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    commentOnPlanReport: async function (planReportID, commenterID, content) {
+        try {
+             await database_insert.insertComment({ planReportID: planReportID, commenterID: commenterID, content: content })
+            return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error)
         }

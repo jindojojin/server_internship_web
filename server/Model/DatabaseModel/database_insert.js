@@ -113,7 +113,7 @@ var database_insert = {
     },
     insertComment: async function (comment){
         try {
-            let table = new model_required('comment');
+            let table = new model_required('comments');
             let result = await table.create(comment);
             return Promise.resolve(result);
         } catch (error) {

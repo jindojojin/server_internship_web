@@ -29,7 +29,8 @@ module.exports = {
         app.post('/user/update/profile', (req, res) => user_router.change_profile(req, res)); //chưa viết 
         //cập nhật thông tin cá nhân; trả về true hoặc false
 
-
+        app.post('/user/commentOnPlanReport', jsonParser, (req, res) => user_router.commentOnPlanReport(req, res))
+        // comment vào bài viết báo cáo thực tập
 
 
 
