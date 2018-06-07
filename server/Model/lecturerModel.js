@@ -61,6 +61,39 @@ var lecturer_model = {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
+    },
+    creatNewPlanReport: async function(newPlanReport){
+        try {
+            console.log(newPlanReport);
+            newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
+            await database_insert.insertPlanReport(newPlanReport);
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    updatePlanReport: async function(newPlanReport){
+        try {
+            console.log(newPlanReport);
+            newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
+            let planReportID = newPlanReport.planReportID;
+            delete newPlanReport.planReportID;
+            await database_update.update_plan_report(planReportID,newPlanReport);
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    deletePlanReport: async function(planReportID){
+        try {
+            await database_delete.deletePlan_report(planReportID);
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
     }
 }
 module.exports = lecturer_model;

@@ -51,7 +51,7 @@ var lecturer_router = {
                 res.send();
             })
     },
-    sendListPlanReportOfStudent:async function(req,res){
+    sendListPlanReportOfStudent:function(req,res){
         console.log("đã nhận được một yêu cầu xem báo cáo từ lecturer");
         let studentID = req.params.studentID;
         student_model.getPlanReport(studentID)
@@ -65,6 +65,49 @@ var lecturer_router = {
             res.send();
         })      
         
+    },
+    createNewPlanReport: function(req,res){
+        console.log("đã nhận được một yêu cầu tạo báo cáo thực tập từ lecturer");
+        // let studentID = req.params.studentID;
+        let newPlanReport = req.body;
+        lecturer_model.creatNewPlanReport(newPlanReport)
+        .then(r => {
+            res.status(201);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
+    },
+    updatePlanReport:function(req,res){
+        console.log("đã nhận được một yêu cầu chỉnh sửa báo cáo thực tập từ lecturer");
+        let newPlanReport = req.body;
+        lecturer_model.updatePlanReport(newPlanReport)
+        .then(r => {
+            res.status(201);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
+    },
+    deletePlanReport:function(req,res){
+        console.log("đã nhận được một yêu cầu xóa báo cáo thực tập từ lecturer");
+        let planReportID= req.params.planReportID;
+        lecturer_model.deletePlanReport(planReportID)
+        .then(r => {
+            res.status(200);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
     }
 }
 module.exports = lecturer_router

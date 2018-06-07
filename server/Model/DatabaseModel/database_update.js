@@ -142,6 +142,19 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    update_plan_report: async function(planReportID, newPlanReport){
+        try {
+            let plan_report = model_require("plan_report");
+            await plan_report.update(newPlanReport, {
+                where: {
+                    planReportID: planReportID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
 

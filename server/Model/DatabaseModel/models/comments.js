@@ -2,26 +2,26 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('comments', {
-		planReportID: {
-			type: DataTypes.INTEGER(11),
-			allowNull: false,
-			primaryKey: true,
-			references: {
-				model: 'plan_report',
-				key: 'planReportID'
-			}
-		},
 		content: {
 			type: DataTypes.STRING(1000),
 			allowNull: false
 		},
-		commenterID: {
+		commentID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
+			autoIncrement: true
+		},
+		commenterID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false
+		},
+		planReportID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false,
 			references: {
-				model: 'account',
-				key: 'userID'
+				model: 'plan_report',
+				key: 'planReportID'
 			}
 		}
 	}, {

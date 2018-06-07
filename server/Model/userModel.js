@@ -131,7 +131,7 @@ var userModel = {
         let key = '%' + searchKey.replace(/\ /g, '%') + '%'; // tạo ra chuổi dùng để truy vấn database
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try { // giống hệt hàm getJobs
-            let listFollowed = await database_query.getListJobStudentFollow(userID);
+            let listFollowed = await database_query.getListJobStudentFollow(userID,"all");
             // console.log("danh sách trả về");
             // console.log(listFollowed);
 

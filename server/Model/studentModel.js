@@ -132,14 +132,17 @@ var student_model = {
             let job= await database_query.getListJobStudentFollow(studentID,"working");
 
             let arr = await database_query.getPlanReport(studentID,job[0].jobID);
+            // console.log(arr);
+            if(arr == []) return Promise.resolve(JSON.stringify({job:job[0],planReports:[]}));
             let result=[];
 
             for(let element of arr){                
-                element.comments = await database_query.getListComment(element.planReportID); /////////////đang lỗi
+                element.comments = await database_query.getListComment(element.planReportID);
+                element.jobID = job[0].jobID;
                 result.push(element);
             };
             
-            return Promise.resolve(JSON.stringify(result));
+            return Promise.resolve(JSON.stringify({job:job[0],planReports:result}));
         } catch (error) {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
@@ -173,7 +176,7 @@ var student_model = {
                 let fileToUpdate = {fileName:fileUpload.name,path:databasePath};
                 await database_update.update_file(planReport[0]['file.fileID'],fileToUpdate);
                 let fs = require('fs');
-                await fs.unlinkSync(oldFile)  ;//xóa file cũ khỏi bộ nhớ
+                fs.unlinkSync(oldFile)  ;//xóa file cũ khỏi bộ nhớ
             }            
             return Promise.resolve(true);
         } catch (error) {

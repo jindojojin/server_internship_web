@@ -17,6 +17,14 @@ var partner_model = {
             default:
             return Promise.reject(new Error("hành động không xác định"));
         }
+    },
+    getListStudentFollowJobOfPartner: async function(partnerID){
+        try {
+            let result = await database_query.getListStudentFollowJobOfPartner(partnerID);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 }
 

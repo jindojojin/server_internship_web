@@ -154,7 +154,7 @@ var database_delete = {
             let table = new model_required('plan_report'); 
             let result = await table.destroy({
                 where: {
-                  plan_reportID:plan_reportID
+                  planReportID:plan_reportID
                 }
               });
             return Promise.resolve(result);

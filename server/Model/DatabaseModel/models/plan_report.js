@@ -2,15 +2,15 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('plan_report', {
-		title: {
-			type: DataTypes.STRING(100),
-			allowNull: false
-		},
 		planReportID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
 			autoIncrement: true
+		},
+		title: {
+			type: DataTypes.STRING(100),
+			allowNull: false
 		},
 		studentID: {
 			type: DataTypes.INTEGER(11),
@@ -39,6 +39,15 @@ module.exports = function(sequelize, DataTypes) {
 		content: {
 			type: DataTypes.TEXT,
 			allowNull: false
+		},
+		deadline: {
+			type: DataTypes.DATEONLY,
+			allowNull: false
+		},
+		isFinal: {
+			type: DataTypes.INTEGER(1),
+			allowNull: false,
+			defaultValue: '0'
 		}
 	}, {
 		tableName: 'plan_report'

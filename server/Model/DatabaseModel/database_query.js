@@ -337,12 +337,10 @@ var database_query = {
                     {
                         model: acc,
                         // required: true,
-                        attributes: ['nickname'],
                         include: [
                             {
                                 model: student,
                                 // required:true,
-                                attributes: ['studentCode'],
                             }
                         ]
                     }
@@ -351,7 +349,6 @@ var database_query = {
                     lecturerID: lecturerID,
                     status: 'waiting'
                 },
-                attributes: [],
                 raw: true
             }
             )
@@ -394,12 +391,10 @@ var database_query = {
                     {
                         model: acc,
                         // required: true,
-                        attributes: ['nickname'],
                         include: [
                             {
                                 model: student,
                                 // required:true,
-                                attributes: ['studentCode'],
                             }
                         ]
                     }
@@ -408,7 +403,6 @@ var database_query = {
                     lecturerID: lecturerID,
                     status: 'accepted'
                 },
-                attributes: [],
                 raw: true
             }
             )
@@ -472,7 +466,27 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    },
+    getListStudentFollowJobOfPartner: async function(partnerID){
+        try {
+            let job = model_required("internship_job");
+            let student = model_required("student");
+            let student_follow_job = model_required("student_follow_job");
+            student_follow_job.belongsTo(job,{foreignKey:'jobID', targetKey:'jobID'});
+            student_follow_job.belongsTo(student,{foreignKey:'studentID',targetKey:'account_userID'});
+            let result = student_follow_job.findAll({
+                include:[
+                    {model:job,
+                    where:{partnerID:partnerID}},
+                    {model:student}],
+                    where:{status:'waiting'},
+                raw:true
+            });
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
 };
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
@@ -496,3 +510,5 @@ module.exports = database_query;
 // database_query.getPlanReport(3,2).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getListComment(2).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getPlanReportByID(4).then(r => console.log(r)).catch(e => console.log(e));
+// database_query.getListStudentFollowJobOfPartner(20014).then(r => console.log(r)).catch(e => console.log(e));
+
