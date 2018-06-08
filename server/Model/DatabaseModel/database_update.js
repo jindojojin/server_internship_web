@@ -155,7 +155,21 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
-    }
+    },
+    update_internship_job: async function(jobID, newJob){
+        try {
+            let internship_job = model_require("internship_job");
+            await internship_job.update(newJob, {
+                where: {
+                   jobID: jobID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+
 }
 
 module.exports = database_update;

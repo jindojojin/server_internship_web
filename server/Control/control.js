@@ -79,7 +79,16 @@ module.exports = {
         // thực hiện hafnnh động accept hoặc deny đối với sinh viên đăng kí job có id = jobID của partner này
         app.get('/partner/getStudentsFollowJob',(req,res)=> partner_router.sendListStudentFollowJobs(req,res));
         // trả về danh sách các sinh viên theo dõi các bài đăng thực tập của partner
-
+        app.get('/partner/listJobByPartner',(req,res)=> partner_router.sendListJobByPartner(req,res))
+        // trả về danh sách các bài đăng thực tập
+        app.get('/partner/listStudentWorkingForPartner',(req,res)=> partner_router.sendListStudentWorkingForPartner(req,res))
+        //trả về danh sách các sinh viên đang thực tập
+        app.delete('/partner/Job/jobID=:jobID',(req,res) => partner_router.deleteInternshipJob(req,res));
+        //xóa bỏ bài đăng thực tập
+        app.post('/partner/createNewJob',jsonParser,(req,res)=> partner_router.createNewJob(req,res));
+        //tạo bài đăng thực tập
+        app.put('/partner/editJob',jsonParser,(req,res)=>partner_router.editJob(req,res));
+        // chỉnh sửa bài đăng thực tập
 
 
 

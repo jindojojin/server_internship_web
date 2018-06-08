@@ -25,6 +25,46 @@ var partner_model = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    getListJobByPartner: async function(partnerID){
+        try {
+            let result = await database_query.getListJobByPartner(partnerID);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    getListStudentWorkingForPartner: async function (partnerID){
+        try {
+            let result = await database_query.getListStudentWorkingForPartner(partnerID);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    deleteInternshipJob: async function(jobID){
+        try {
+            let result = await database_delete.deleteInternship_job(jobID);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    createNewJob: async function(newJob){
+        try {
+            let result = await database_insert.insertJob(newJob);
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    editJob: async function(jobID,jobEdited){
+        try {
+            let result = await database_update.update_internship_job(jobID,jobEdited);
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 }
 

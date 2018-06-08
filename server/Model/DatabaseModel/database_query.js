@@ -52,16 +52,16 @@ var database_query = {
             return Promise.reject(new Error("khong tim duoc du lieu nguoi dung này"));
         }
     },
-    getListJobStudentFollow: async function (studentID,statusOption) {
+    getListJobStudentFollow: async function (studentID, statusOption) {
         try {
-            if(statusOption!="all" &&statusOption!="waiting" && statusOption!="accepted" &&  statusOption!="working") return Promise.reject(new Error("statusOption không hợp lệ"))
+            if (statusOption != "all" && statusOption != "waiting" && statusOption != "accepted" && statusOption != "working") return Promise.reject(new Error("statusOption không hợp lệ"))
             let student_follow_job = new model_required("student_follow_job");
             let internship_job = new model_required("internship_job");
             let partner = model_required("partner");
             student_follow_job.belongsTo(internship_job, { foreignKey: 'jobID', targetKey: 'jobID' });
             internship_job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
             let arr;
-            if(statusOption=="all"){
+            if (statusOption == "all") {
                 arr = await student_follow_job.findAll({
                     include: [
                         {
@@ -73,14 +73,14 @@ var database_query = {
                                 attributes: ['name', 'logo']
                             }
                         },
-    
+
                     ],
                     where: {
                         studentID: studentID,
                     },
                     raw: true
                 })
-            }else{
+            } else {
                 arr = await student_follow_job.findAll({
                     include: [
                         {
@@ -92,15 +92,15 @@ var database_query = {
                                 attributes: ['name', 'logo']
                             }
                         },
-    
+
                     ],
                     where: {
                         studentID: studentID,
-                        status:statusOption,
+                        status: statusOption,
                     },
                     raw: true
                 })
-            }            
+            }
             return Promise.resolve(arr);
         } catch (error) {
             console.log(error);
@@ -120,6 +120,7 @@ var database_query = {
                         attributes: ['name', 'logo'],
                     }
                 ],
+                order:[['jobID','DESC']],
                 offset: start - 1,
                 limit: total,
                 raw: true
@@ -411,7 +412,7 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getPlanReport: async function (studentID,jobID) {
+    getPlanReport: async function (studentID, jobID) {
         try {
             let plan_report = new model_required("plan_report");
             let comments = model_required("comments");
@@ -422,71 +423,118 @@ var database_query = {
             plan_report.belongsTo(job, { foreignKey: 'jobID', targetKey: 'jobID' });
 
             let result = await plan_report.findAll({
-                include:[
-                    {model:file},
-                    {model:job}
+                include: [
+                    { model: file },
+                    { model: job }
                 ],
-                where:{
-                    studentID:studentID,
-                    jobID:jobID
+                where: {
+                    studentID: studentID,
+                    jobID: jobID
                 },
-                raw:true
+                raw: true
             });
             return Promise.resolve(result)
         } catch (error) {
             return Promise.reject(error);
         }
     },
-    getListComment:async function (planReportID){
+    getListComment: async function (planReportID) {
         try {
-            let comment= model_required("comments");
-            let account=model_required("account");
-            comment.belongsTo(account,{targetKey:'userID',foreignKey:'commenterID'});
+            let comment = model_required("comments");
+            let account = model_required("account");
+            comment.belongsTo(account, { targetKey: 'userID', foreignKey: 'commenterID' });
             let result = comment.findAll({
-                include:[{model:account}],
-                where:{planReportID:planReportID},
-                raw:true
+                include: [{ model: account }],
+                where: { planReportID: planReportID },
+                raw: true
             });
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
         }
     },
-    getPlanReportByID: async function(planReportID){
+    getPlanReportByID: async function (planReportID) {
         try {
             let planReport = model_required("plan_report");
             let file = model_required("file");
-            planReport.belongsTo(file,{foreignKey:'fileID',targetKey:'fileID'});
+            planReport.belongsTo(file, { foreignKey: 'fileID', targetKey: 'fileID' });
             let result = planReport.findAll({
-                include:[{model:file}],
-                where:{planReportID:planReportID},
-                raw:true
+                include: [{ model: file }],
+                where: { planReportID: planReportID },
+                raw: true
             });
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
         }
     },
-    getListStudentFollowJobOfPartner: async function(partnerID){
+    getListStudentFollowJobOfPartner: async function (partnerID) {
         try {
             let job = model_required("internship_job");
             let student = model_required("student");
             let student_follow_job = model_required("student_follow_job");
-            student_follow_job.belongsTo(job,{foreignKey:'jobID', targetKey:'jobID'});
-            student_follow_job.belongsTo(student,{foreignKey:'studentID',targetKey:'account_userID'});
+            student_follow_job.belongsTo(job, { foreignKey: 'jobID', targetKey: 'jobID' });
+            student_follow_job.belongsTo(student, { foreignKey: 'studentID', targetKey: 'account_userID' });
             let result = student_follow_job.findAll({
-                include:[
-                    {model:job,
-                    where:{partnerID:partnerID}},
-                    {model:student}],
-                    where:{status:'waiting'},
-                raw:true
+                include: [
+                    {
+                        model: job,
+                        where: { partnerID: partnerID }
+                    },
+                    { model: student }],
+                where: { status: 'waiting' },
+                raw: true
             });
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
         }
     },
+    getListJobByPartner: async function (partnerID) {
+        try {
+            let job = model_required("internship_job");
+            let partner = model_required("partner");
+            job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
+            let result = job.findAll({
+                include: [{ model: partner, attributes: ['logo'] }],
+                where: { partnerID: partnerID },
+                raw: true
+            });
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+    getListStudentWorkingForPartner: async function (partnerID) {
+        try {
+            let student = model_required("student");
+            let student_follow_job = model_required("student_follow_job");
+            student_follow_job.belongsTo(student, { foreignKey: 'studentID', targetKey: 'account_userID' });
+            let job = model_required("internship_job");
+            student_follow_job.belongsTo(job, { foreignKey: "jobID", targetKey: 'jobID' });
+            let result = await student_follow_job.findAll({
+                include: [
+                    {
+                        model: student,
+                        require: true
+                    },
+                    {
+                        model: job,
+                        where: {
+                            partnerID: partnerID
+                        },
+                        require: true
+                    }
+                ],
+                where: { status:'working' },
+                attributes:[],
+                raw: true
+            })
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 };
 module.exports = database_query;
 // database_query.getUser("16021031").then(res => console.log(res)).catch( e => console.log(e));
@@ -511,4 +559,4 @@ module.exports = database_query;
 // database_query.getListComment(2).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getPlanReportByID(4).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getListStudentFollowJobOfPartner(20014).then(r => console.log(r)).catch(e => console.log(e));
-
+// database_query.getListStudentWorkingForPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
