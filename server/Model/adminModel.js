@@ -94,14 +94,14 @@ var adminModel = {
         }
     },
 
-    updateAccount: async function (userID,type,updateData){
-        // try {
-        //     switch (type) {
-        //         if( type == "")
-        //     }
-        // } catch (error) {
-        //     return Promise.reject(error)
-        // }
+    updateAccount: async function (accountEdited){
+        try {
+            let userID= accountEdited.userID;
+            await database_update.update_account(userID,accountEdited);
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 
 }
@@ -109,4 +109,4 @@ module.exports = adminModel;
 
 // adminModel.createTerm("00014586","20100212","học kì ngon");
 // adminModel.createAccount("studentZ", "studentZ", "student").then(r => console.log(r)).catch(e => console.log(e));
-adminModel.updateTerm(6,{start:"2015-12-01",end:"2016-05-04",title:"Học kì phụ"}).then(r => console.log(r)).catch(e => console.log(e));
+// adminModel.updateTerm(6,{start:"2015-12-01",end:"2016-05-04",title:"Học kì phụ"}).then(r => console.log(r)).catch(e => console.log(e));

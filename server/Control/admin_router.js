@@ -82,6 +82,21 @@ var admin_router ={
 
     deleteAccount(req,res){
         console.log("đã nhận được 1 yêu cầu xóa tài khoản");
+        let account = req.body
+        admin_model.updateAccount(account)
+        .then(
+            r=>{res.status(201); 
+                res.send()}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
+    },
+
+    updateAccount(req,res){
+        console.log("đã nhận được 1 yêu cầu chỉnh sửa tài khoản");
         let userID = req.params.userID;
         admin_model.deleteAccount(userID)
         .then(
@@ -93,10 +108,6 @@ var admin_router ={
             res.status(500);            
             res.send();
         })
-    },
-
-    updateAccount(req,res){
-
     },
 }
 module.exports= admin_router;
