@@ -1,4 +1,5 @@
 var student_model = require('../Model/studentModel')
+var lecturer_model = require('../Model/lecturerModel')
 var student_router = {
     follow:function (req, res) {
         let studentID = parseInt(req.cookies.userID);
@@ -101,7 +102,22 @@ var student_router = {
             res.status(500);
             res.send();
         })
-    }
+    },
+    createNewPlanReport: function(req,res){
+        console.log("đã nhận được một yêu cầu tạo báo cáo thực tập từ student");
+        // let studentID = req.params.studentID;
+        let newPlanReport = req.body;
+        lecturer_model.creatNewPlanReport(newPlanReport)
+        .then(r => {
+            res.status(201);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
+    },
 }
 
 // console.log(parseInt('1234f45'));

@@ -118,9 +118,10 @@ module.exports = {
     getListJobs: function (req, res) {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
-        let userID = parseInt(req.cookies.userID);
-        user.getJobs(start, total).then(r => {
+        let userID = req.cookies.userID;
+        user.getJobs(start, total,userID).then(r => {
             res.status(200);
+            // console.log(r);
             res.send(r);
         }).catch(e => {
             console.log(e);
@@ -177,7 +178,7 @@ module.exports = {
     getJob: function(req,res){
         console.log("đã nhận được một yêu cầu xem chi tiết công việc")
         let id = parseInt(req.params.id);
-        let userID = parseInt(req.cookies.userID);
+        let userID =(req.cookies.userID);
         user.getJob(id,userID)
         .then(r => {
             res.status(200);

@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		jobID: {
 			type: DataTypes.INTEGER(11),
-			allowNull: false,
+			allowNull: true,
 			references: {
 				model: 'internship_job',
 				key: 'jobID'
@@ -42,7 +42,7 @@ module.exports = function(sequelize, DataTypes) {
 		},
 		deadline: {
 			type: DataTypes.DATEONLY,
-			allowNull: false
+			allowNull: true
 		},
 		isFinal: {
 			type: DataTypes.INTEGER(1),

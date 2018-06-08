@@ -25,6 +25,7 @@ var userModel = {
     },
     getProfile: async function (userID) {
         let type;
+        let assession=null;
         await database_query.getUserByID(userID)
             .then(res => {
                 type = res.type;
@@ -34,7 +35,11 @@ var userModel = {
             return Promise.reject(new Error("userID khong hop le"));
         } else {
             try {
+                if(type == "student"){
+                    assession = await database_query.getStudentAssession(userID);
+                }
                 let result = await database_query.getUserInfor(userID, type);
+                result.assession = assession;
                 return Promise.resolve(JSON.stringify(result));
             } catch (error) {
                 return Promise.reject(error);
@@ -81,9 +86,15 @@ var userModel = {
     getJobs: async function (start, total, userID) {// userID: id của người lấy danh sách này=> tác dụng đối với sinh viên ( đã đăng kí hay chưa)
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
-            let listFollowed = await database_query.getListJobStudentFollow(userID,"all");
+            let listFollowed;
+            console.log("safsdfsjdflkajflsakdjflskdfjslkdfs"+userID);
+            if(userID){ // trường hợp người dùng đã đăng nhập
+                listFollowed = await database_query.getListJobStudentFollow(userID,"all");
+            }else{
+                listFollowed =[];
+            }
             // console.log("danh sách trả về");
-            // console.log(listFollowed);
+            // console.log(userID);
 
             let result = await database_query.getListJobs(start, total);
             result.forEach(element => {
@@ -98,6 +109,7 @@ var userModel = {
                     }
                 });
             });
+            // console.log(result);
             return Promise.resolve(JSON.stringify(result));
         } catch (error) {
             console.log(error);
@@ -106,7 +118,11 @@ var userModel = {
     },
     getJob: async function (id, userID) {
         try {
-            let listFollowed = await database_query.getListJobStudentFollow(userID,"all");
+            if(userID){ // trường hợp người dùng đã đăng nhập
+                listFollowed = await database_query.getListJobStudentFollow(userID,"all");
+            }else{
+                listFollowed =[];
+            }
             // console.log("danh sách trả về");
             // console.log(listFollowed);
 

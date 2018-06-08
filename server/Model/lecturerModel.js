@@ -64,8 +64,11 @@ var lecturer_model = {
     },
     creatNewPlanReport: async function(newPlanReport){
         try {
-            console.log(newPlanReport);
-            newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
+            // console.log(newPlanReport);
+            if( typeof(newPlanReport.deadline) == 'string'){
+                newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
+            }
+            if(newPlanReport.jobID == "") delete newPlanReport.jobID;
             await database_insert.insertPlanReport(newPlanReport);
             return Promise.resolve(true);
         } catch (error) {
@@ -75,8 +78,10 @@ var lecturer_model = {
     },
     updatePlanReport: async function(newPlanReport){
         try {
-            console.log(newPlanReport);
-            newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
+            // console.log(newPlanReport)
+            if( typeof(newPlanReport.deadline) == 'string'){
+                newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
+            }
             let planReportID = newPlanReport.planReportID;
             delete newPlanReport.planReportID;
             await database_update.update_plan_report(planReportID,newPlanReport);

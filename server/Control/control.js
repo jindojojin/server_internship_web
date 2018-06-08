@@ -10,7 +10,7 @@ module.exports = {
     route: function (app) {
         app.post('/signin', jsonParser, (req, res) => user_router.validate_user(req, res));  //ok
         // trả về thông tin cơ bản của user và token
-        app.get('/user/id=:userID/profile', (req, res) => user_router.getUserProfile(req, res));
+        app.get('/profile/id=:userID', (req, res) => user_router.getUserProfile(req, res));
         //trả về thông tin chi tiết của user
         app.get('/user/messages/action=view/start=:start/total=:total', (req, res) => user_router.getMessages(req, res));
         // trả về danh sách total tin nhắn đã nhận gần đây của người dùng bắt đầu từ start theo thứ tự tìm kiếm
@@ -51,10 +51,10 @@ module.exports = {
         app.get('/student/listJobsFollowed', (req, res) => student_router.sendListJobsStudentFollow(req, res));
         //lấy các công việc đang theo dõi
         app.get('/student/planReports', (req, res) => student_router.sendListPlanReport(req, res));
-        //    lấy về các báo cáo của sinh viên
+        //lấy về các báo cáo của sinh viên
         app.put('/student/planReports/file', (req, res) => student_router.changeFileInPlanReport(req, res));
-        // thay đổi file báo cáo trong planReport
-
+        //thay đổi file báo cáo trong planReport
+        app.post('/student/PlanReports',jsonParser,(req,res)=> student_router.createNewPlanReport(req,res));
 
 
         app.get('/lecturer/getStudentsFollowMe', (req, res) => lecturer_router.getStudentFollowMe(req, res));

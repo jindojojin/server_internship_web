@@ -412,7 +412,7 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getPlanReport: async function (studentID, jobID) {
+    getPlanReport: async function (studentID) {
         try {
             let plan_report = new model_required("plan_report");
             let comments = model_required("comments");
@@ -429,7 +429,6 @@ var database_query = {
                 ],
                 where: {
                     studentID: studentID,
-                    jobID: jobID
                 },
                 raw: true
             });
@@ -534,6 +533,25 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    getStudentAssession: async function(studentID){
+        try {
+            let student_assession = model_required("student_assession");
+            let lecturer= model_required("lecturer");
+            let partner= model_required("partner");
+            
+            student_assession.belongsTo(lecturer,{targetKey:"account_userID",foreignKey:"assessorID"});
+            student_assession.belongsTo(partner,{targetKey:"account_userID",foreignKey:"assessorID"});
+            
+            let result = student_assession.findAll({
+                include:[{model:lecturer},{model:partner}],
+                where:{studentID:studentID},
+                raw:true
+            })
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;
@@ -560,3 +578,5 @@ module.exports = database_query;
 // database_query.getPlanReportByID(4).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getListStudentFollowJobOfPartner(20014).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getListStudentWorkingForPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getStudentAssession(2).then(r => console.log(r)).catch(e => console.log(e))
+

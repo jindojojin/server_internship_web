@@ -16,12 +16,12 @@ cookieParser = require('cookie-parser')
 app.use(cookieParser());  // hộ trợ đọc cookie từ client
 
 
-// //////////////////cài đặt bảo mật
+//////////////////cài đặt bảo mật
 
 // //yêu cầu là người dùng
 // var user_require = express.Router();
 // user_require.use((req, res, next) => {
-//   userToken = req.cookies.userToken;
+//   let userToken = req.cookies.userToken;
 //   if (userToken != null) {
 //     let user = require('./Model/secure').verifyUserToken(userToken);
 //     if (user != null) {
@@ -40,78 +40,80 @@ app.use(cookieParser());  // hộ trợ đọc cookie từ client
 
 // //yêu cầu là student
 // const student_require = express.Router();
-// student_require.use((req,res,next)=>{
-//   userToken = req.cookies.userToken;
-//   if(userToken != null){    
+// student_require.use((req, res, next) => {
+//   let userToken = req.cookies.userToken;
+//   if (userToken != null) {
 //     let user = require('./Model/secure').verifyUserToken(userToken);
-//     if(user.type == 'student') next();
-//    else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };;    
+//     if (user.type == 'student') next();
+//     else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };;
 //   }
-//   else{
+//   else {
 //     console.log("không phải là người dùng");
 //     res.status(401)
-//    res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
+//     res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
 //   }
 // })
-// app.use('/student',student_require);
+// app.use('/student', student_require);
 
 // //yêu cầu là lecturer
 // const lecturer_require = express.Router();
-// lecturer_require.use((req,res,next)=>{
-//   userToken = req.cookies.userToken;
-//   if(userToken != null){    
+// lecturer_require.use((req, res, next) => {
+//   console.log("cookies: ")
+//   console.log(req.cookies);
+//   let userToken = req.cookies.userToken;
+//   if (userToken != null) {
 //     let user = require('./Model/secure').verifyUserToken(userToken);
-//     if(user.type == 'lecturer') next();
-//   else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
-//   }
-//   else{
-// console.log("không phải là người dùng");
-// res.status(401)
-// res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
+//     console.log(user);
+//     if (user.type == 'lecturer') next();
+//     else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
+//   } else {
+//     console.log("Lỗi xác thực lecturer : không phải là người dùng");
+//     res.status(401)
+//     res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
 //   }
 // })
-// app.use('/lecturer',lecturer_require);
+// app.use('/lecturer', lecturer_require);
 
 // //yêu cầu là admin
 // const admin_require = express.Router();
-// admin_require.use((req,res,next)=>{
-//   userToken = req.cookies.userToken;
-//   if(userToken != null){    
+// admin_require.use((req, res, next) => {
+//   let userToken = req.cookies.userToken;
+//   if (userToken != null) {
 //     let user = require('./Model/secure').verifyUserToken(userToken);
-//     if(user.type == 'admin') next();
-//   else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
+//     if (user.type == 'admin') next();
+//     else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
 //   }
-//   else{
-// console.log("không phải là người dùng");
-// res.status(401)
-// res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
+//   else {
+//     console.log("không phải là người dùng");
+//     res.status(401)
+//     res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
 //   }
 // })
-// app.use('/admin',admin_require);
+// app.use('/admin', admin_require);
 
 // //yêu cầu là partner
 // const partner_require = express.Router();
-// partner_require.use((req,res,next)=>{
-//   userToken = req.cookies.userToken;
-//   if(userToken != null){    
+// partner_require.use((req, res, next) => {
+//   let  userToken = req.cookies.userToken;
+//   if (userToken != null) {
 //     let user = require('./Model/secure').verifyUserToken(userToken);
-//     if(user.type == 'partner') next();
-//   else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
+//     if (user.type == 'partner') next();
+//     else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
 //   }
-//   else{
-// console.log("không phải là người dùng");
-// res.status(401)
-// res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
+//   else {
+//     console.log("không phải là người dùng");
+//     res.status(401)
+//     res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
 //   }
 // })
-// app.use('/partner',partner_require);
+// app.use('/partner', partner_require);
 
 
 
 
 
 
-app.use('/data',express.static('Data')); // hỗ trợ truy cập vào thư mục Data từ client
+app.use('/data', express.static('Data')); // hỗ trợ truy cập vào thư mục Data từ client
 
 
 
