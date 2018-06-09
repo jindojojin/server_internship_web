@@ -113,6 +113,17 @@ var lecturer_model = {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
+    },
+    deleteComment: async function(commenterID,commentID){
+        try {
+            let cmt = await database_query.getCommentByID(commentID);
+            if(commenterID != cmt.commenterID) return Promise.reject(new Error("không phải là bình luận của người dùng này"));
+            await database_delete.deleteComment(commentID);
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
     }
 }
 module.exports = lecturer_model;

@@ -55,6 +55,9 @@ module.exports = {
         app.put('/student/planReports/file', (req, res) => student_router.changeFileInPlanReport(req, res));
         //thay đổi file báo cáo trong planReport
         app.post('/student/PlanReports',jsonParser,(req,res)=> student_router.createNewPlanReport(req,res));
+        app.delete('/student/comments/commentID=:commentID',(req,res)=>student_router.deleteComment(req,res));
+        app.put('/student/PlanReports',jsonParser,(req,res) =>student_router.updatePlanReport(req,res));
+        
 
 
         app.get('/lecturer/getStudentsFollowMe', (req, res) => lecturer_router.getStudentFollowMe(req, res));
@@ -71,6 +74,7 @@ module.exports = {
         //update yêu cầu báo cáo thực tập của sinh viên
         app.delete('/lecturer/planReports/planReportID=:planReportID',(req,res)=>lecturer_router.deletePlanReport(req,res));
         //xóa bỏ planReport
+        app.delete('/lecturer/comments/commentID=:commentID',(req,res)=>lecturer_router.deleteComment(req,res));
 
 
 

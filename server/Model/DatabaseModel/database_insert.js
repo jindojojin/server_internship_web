@@ -12,9 +12,9 @@ var database_insert = {
             return Promise.reject(error)
         }
     },
-    insertProfile: async function (listProfile, profileTable) {
+    insertProfile: async function (listProfile, usertype) {
         try {
-            let table = new model_required(profileTable); // chọn bảng dựa theo kiểu người dùng
+            let table = new model_required(usertype); // chọn bảng dựa theo kiểu người dùng
             let result = await table.bulkCreate(listProfile);
             return Promise.resolve(result);
         } catch (error) {

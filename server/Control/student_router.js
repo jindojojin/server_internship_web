@@ -103,6 +103,20 @@ var student_router = {
             res.send();
         })
     },
+    updatePlanReport: function(req,res){
+        console.log("đã nhận được một yêu cầu chỉnh sửa báo cáo thực tập từ student");
+        let newPlanReport = req.body;
+        lecturer_model.updatePlanReport(newPlanReport)
+        .then(r => {
+            res.status(201);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
+    },
     createNewPlanReport: function(req,res){
         console.log("đã nhận được một yêu cầu tạo báo cáo thực tập từ student");
         // let studentID = req.params.studentID;
@@ -118,6 +132,21 @@ var student_router = {
             res.send();
         })  
     },
+    deleteComment: function(req,res){
+        console.log("đã nhận được một yêu cầu xóa bình luận từ student");
+        let studentID = req.cookies.userID;
+        let commentID = req.params.commentID;
+        lecturer_model.deleteComment(studentID,commentID)
+        .then(r => {
+            res.status(204);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
+    }
 }
 
 // console.log(parseInt('1234f45'));

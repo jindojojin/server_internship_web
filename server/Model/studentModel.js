@@ -167,7 +167,9 @@ var student_model = {
                 // console.log("file chưa có trong database");
 
                 let fileToInsert = { fileName: fileUpload.name, path: databasePath };
-                await database_insert.insertFile(fileToInsert);
+               let fileInserted = await database_insert.insertFile(fileToInsert);
+            //    console.log(fileInserted);
+                await database_update.update_plan_report(planReportID,{fileID:fileInserted.fileID});
             } else {
                 // console.log("file đã có trong database");
 

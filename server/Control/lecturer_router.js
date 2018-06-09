@@ -109,6 +109,21 @@ var lecturer_router = {
             res.status(500);
             res.send();
         })  
+    },
+    deleteComment: function(req,res){
+        console.log("đã nhận được một yêu cầu xóa bình luận từ lecturer");
+        let lecturerID = req.cookies.userID;
+        let commentID = req.params.commentID;
+        lecturer_model.deleteComment(lecturerID,commentID)
+        .then(r => {
+            res.status(204);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
     }
 }
 module.exports = lecturer_router

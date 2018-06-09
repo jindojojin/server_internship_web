@@ -112,7 +112,7 @@ var database_delete = {
     },
     deleteComment:async function(commentID){
         try {
-            let table = new model_required('comment'); 
+            let table = new model_required('comments'); 
             let result = await table.destroy({
                 where: {
                   commentID:commentID
