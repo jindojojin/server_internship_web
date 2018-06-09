@@ -66,6 +66,7 @@ var database_query = {
                 where: { account_userID: userID },
                 raw: true
             })
+            userInfor.type = type;
             return Promise.resolve(userInfor);
         } catch (error) {
             return Promise.reject(new Error("khong tim duoc du lieu nguoi dung này"));

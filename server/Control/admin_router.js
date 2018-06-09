@@ -1,6 +1,6 @@
 var admin_model = require('../Model/adminModel')
 var admin_router ={
-    getTerms(req,res){
+    getTerms:  function (req,res){
         console.log("đã nhận được yêu cầu xem danh sách học kì");
         admin_model.getTerms()
         .then(
@@ -13,7 +13,7 @@ var admin_router ={
             res.send();
         })
     },
-    createTerm(req,res){
+    createTerm: function (req,res){
         console.log("đã nhận được 1 yêu cầu thêm đợt thực tập");
         let start = req.body.start;
         let end = req.body.end;
@@ -31,7 +31,7 @@ var admin_router ={
         
     },
 
-    deleteTerm(req,res){
+    deleteTerm: function (req,res){
         console.log("đã nhận được 1 yêu cầu xóa đợt thực tập");
         let termID = parseInt(req.params.termID);
         admin_model.deleteTerm(termID)
@@ -47,7 +47,7 @@ var admin_router ={
         // console.log(termID);
     },
 
-    updateTerm(req,res){
+    updateTerm: function (req,res){
         console.log("đã nhận được 1 yêu cầu sửa học kì");
         let termID= req.params.termID;
         let newContent = req.body;
@@ -63,7 +63,7 @@ var admin_router ={
         })        
     },
     
-    createAccount(req,res){
+    createAccount: function (req,res){
         console.log("đã nhận được 1 yêu cầu thêm tài khoản");
         let username = req.body.username;
         let password = req.body.password;
@@ -80,7 +80,7 @@ var admin_router ={
         })        
     },
 
-    deleteAccount(req,res){
+    deleteAccount: function (req,res){
         console.log("đã nhận được 1 yêu cầu xóa tài khoản");
         let account = req.body
         admin_model.updateAccount(account)
@@ -95,7 +95,7 @@ var admin_router ={
         })
     },
 
-    updateAccount(req,res){
+    updateAccount: function (req,res){
         console.log("đã nhận được 1 yêu cầu chỉnh sửa tài khoản");
         let userID = req.params.userID;
         admin_model.deleteAccount(userID)
@@ -109,5 +109,21 @@ var admin_router ={
             res.send();
         })
     },
+
+    updateProfileForUser: function (req,res){
+        console.log('đã nhận được một yêu cầu sửa profile cho user từ admin');        
+        let userID = req.params.userID;
+        let profile = JSON.parse(req.body.infor);
+        admin_model.updateProfileForUser(userID,profile)
+        .then(
+            r=>{res.status(201); 
+                res.send()}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
+    }
 }
 module.exports= admin_router;

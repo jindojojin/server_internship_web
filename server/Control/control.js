@@ -20,7 +20,7 @@ module.exports = {
         app.get('/user/message/action=markUnRead/messageID=:messageID', (req, res) => user_router.markMessageAsUnread(req, res))
         app.put('/user/update/password', jsonParser, (req, res) => user_router.change_password(req, res));
         // thay đổi mật khẩu ; trả về true hoặc false
-        app.post('/user/update/profile', (req, res) => user_router.change_profile(req, res)); //chưa viết 
+        app.put('/user/update/profile', (req, res) => user_router.change_profile(req, res)); //chưa viết 
         //cập nhật thông tin cá nhân; trả về true hoặc false
         app.post('/user/commentOnPlanReport', jsonParser, (req, res) => user_router.commentOnPlanReport(req, res))
         // comment vào bài viết báo cáo thực tập
@@ -101,12 +101,13 @@ module.exports = {
         //xóa đợt thực tập
         app.put('/admin/updateTerm/termID=:termID', jsonParser, (req, res) => admin_router.updateTerm(req, res));
         //sửa các đợt thực tập
-        app.post('/admin/CRUD/account', jsonParser, (req, res) => admin_router.createAccount(req, res)); // chưa viết
+        app.post('/admin/CRUD/account', jsonParser, (req, res) => admin_router.createAccount(req, res)); 
         // tạo account mới 
-        app.put('/admin/CRUD/account', jsonParser, (req, res) => admin_router.updateAccount(req, res)); //chưa viết
+        app.put('/admin/CRUD/account', jsonParser, (req, res) => admin_router.updateAccount(req, res)); 
         // update account
-        app.delete('/admin/CRUD/account/userID=:userID', (req, res) => admin_router.deleteAccount(req, res)); // chưa viết
+        app.delete('/admin/CRUD/account/userID=:userID', (req, res) => admin_router.deleteAccount(req, res));
         // delete account
+        app.put('/admin/update/profile/userID=:userID',(req,res)=> admin_router.updateProfileForUser(req,res));
 
 
         // app.use('**',(req,res)=>{res.status(400); res.send("Server không phục vụ yêu cầu này, vui lòng kiểm tra lại đường dẫn")} );

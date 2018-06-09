@@ -102,6 +102,17 @@ var adminModel = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    updateProfileForUser: async function (userID,profile){
+        try {
+            let user = await database_query.getUserByID(userID);
+            let usertype = user.type;
+            console.log(usertype);
+            await database_update.update_profile(usertype,userID,profile);
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 
 }
