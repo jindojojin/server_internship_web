@@ -4,7 +4,7 @@ var model_require = require('../DatabaseModel/switchRequireModel');
 var database_query = require('./database_query')
 
 var database_update = {
-    change_password: async function (username, new_password, new_salt) {
+    change_password: async function (userID, new_password, new_salt) {
         try {
             let acc = model_require("account");
             let result = await acc.update({
@@ -12,7 +12,7 @@ var database_update = {
                 salt: new_salt
             }, {
                     where: {
-                        username: username
+                        userID:userID
                     }
                 });
             return Promise.resolve(true);

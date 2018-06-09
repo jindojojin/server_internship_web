@@ -64,16 +64,16 @@ var userModel = {
             return Promise.reject(new Error("update profile fail"))
         }
     },
-    changePassword: async function (username, old_password, new_password) {
+    changePassword: async function (userID, old_password, new_password) {
         try {
-            let user = await database_query.getUser(username);
+            let user = await database_query.getUserByID(userID);
             let salt = user.salt;
             let hash = user.password;
             if (secure.compare(old_password, hash, salt)) {
                 console.log("da xac nhan dược người dùng");
                 let new_salt = secure.createSalt();
                 let new_hash = secure.encrypt(new_password, new_salt);
-                let result = await database_update.change_password(username, new_hash, new_salt);
+                let result = await database_update.change_password(userID, new_hash, new_salt);
                 console.log(result);
                 return Promise.resolve(result);
             } else {

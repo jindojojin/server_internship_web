@@ -102,10 +102,10 @@ module.exports = {
         });
     },
     change_password: function (req, res) {
-        let username = req.body.username;
+        let userID = req.cookies.userID;
         let old_password = req.body.old_password;
         let new_password = req.body.new_password;
-        user.changePassword(username, old_password, new_password)
+        user.changePassword(userID, old_password, new_password)
             .then(r => {
                 res.status(201);
                 res.send();
@@ -178,7 +178,7 @@ module.exports = {
     getJob: function(req,res){
         console.log("đã nhận được một yêu cầu xem chi tiết công việc")
         let id = parseInt(req.params.id);
-        let userID =(req.cookies.userID);
+        let userID = (req.cookies.userID);
         user.getJob(id,userID)
         .then(r => {
             res.status(200);
