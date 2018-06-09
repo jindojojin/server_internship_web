@@ -9,7 +9,8 @@ var database_update = {
             let acc = model_require("account");
             let result = await acc.update({
                 password: new_password,
-                salt: new_salt
+                salt: new_salt,
+                passwordChanged : '1',
             }, {
                     where: {
                         userID:userID

@@ -6,7 +6,26 @@ var database_query = {
     getUser: async function (username) {
         try {
             let acc = new model_required('account');
+            let student = model_required('student');
+            let partner = model_required('partner');
+            let lecturer = model_required('lecturer');
+            let admin = model_required('admin');
+            acc.hasOne(partner,{targetKey:'userID',foreignKey:'account_userID'});
+            acc.hasOne(student,{targetKey:'userID',foreignKey:'account_userID'});
+            acc.hasOne(lecturer,{targetKey:'userID',foreignKey:'account_userID'});
+            acc.hasOne(admin,{targetKey:'userID',foreignKey:'account_userID'});
+            
             let user = await acc.findOne({
+                include:[
+                    {model:student,
+                    attributes:['name']},
+                    {model:lecturer,
+                        attributes:['name']},
+                    {model:partner,
+                        attributes:['name']},
+                    {model:admin,
+                    attributes:['name']}
+                ],
                 where: { username: username },
                 raw: true
             })

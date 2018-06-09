@@ -11,10 +11,31 @@ var userModel = {
             var res = await database_query.getUser(username);
             let salt = res.salt;
             let hash = res.password;
+            console.log("user truy vấn trong database:");
+            
+            console.log(res);
+            var name;
+            switch (res.type) {
+                case 'student':
+                    name = res['student.name'];
+                    break;
+                case 'partner':
+                    name = res['partner.name'];
+                    break;
+                case 'lecturer':
+                    name = res['lecturer.name'];
+                    break;
+                case 'admin':
+                    name = res['admin.name'];
+                    break;
+                default:
+                    break;
+            }
+            console.log('name'+name);
             if (secure.compare(password, hash, salt)) {
                 let token = secure.createUserToken(res);
-                var user = { userID: res.userID, username: res.username, nickname: res.nickname, usertoken: token, usertype: res.type };
-                // console.log(user);
+                var user = { userID: res.userID, username: res.username, nickname: name, usertoken: token, usertype: res.type, passwordChanged: res.passwordChanged };
+                console.log(user);
                 return Promise.resolve(JSON.stringify(user));
             } else {
                 return Promise.reject(new Error("mat khau khong dung"));
@@ -25,7 +46,7 @@ var userModel = {
     },
     getProfile: async function (userID) {
         let type;
-        let assession=null;
+        let assession = null;
         await database_query.getUserByID(userID)
             .then(res => {
                 type = res.type;
@@ -35,7 +56,7 @@ var userModel = {
             return Promise.reject(new Error("userID khong hop le"));
         } else {
             try {
-                if(type == "student"){
+                if (type == "student") {
                     assession = await database_query.getStudentAssession(userID);
                 }
                 let result = await database_query.getUserInfor(userID, type);
@@ -77,21 +98,21 @@ var userModel = {
                 console.log(result);
                 return Promise.resolve(result);
             } else {
-                return Promise.reject(false);
+                return Promise.reject(new Error('mật khẩu cũ không đúng'));
             }
         } catch (error) {
-            return Promise.reject(false);
+            return Promise.reject(error);
         }
     },
     getJobs: async function (start, total, userID) {// userID: id của người lấy danh sách này=> tác dụng đối với sinh viên ( đã đăng kí hay chưa)
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
             let listFollowed;
-            console.log("safsdfsjdflkajflsakdjflskdfjslkdfs"+userID);
-            if(userID){ // trường hợp người dùng đã đăng nhập
-                listFollowed = await database_query.getListJobStudentFollow(userID,"all");
-            }else{
-                listFollowed =[];
+            console.log("safsdfsjdflkajflsakdjflskdfjslkdfs" + userID);
+            if (userID) { // trường hợp người dùng đã đăng nhập
+                listFollowed = await database_query.getListJobStudentFollow(userID, "all");
+            } else {
+                listFollowed = [];
             }
             // console.log("danh sách trả về");
             // console.log(userID);
@@ -118,10 +139,10 @@ var userModel = {
     },
     getJob: async function (id, userID) {
         try {
-            if(userID){ // trường hợp người dùng đã đăng nhập
-                listFollowed = await database_query.getListJobStudentFollow(userID,"all");
-            }else{
-                listFollowed =[];
+            if (userID) { // trường hợp người dùng đã đăng nhập
+                listFollowed = await database_query.getListJobStudentFollow(userID, "all");
+            } else {
+                listFollowed = [];
             }
             // console.log("danh sách trả về");
             // console.log(listFollowed);
@@ -147,7 +168,7 @@ var userModel = {
         let key = '%' + searchKey.replace(/\ /g, '%') + '%'; // tạo ra chuổi dùng để truy vấn database
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try { // giống hệt hàm getJobs
-            let listFollowed = await database_query.getListJobStudentFollow(userID,"all");
+            let listFollowed = await database_query.getListJobStudentFollow(userID, "all");
             // console.log("danh sách trả về");
             // console.log(listFollowed);
 
@@ -246,7 +267,7 @@ var userModel = {
     },
     commentOnPlanReport: async function (planReportID, commenterID, content) {
         try {
-             await database_insert.insertComment({ planReportID: planReportID, commenterID: commenterID, content: content })
+            await database_insert.insertComment({ planReportID: planReportID, commenterID: commenterID, content: content })
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error)
@@ -269,3 +290,4 @@ module.exports = userModel;
 // userModel.searchJobs("Công việc","title",1,10,1).then( r => console.log(r)).catch(e => console.log(e));
 // userModel.getJob(3, 2).then(r => console.log(r)).catch(e => console.log(e))
 // userModel.getUsers(1,19,"partner","2").then(r => console.log(r)).catch(e => console.log(e));
+// userModel.checkUser("16021031","16021031").then(r => console.log(r)).catch(e => console.log(e));

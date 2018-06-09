@@ -17,10 +17,6 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(100),
 			allowNull: false
 		},
-		nickname: {
-			type: DataTypes.STRING(100),
-			allowNull: false
-		},
 		salt: {
 			type: DataTypes.STRING(50),
 			allowNull: false
@@ -29,6 +25,11 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(8),
 			allowNull: false,
 			defaultValue: 'student'
+		},
+		passwordChanged: {
+			type: DataTypes.INTEGER(1),
+			allowNull: false,
+			defaultValue: '0'
 		}
 	}, {
 		tableName: 'account'

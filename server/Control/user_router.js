@@ -1,18 +1,13 @@
  const user = require('../Model/userModel');
 module.exports = {
     validate_user: function (req, res) {
-        // if(req.cookies.usertoken != undefined){ res.redirect('/home') }
-        // else{
-        // console.log("da nhận 1 yêu cầu validate");
         let username = req.body.username;
         let password = req.body.userpassword;
-
-        // console.log(password);
-        // console.log("o tren la password");
         user.checkUser(username, password)
             .then(r => {
                 {
                     res.status(201);
+                    console.log(r);
                     res.send(r)
                 }
             })
@@ -21,8 +16,6 @@ module.exports = {
                 res.status(500);
                 res.send();
             });
-        // }
-
     },
     getUserProfile: function (req, res) {
         console.log("da nhận 1 yêu cầu truy cập profile");
