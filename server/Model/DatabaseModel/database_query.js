@@ -295,15 +295,33 @@ var database_query = {
     getMessages: async function (userID, start, total) {
         try {
             let mes = new model_required('message');
-            let account = new model_required('account');
-            mes.belongsTo(account, { foreignKey: 'senderID', targetKey: 'userID' });
+            let acc = new model_required('account');
+            let student = model_required('student');
+            let partner = model_required('partner');
+            let lecturer = model_required('lecturer');
+            let admin = model_required('admin');
+            acc.hasOne(partner,{targetKey:'userID',foreignKey:'account_userID'});
+            acc.hasOne(student,{targetKey:'userID',foreignKey:'account_userID'});
+            acc.hasOne(lecturer,{targetKey:'userID',foreignKey:'account_userID'});
+            acc.hasOne(admin,{targetKey:'userID',foreignKey:'account_userID'});
+            mes.belongsTo(acc, { foreignKey: 'senderID', targetKey: 'userID' });
 
             let arr = await mes.findAll({
                 include: [
                     {
-                        model: account,
+                        model: acc,
                         required: true,
-                        attributes: ['nickname'],
+                        include:[
+                            {model:student,
+                            attributes:['name']},
+                            {model:lecturer,
+                                attributes:['name']},
+                            {model:partner,
+                                attributes:['name']},
+                            {model:admin,
+                            attributes:['name']}
+                        ],
+                        attributes: [],
                     }
                 ],
                 where: {
@@ -580,7 +598,7 @@ module.exports = database_query;
 // database_query.getListJobs(1).then(r=> console.log(r)).catch(e => console.log(e));
 // var a= 145234;
 // console.log(typeof a);
-// database_query.getMessages(4,1,5).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getMessages(1032,1,5).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));
 // database_query.getMessagesByID(1).then(r => console.log(r)).catch(e => log(e));
 // database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));

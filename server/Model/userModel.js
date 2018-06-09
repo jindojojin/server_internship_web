@@ -11,9 +11,9 @@ var userModel = {
             var res = await database_query.getUser(username);
             let salt = res.salt;
             let hash = res.password;
-            console.log("user truy vấn trong database:");
-            
-            console.log(res);
+            // console.log("user truy vấn trong database:");
+
+            // console.log(res);
             var name;
             switch (res.type) {
                 case 'student':
@@ -31,11 +31,11 @@ var userModel = {
                 default:
                     break;
             }
-            console.log('name'+name);
+            // console.log('name' + name);
             if (secure.compare(password, hash, salt)) {
                 let token = secure.createUserToken(res);
                 var user = { userID: res.userID, username: res.username, nickname: name, usertoken: token, usertype: res.type, passwordChanged: res.passwordChanged };
-                console.log(user);
+                // console.log(user);
                 return Promise.resolve(JSON.stringify(user));
             } else {
                 return Promise.reject(new Error("mat khau khong dung"));
@@ -108,7 +108,6 @@ var userModel = {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         try {
             let listFollowed;
-            console.log("safsdfsjdflkajflsakdjflskdfjslkdfs" + userID);
             if (userID) { // trường hợp người dùng đã đăng nhập
                 listFollowed = await database_query.getListJobStudentFollow(userID, "all");
             } else {
@@ -218,8 +217,26 @@ var userModel = {
         try {
             let result = await database_query.getMessages(userID, start, total);
             result.forEach(element => {
-                element.senderName = element['account.nickname'];
-                delete element['account.nickname'];
+                if (element['account.student.name'] != null) {
+                    element.senderName = element['account.student.name'];
+
+                } else if (element['account.partner.name'] != null) {
+                    element.senderName = element['account.partner.name'];
+
+                } else if (element['account.lecturer.name'] != null) {
+                    element.senderName = element['account.lecturer.name'];
+
+                } else if (element['account.admin.name'] != null) {
+                    element.senderName = element['account.admin.name'];
+                }
+                delete element['account.student.name'];
+                delete element['account.student.account_userID'];
+                delete element['account.lecturer.name'];
+                delete element['account.lecturer.account_userID'];
+                delete element['account.partner.name'];
+                delete element['account.partner.account_userID'];
+                delete element['account.addmin.name'];
+                delete element['account.addmin.account_userID'];
             });
             return Promise.resolve(JSON.stringify(result));
         } catch (error) {
@@ -273,7 +290,6 @@ var userModel = {
             return Promise.reject(error)
         }
     }
-
 }
 module.exports = userModel;
 

@@ -5,9 +5,9 @@ var partner_router = {
         let jobID = req.params.jobID;
         let studentID = req.params.studentID;
         let action = req.params.action;
-        // chưa kiểm tra job này có thuộc quyền quản lí của partner này không
-
-        partner_model.acceptStudentFollowJob(action, jobID, studentID)
+        let partnerID = req.cookies.userID;
+        let partnerName = req.cookies.nickname;
+        partner_model.acceptStudentFollowJob(action, jobID, studentID, partnerID, partnerName)
             .then(r => {
                 {
                     res.status(200);

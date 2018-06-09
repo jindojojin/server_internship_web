@@ -22,16 +22,30 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    acceptStudent: async function (action, studentID,lecturerID) {
+    acceptStudent: async function (action, studentID,lecturerID, lecturerName) {
         try {
             switch (action) {
                 case "accept":{
                         await database_update.update_student_follow_X(studentID,lecturerID,"lecturer");
+                        let message = { // tao 1 doi tuong ban ghi message de insert
+                            senderID: lecturerID,
+                            receiverID: studentID,
+                            title: 'Thông báo tự động từ hệ thống về việc đăng ký giảng viên',
+                            content: 'Chúc mừng, Giảng viên '+lecturerName+' đã đồng ý làm giảng viên hướng dẫn thực tập của bạn.',
+                        }
+                        await database_insert.insertMessage(message);
                         return Promise.resolve(true);
                 }
 
                 case "deny":
                         await database_delete.deleteStudentFollowLecturer(studentID,lecturerID);
+                        let message = { // tao 1 doi tuong ban ghi message de insert
+                            senderID: lecturerID,
+                            receiverID: studentID,
+                            title: 'Thông báo tự động từ hệ thống về việc đăng ký giảng viên',
+                            content: 'Rất tiếc !, giảng viên '+lecturerName+'đã từ chối làm giảng viên hướng dẫn thực tập của bạn. Hãy nhanh chóng đăng ký với giảng viên khác',
+                        }
+                        await database_insert.insertMessage(message);
                         return Promise.resolve(true);
                     break;
 

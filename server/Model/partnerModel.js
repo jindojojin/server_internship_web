@@ -4,19 +4,40 @@ var database_insert = require('./DatabaseModel/database_insert');
 var database_delete = require('./DatabaseModel/database_delete');
 
 var partner_model = {
-    acceptStudentFollowJob: async function (action, jobID, studentID) {
-        switch (action) {
-            case "accept": {
-                await database_update.update_student_follow_X(studentID, jobID, "job");
-                return Promise.resolve(true);
+    acceptStudentFollowJob: async function (action, jobID, studentID, partnerID,partnerName) {
+        try {
+            let internJob = await database_query.getJobByID(jobID);
+            if( partnerID != internJob.partnerID) { return Promise.reject(new Error('Partner không quản lý công việc này'))}
+            switch (action) {
+                case "accept": {
+                    await database_update.update_student_follow_X(studentID, jobID, "job");
+                    let message = { // tao 1 doi tuong ban ghi message de insert
+                        senderID: partnerID,
+                        receiverID: studentID,
+                        title: 'Thông báo tự động từ hệ thống về việc đăng ký thực tập',
+                        content: 'Chúc mừng!, '+partnerName+' đã chọn bạn vào thực tập công việc '+ internJob.title,
+                    }
+                    await database_insert.insertMessage(message);
+                    return Promise.resolve(true);
+                }
+                case "deny": {
+                    await database_delete.deleteStudentFollowJob(studentID,jobID);
+                    let message = { // tao 1 doi tuong ban ghi message de insert
+                        senderID: partnerID,
+                        receiverID: studentID,
+                        title: 'Thông báo tự động từ hệ thống về việc đăng ký thực tập',
+                        content: 'Rất tiếc!, '+partnerName+' đã từ chối bạn vào thực tập công việc '+ internJob.title+' Chúc bạn sẽ tìm được công việc phù hợp với mình hơn!',
+                    }
+                    await database_insert.insertMessage(message);
+                    return Promise.resolve(true);
+                }
+                default:
+                return Promise.reject(new Error("hành động không xác định"));
             }
-            case "deny": {
-                await database_delete.deleteStudentFollowJob(studentID,jobID);
-                return Promise.resolve(true);
-            }
-            default:
-            return Promise.reject(new Error("hành động không xác định"));
+        }  catch (error) {
+            return Promise.reject(error)
         }
+        
     },
     getListStudentFollowJobOfPartner: async function(partnerID){
         try {

@@ -22,7 +22,8 @@ var lecturer_router = {
         let action= req.params.action;
         let studentID = parseInt(req.params.studentID);
         let lecturerID = parseInt(req.cookies.userID);
-        lecturer_model.acceptStudent(action,studentID,lecturerID)
+        let lecturerName = req.cookies.nickname;
+        lecturer_model.acceptStudent(action,studentID,lecturerID,lecturerName)
         .then(
             r => {
                 res.status(200);
