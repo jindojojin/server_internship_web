@@ -103,6 +103,7 @@ module.exports = {
         //tạo bài đăng thực tập
         app.put('/partner/editJob',jsonParser,(req,res)=>partner_router.editJob(req,res));
         // chỉnh sửa bài đăng thực tập
+        app.get('/partner/getTerms',(req,res)=> admin_router.getTerms(req,res));
 
 
 

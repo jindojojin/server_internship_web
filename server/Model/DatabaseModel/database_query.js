@@ -416,6 +416,8 @@ var database_query = {
         try {
             let job = new model_required('internship_job');
             let partner = new model_required('partner');
+            let term = model_required('term');
+            job.belongsTo(term,{foreignKey:'termID',targetKey:'termID'})
             job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
             let arr = await job.findOne({
                 include: [
@@ -423,7 +425,8 @@ var database_query = {
                         model: partner,
                         required: true,
                         attributes: ['name', 'logo'],
-                    }
+                    },
+                    {model:term}
                 ],
                 where: [{ jobID: jobID }],
                 raw: true
@@ -472,14 +475,16 @@ var database_query = {
             let comments = model_required("comments");
             let file = model_required("file");
             let job = model_required("internship_job");
-
+            let lecturer_student = model_required("lecturer_student");
+            plan_report.belongsTo(lecturer_student,{foreignKey:'planReportID',targetKey:'planReportID'});
             plan_report.belongsTo(file, { foreignKey: 'fileID', targetKey: 'fileID' });
             plan_report.belongsTo(job, { foreignKey: 'jobID', targetKey: 'jobID' });
 
             let result = await plan_report.findAll({
                 include: [
                     { model: file },
-                    { model: job }
+                    { model: job },
+                    {model:lecturer_student}
                 ],
                 where: {
                     studentID: studentID,
