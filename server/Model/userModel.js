@@ -308,7 +308,7 @@ var userModel = {
             }
             return Promise.resolve(true);
         } catch (error) {
-            return Promise.resolve(error);
+            return Promise.reject(error);
         }
     }
 }

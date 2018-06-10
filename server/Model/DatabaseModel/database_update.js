@@ -10,10 +10,10 @@ var database_update = {
             let result = await acc.update({
                 password: new_password,
                 salt: new_salt,
-                passwordChanged : '1',
+                passwordChanged: '1',
             }, {
                     where: {
-                        userID:userID
+                        userID: userID
                     }
                 });
             return Promise.resolve(true);
@@ -110,7 +110,7 @@ var database_update = {
             let term = model_require("term");
             await term.update(newContent, {
                 where: {
-                    termID:termID
+                    termID: termID
                 }
             });
             return Promise.resolve(true);
@@ -118,12 +118,12 @@ var database_update = {
             return Promise.reject(error);
         }
     },
-    update_message: async function(messageID,newContent){
+    update_message: async function (messageID, newContent) {
         try {
             let term = model_require("message");
             await term.update(newContent, {
                 where: {
-                    messageID:messageID
+                    messageID: messageID
                 }
             });
             return Promise.resolve(true);
@@ -131,7 +131,7 @@ var database_update = {
             return Promise.reject(error);
         }
     },
-    update_file:async function(fileID, newFile){
+    update_file: async function (fileID, newFile) {
         try {
             let file = model_require("file");
             await file.update(newFile, {
@@ -144,7 +144,7 @@ var database_update = {
             return Promise.reject(error);
         }
     },
-    update_plan_report: async function(planReportID, newPlanReport){
+    update_plan_report: async function (planReportID, newPlanReport) {
         try {
             let plan_report = model_require("plan_report");
             await plan_report.update(newPlanReport, {
@@ -157,12 +157,12 @@ var database_update = {
             return Promise.reject(error);
         }
     },
-    update_internship_job: async function(jobID, newJob){
+    update_internship_job: async function (jobID, newJob) {
         try {
             let internship_job = model_require("internship_job");
             await internship_job.update(newJob, {
                 where: {
-                   jobID: jobID
+                    jobID: jobID
                 }
             });
             return Promise.resolve(true);
@@ -170,13 +170,26 @@ var database_update = {
             return Promise.reject(error);
         }
     },
-    update_student_assession: async function(assessorID,studentID,content){
+    update_student_assession: async function (assessorID, studentID, content) {
         try {
             let student_assession = model_require("student_assession");
             await student_assession.update(content, {
                 where: {
                     assessorID: assessorID,
-                    studentID:studentID
+                    studentID: studentID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+    update_lecturer_student: async function(planReportID, newPointForPlanReport) {
+        try {
+            let lecturerStudent = new model_require("lecturer_student");
+            await lecturerStudent.update(newPointForPlanReport, {
+                where: {
+                    planReportID: planReportID
                 }
             });
             return Promise.resolve(true);
@@ -191,26 +204,26 @@ module.exports = database_update;
 // database_update.change_password(1,"tranquanglinh","adfasfasdfsafsdfsdfsdfsd").then(r => console.log(r)).catch(e => console.log(e));
 // database_update.update_student_follow_X("1", "3", "job").then(r => console.log(r)).catch(e => console.log(e));
 
-let profile = {
-    class: "K61-CD",
-    grade: "2",
-    majors: "Công nghệ thông tin",
-    address: "Khu 5, Xuân Lộc, Thanh Thủy, Phú Thọ",
-    name: "Trần Quang Linh",
-    dateOfBirth: "19980501",
-    vnumail: "16021031",
-    gpa: 34,
-    graduationYear: "2020",
-    email: "Tranquanglinh.pt@gmail.com",
-    skypeID: "",
-    facebook: "https://www.facebook.com/jindojojin",
-    phoneNumber: "16021031",
-    position: "",
-    favorite: "Tốc độ, xem phim của Marvel",
-    orientation: "Công nghệ thông tin",
-    note: "Thích làm web",
-    picture: ""
-}
+// let profile = {
+//     class: "K61-CD",
+//     grade: "2",
+//     majors: "Công nghệ thông tin",
+//     address: "Khu 5, Xuân Lộc, Thanh Thủy, Phú Thọ",
+//     name: "Trần Quang Linh",
+//     dateOfBirth: "19980501",
+//     vnumail: "16021031",
+//     gpa: 34,
+//     graduationYear: "2020",
+//     email: "Tranquanglinh.pt@gmail.com",
+//     skypeID: "",
+//     facebook: "https://www.facebook.com/jindojojin",
+//     phoneNumber: "16021031",
+//     position: "",
+//     favorite: "Tốc độ, xem phim của Marvel",
+//     orientation: "Công nghệ thông tin",
+//     note: "Thích làm web",
+//     picture: ""
+// }
 
 // database_update.update_profile('student',1032,profile).then(r=> console.log("Thành công")).catch(e => console.log(e));
 // database_update.update_term(6,{start:"2018041",end:"20180601",title:"Học kì 3"}).then(r=> console.log("Thành công")).catch(e => console.log(e));

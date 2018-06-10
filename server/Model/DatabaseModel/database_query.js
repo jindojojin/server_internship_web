@@ -655,6 +655,18 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    getLecturer_Student: async function(planReportID){
+        try {
+            let lecturer_student = model_required("lecturer_student");
+            let result = lecturer_student.findOne({
+                where: { planReportID: planReportID },
+                raw: true
+            })
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;

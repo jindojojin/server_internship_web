@@ -124,6 +124,29 @@ var lecturer_model = {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
+    },
+    getPointOfPlanReport: async function(planReportID){
+        try {
+            let result = await database_query.getLecturer_Student(planReportID);
+            console.log(result);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    updatePointOfPlanReport: async function(planReportID,newPointForPlanReport){
+        try {
+            let point = await database_query.getLecturer_Student(planReportID);
+            if( point != null){
+                await database_update.update_lecturer_student(planReportID,newPointForPlanReport);
+            }else{
+                await database_insert.insertLecturerStudent(newPointForPlanReport);
+            }
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 }
 module.exports = lecturer_model;

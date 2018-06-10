@@ -81,6 +81,10 @@ module.exports = {
         app.delete('/lecturer/planReports/planReportID=:planReportID',(req,res)=>lecturer_router.deletePlanReport(req,res));
         //xóa bỏ planReport
         app.delete('/lecturer/comments/commentID=:commentID',(req,res)=>lecturer_router.deleteComment(req,res));
+        app.get('/lecturer/letPointForStudent/planReportID=:planReportID',(req,res)=>lecturer_router.sendPointOfPlanReport(req,res));
+        app.put('/lecturer/letPointForStudent/planReportID=:planReportID',jsonParser,(req,res)=>lecturer_router.updatePointOfPlanReport(req,res));
+        
+        
 
 
 

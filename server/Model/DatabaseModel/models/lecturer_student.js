@@ -22,6 +22,7 @@ module.exports = function(sequelize, DataTypes) {
 		planReportID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
+			primaryKey: true,
 			references: {
 				model: 'plan_report',
 				key: 'planReportID'
