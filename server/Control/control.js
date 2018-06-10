@@ -24,6 +24,10 @@ module.exports = {
         //cập nhật thông tin cá nhân; trả về true hoặc false
         app.post('/user/commentOnPlanReport', jsonParser, (req, res) => user_router.commentOnPlanReport(req, res))
         // comment vào bài viết báo cáo thực tập
+        app.get('/user/myAssession/studentID=:studentID',(req,res)=> user_router.getMyAssession(req,res));
+        // trả về nội dung đã nhận xét về student có ID là studentID
+        app.put('/user/myAssess/studentID=:studentID',jsonParser,(req,res) => user_router.updateMyAssession(req,res));
+        // cập nhập nhận xét cho sinh viên có ID là studentID 
 
 
         app.get('/job/id=:id', (req, res) => user_router.getJob(req, res));
@@ -35,6 +39,8 @@ module.exports = {
         app.post('/list/jobs/start=:start/total=:total', jsonParser, (req, res) => user_router.searchJobs(req, res));
         // trả về danh sách có total bài đăng thực tập bắt đầu từ startID khi nhận được request post có dạng : 
         //{"keySearch":"<Nội dung tìm kiếm>", "typeOfKey":"<kiểu tìm kiếm>"} trong đó <kiểu tìm kiếm> là title/ partnerName/ content
+        app.get('/listJobByPartner/partnerID=:partnerID',(req,res)=> user_router.sendListJobByPartner(req,res))
+        
 
 
 

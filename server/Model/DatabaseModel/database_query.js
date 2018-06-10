@@ -630,6 +630,31 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    getAssessionByID : async function(assessorID, studentID){
+        try {
+            let student_assession = model_required('student_assession')
+            let result = student_assession.findOne({
+                where: { assessorID: assessorID,
+                    studentID: studentID },
+                raw: true
+            })
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+    getListStudentFollowPartner: async function(partnerID){
+        try {
+            let student_follow_partner = model_required("student_follow_partner");
+            let result = student_follow_partner.findAll({                
+                where: { partnerID:partnerID },
+                raw: true
+            });
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;
@@ -657,4 +682,7 @@ module.exports = database_query;
 // database_query.getListStudentFollowJobOfPartner(20014).then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getListStudentWorkingForPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getStudentAssession(2).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getAssessionByID(20004,2).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getListStudentFollowPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
+
 

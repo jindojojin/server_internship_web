@@ -57,6 +57,15 @@ var database_insert = {
             return Promise.reject(error)
         }
     },
+    insertListMessage: async function(listMessage){
+        try {
+            let message = new model_required('message');
+            let result = await message.bulkCreate(listMessage,{raw:true});
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
     insertTerm: async function (term){
         try {
             let table = new model_required('term');

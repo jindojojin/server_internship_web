@@ -289,6 +289,27 @@ var userModel = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    getMyAssesion: async function(userID, studentID){
+        try {
+            let arr = await database_query.getAssessionByID(userID,studentID);
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.resolve(error);
+        }
+    },
+    updateMyAssession: async function(userID,studentID,comment){
+        try {
+            let assession = await database_query.getAssessionByID(userID,studentID);
+            if( assession != null){
+                await database_update.update_student_assession(userID,studentID,comment);
+            }else{
+                await database_insert.insertStudenAssession(comment);
+            }
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.resolve(error);
+        }
     }
 }
 module.exports = userModel;
@@ -307,3 +328,5 @@ module.exports = userModel;
 // userModel.getJob(3, 2).then(r => console.log(r)).catch(e => console.log(e))
 // userModel.getUsers(1,19,"partner","2").then(r => console.log(r)).catch(e => console.log(e));
 // userModel.checkUser("16021031","16021031").then(r => console.log(r)).catch(e => console.log(e));
+// userModel.getMyAssesion(20004,2);
+// userModel.updateMyAssession(20015,2,'Sinh viên xuất sắc updated').then( r => console.log(r)).catch(e => console.log(e));

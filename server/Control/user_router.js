@@ -1,4 +1,5 @@
  const user = require('../Model/userModel');
+ const partner_model = require('../Model/partnerModel');
 module.exports = {
     validate_user: function (req, res) {
         let username = req.body.username;
@@ -196,5 +197,49 @@ module.exports = {
             res.status(500);
             res.send();
         });
+    },
+    getMyAssession: function(req,res){
+        console.log("đã nhận được một yêu cầu xem đánh giá sinh viên từ giảng viên")
+        let studentID = req.params.studentID;
+        let userID = (req.cookies.userID);
+        user.getMyAssesion(userID,studentID)
+        .then(r => {
+            res.status(200);
+            res.send(r);
+        }).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    },
+    updateMyAssession: function(req,res){
+        console.log("đã nhận được một yêu cầu sửa đánh giá sinh viên")
+        let studentID = req.params.studentID;
+        let userID = (req.cookies.userID);
+        let comment = req.body;
+        user.updateMyAssession(userID,studentID,comment)
+        .then(r => {
+            res.status(201);
+            res.send();
+        }).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
+    },
+    sendListJobByPartner: function(req,res){
+        let partnerID = req.params.partnerID;
+        partner_model.getListJobByPartner(partnerID)
+            .then(r => {
+                {
+                    res.status(200);
+                    res.send(r)
+                }
+            })
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            });
     }
 }

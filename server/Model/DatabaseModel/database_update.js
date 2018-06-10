@@ -170,6 +170,20 @@ var database_update = {
             return Promise.reject(error);
         }
     },
+    update_student_assession: async function(assessorID,studentID,content){
+        try {
+            let student_assession = model_require("student_assession");
+            await student_assession.update(content, {
+                where: {
+                    assessorID: assessorID,
+                    studentID:studentID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    }
 
 }
 

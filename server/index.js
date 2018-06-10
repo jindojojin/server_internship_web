@@ -74,22 +74,23 @@ app.use(cookieParser());  // hộ trợ đọc cookie từ client
 // })
 // app.use('/lecturer', lecturer_require);
 
-// //yêu cầu là admin
-// const admin_require = express.Router();
-// admin_require.use((req, res, next) => {
-//   let userToken = req.cookies.userToken;
-//   if (userToken != null) {
-//     let user = require('./Model/secure').verifyUserToken(userToken);
-//     if (user.type == 'admin') next();
-//     else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
-//   }
-//   else {
-//     console.log("không phải là người dùng");
-//     res.status(401)
-//     res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
-//   }
-// })
-// app.use('/admin', admin_require);
+//yêu cầu là admin
+const admin_require = express.Router();
+admin_require.use((req, res, next) => {
+  console.log(req.cookies);
+  let userToken = req.cookies.userToken;
+  if (userToken != null) {
+    let user = require('./Model/secure').verifyUserToken(userToken);
+    if (user.type == 'admin') next();
+    else { res.status(401); res.send("Phiên làm việc của bạn đã hết hạn, vui lòng đăng nhập lại") };
+  }
+  else {
+    console.log("không phải là người dùng");
+    res.status(401)
+    res.send("Không xác thực được người dùng, vui lòng gửi cookie kèm request");
+  }
+})
+app.use('/admin', admin_require);
 
 // //yêu cầu là partner
 // const partner_require = express.Router();
