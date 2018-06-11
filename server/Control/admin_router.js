@@ -124,6 +124,21 @@ var admin_router ={
             res.status(500);            
             res.send();
         })
+    },
+    change_password_for_user:function(req,res){
+        console.log('đã nhận được một yêu cầu sửa password cho user từ admin');        
+        let userID = req.params.userID;
+        let newPassword = req.params.newPassword;
+        admin_model.change_password_for_user(userID,newPassword)
+        .then(
+            r=>{res.status(200); 
+                res.send()}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
     }
 }
 module.exports= admin_router;

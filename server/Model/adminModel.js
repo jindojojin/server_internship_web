@@ -38,13 +38,13 @@ var adminModel = {
             return Promise.reject(error);
         }
     },
-    updateTerm: async function(termID,newContent){
+    updateTerm: async function (termID, newContent) {
         try {
-            if(!regex.isValidDate(newContent.start) || !regex.isValidDate(newContent.end)) 
-            return Promise.reject( new Error("định dạng ngày không hợp lệ"));
+            if (!regex.isValidDate(newContent.start) || !regex.isValidDate(newContent.end))
+                return Promise.reject(new Error("định dạng ngày không hợp lệ"));
             newContent.start = regex.deleteJoin(newContent.start);
             newContent.end = regex.deleteJoin(newContent.end); // xóa bỏ dấu -
-            let result = await database_update.update_term(termID,newContent);
+            let result = await database_update.update_term(termID, newContent);
             return Promise.resolve(JSON.stringify(result));
         } catch (error) {
             return Promise.reject(error);
@@ -68,7 +68,7 @@ var adminModel = {
 
     deleteAccount: async function (userID) {
         let user = await database_query.getUserByID(userID);
-        if(user == null) return Promise.reject( new Error("người dùng không tồn tại"));
+        if (user == null) return Promise.reject(new Error("người dùng không tồn tại"));
         let type = user.type;
         try {
             switch (type) {
@@ -94,24 +94,35 @@ var adminModel = {
         }
     },
 
-    updateAccount: async function (accountEdited){
+    updateAccount: async function (accountEdited) {
         try {
-            let userID= accountEdited.userID;
-            await database_update.update_account(userID,accountEdited);
+            let userID = accountEdited.userID;
+            await database_update.update_account(userID, accountEdited);
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error)
         }
     },
-    updateProfileForUser: async function (userID,profile){
+    updateProfileForUser: async function (userID, profile) {
         try {
             let user = await database_query.getUserByID(userID);
             let usertype = user.type;
             console.log(usertype);
-            await database_update.update_profile(usertype,userID,profile);
+            await database_update.update_profile(usertype, userID, profile);
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error)
+        }
+    },
+    change_password_for_user: async function (userID, newPassword) {
+        try {
+            let new_salt = secure.createSalt();
+            let new_hash = secure.encrypt(new_password, new_salt);
+            let result = await database_update.change_password(userID, new_hash, new_salt);
+            console.log(result);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
         }
     }
 

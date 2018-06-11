@@ -126,6 +126,8 @@ module.exports = {
         app.delete('/admin/CRUD/account/userID=:userID', (req, res) => admin_router.deleteAccount(req, res));
         // delete account
         app.put('/admin/update/profile/userID=:userID',(req,res)=> admin_router.updateProfileForUser(req,res));
+        app.get('/admin/changePasswordForUser/userID=:userID/newPassword=:newPassword',(req,res)=> admin_router.change_password_for_user(req,res));
+        //cập nhập mật khẩu cho người dùng
 
 
         // app.use('**',(req,res)=>{res.status(400); res.send("Server không phục vụ yêu cầu này, vui lòng kiểm tra lại đường dẫn")} );
