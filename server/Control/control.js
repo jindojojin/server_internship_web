@@ -83,6 +83,9 @@ module.exports = {
         app.delete('/lecturer/comments/commentID=:commentID',(req,res)=>lecturer_router.deleteComment(req,res));
         app.get('/lecturer/letPointForStudent/planReportID=:planReportID',(req,res)=>lecturer_router.sendPointOfPlanReport(req,res));
         app.put('/lecturer/letPointForStudent/planReportID=:planReportID',jsonParser,(req,res)=>lecturer_router.updatePointOfPlanReport(req,res));
+        app.get('/lecturer/getMarkTable',(req,res)=>lecturer_router.sendMarkTable(req,res));
+        
+
         
         
 

@@ -147,6 +147,16 @@ var lecturer_model = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    getMarkTable: async function(lecturerID){
+        try {
+            let result = await database_query.getMarkTable(lecturerID);
+            console.log(result);
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
     }
 }
 module.exports = lecturer_model;

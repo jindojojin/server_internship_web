@@ -672,6 +672,40 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    getMarkTable: async function(lecturerID){
+        try {
+            let lecturer_student = model_required("lecturer_student");
+            let student_follow_lecturer = model_required("student_follow_lecturer");
+            let student = model_required("student");
+            let plan_report = model_required("plan_report");
+            student.hasMany(plan_report,{foreignKey:'studentID', sourceKey:'account_userID'});
+            plan_report.hasOne(lecturer_student,{foreignKey:'planReportID', sourceKey:'planReportID'});
+            student_follow_lecturer.belongsTo(student,{foreignKey:'studentID', targetKey:'account_userID'});
+            let result = student_follow_lecturer.findAll(
+                {
+                    where:{ lecturerID:lecturerID, status:'accepted'},
+                    include:[{
+                        model:student,
+                        require:true,
+                        include:[{
+                            model:plan_report,
+                            include:[
+                                {model:lecturer_student,
+                                attributes:['mark','comment']}
+                            ],
+                            where:{ isFinal:1},
+                            attributes:[]
+                        }]
+                    }],
+                    raw:true
+                },
+                
+            )
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 };
 module.exports = database_query;
@@ -701,5 +735,5 @@ module.exports = database_query;
 // database_query.getStudentAssession(2).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getAssessionByID(20004,2).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getListStudentFollowPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
-
+// database_query.getMarkTable(20004).then(r => console.log(r)).catch(e => console.log(e))
 

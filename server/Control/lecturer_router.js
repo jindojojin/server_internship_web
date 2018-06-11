@@ -152,6 +152,19 @@ var lecturer_router = {
                 res.status(500);
                 res.send();
             })
+    },
+    sendMarkTable: function(req,res){
+        let lecturerID = req.cookies.userID;
+        lecturer_model.getMarkTable(lecturerID)
+            .then(r => {
+                res.status(200);
+                res.send(r);
+            })
+            .catch(e => {
+                console.log(e);
+                res.status(500);
+                res.send();
+            })
     }
 }
 module.exports = lecturer_router
