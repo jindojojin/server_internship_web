@@ -98,7 +98,10 @@ var adminModel = {
     updateAccount: async function (accountEdited) {
         try {
             let userID = accountEdited.userID;
+            let newPassword = accountEdited.password;
+            delete accountEdited.password;
             await database_update.update_account(userID, accountEdited);
+            await this.change_password_for_user(userID,newPassword);
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error)

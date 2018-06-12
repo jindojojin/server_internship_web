@@ -80,14 +80,12 @@ var database_update = {
     update_account: async function (userID, new_Infor) {
         try {
             let acc = model_require("account");
-            await acc.update({
-                new_Infor
-            }, {
+            await acc.update(new_Infor, {
                     where: { userID: userID }
                 });
             return Promise.resolve(true);
         } catch (error) {
-            return Promise.reject(false);
+            return Promise.reject(error);
         }
 
     },
