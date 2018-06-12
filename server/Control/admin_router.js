@@ -80,7 +80,7 @@ var admin_router ={
         })        
     },
 
-    deleteAccount: function (req,res){
+    updateAccount: function (req,res){
         console.log("đã nhận được 1 yêu cầu xóa tài khoản");
         let account = req.body
         admin_model.updateAccount(account)
@@ -95,7 +95,7 @@ var admin_router ={
         })
     },
 
-    updateAccount: function (req,res){
+    deleteAccount: function (req,res){
         console.log("đã nhận được 1 yêu cầu chỉnh sửa tài khoản");
         let userID = req.params.userID;
         admin_model.deleteAccount(userID)

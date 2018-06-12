@@ -67,6 +67,7 @@ var adminModel = {
     },
 
     deleteAccount: async function (userID) {
+        console.log(userID);
         let user = await database_query.getUserByID(userID);
         if (user == null) return Promise.reject(new Error("người dùng không tồn tại"));
         let type = user.type;
