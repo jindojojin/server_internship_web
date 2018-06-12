@@ -143,9 +143,10 @@ module.exports = {
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         let userID = req.cookies.userID;
+        let userRequest = req.cookies.userType;
         // console.log(userID);
         let type = req.params.type;
-        user.getUsers(start, total,type,userID).then(r => {
+        user.getUsers(start, total,type,userID, userRequest).then(r => {
             res.status(200);
             res.send(r);
         }).catch(e => {

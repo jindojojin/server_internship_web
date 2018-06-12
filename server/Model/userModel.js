@@ -190,7 +190,7 @@ var userModel = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    getUsers: async function (start, total, userType, userID) {
+    getUsers: async function (start, total, userType, userID,userRequest) {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         if (userType != 'admin' &&
             userType != 'lecturer' &&
@@ -198,7 +198,13 @@ var userModel = {
             userType != 'partner') return Promise.reject(new Error("kiểu người dùng không hợp lệ"));
         try {
             let listUserFollowed = await database_query.getListUserStudentFollow(userID);
-            let result = await database_query.getListUsers(start, total, userType);
+            let result
+            if(userRequest == 'admin'){
+                result = await database_query.getListUsersForAdmin(start,total,userType);
+            }else{
+                result = await database_query.getListUsers(start, total, userType);
+            }
+           
             result.forEach(element => {
                 element.status = "unfollowed";
                 listUserFollowed.forEach(userFollowed => { //duyet ket qua tìm được vơi danh sách đã follow

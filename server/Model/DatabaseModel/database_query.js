@@ -243,6 +243,23 @@ var database_query = {
         }
 
     },
+    getListUsersForAdmin:async function (start, total, userType) {
+        try {
+            let user = new model_required(userType);
+            let acc = model_required('account');
+            user.belongsTo(acc,{ foreignKey:'account_userID',targetKey:'userID'});
+            let arr = await user.findAll({
+                include:[{model:acc,attributes:['username']}],
+                offset: start - 1,
+                limit: total,
+                raw: true
+            });
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+
+    },
     getListUserStudentFollow: async function (studentID) {
         try {
             let student_follow_partner = new model_required("student_follow_partner");
