@@ -35,7 +35,6 @@ module.exports = {
             })
     },
     sendMessage: function (req, res) {
-        console.log(req.body);
         let userID = parseInt(req.cookies.userID);
         let action = req.params.action;
         let content = req.body;
@@ -51,6 +50,21 @@ module.exports = {
                 res.send();
             }
         )
+    },
+    getMessagesByGroup: function (req, res) {
+        // console.log("da nhận được 1 yêu cầu xem tin nhắn");
+
+        let userID = parseInt(req.cookies.userID);
+        user.getMessagesByGroup(userID).then(
+            r => {
+                res.status(200);
+                res.send(r);
+            }
+        ).catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        });
     },
     getMessages: function (req, res) {
         // console.log("da nhận được 1 yêu cầu xem tin nhắn");

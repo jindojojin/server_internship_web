@@ -243,13 +243,13 @@ var database_query = {
         }
 
     },
-    getListUsersForAdmin:async function (start, total, userType) {
+    getListUsersForAdmin: async function (start, total, userType) {
         try {
             let user = new model_required(userType);
             let acc = model_required('account');
-            user.belongsTo(acc,{ foreignKey:'account_userID',targetKey:'userID'});
+            user.belongsTo(acc, { foreignKey: 'account_userID', targetKey: 'userID' });
             let arr = await user.findAll({
-                include:[{model:acc,attributes:['username']}],
+                include: [{ model: acc, attributes: ['username'] }],
                 offset: start - 1,
                 limit: total,
                 raw: true
@@ -371,6 +371,83 @@ var database_query = {
             return Promise.reject(error);
         }
     },
+    getConversation: async function (userID) {  // trả về ID của những người dùng đã nhắn tin với người dùng có id là userID 
+        try {
+            let message = model_required('message');
+            let result = await message.findAll({
+                where: {senderID:userID},
+                attributes: ['senderID','receiverID'],
+                group: ['receiverID'],
+                raw: true
+            });
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error);
+
+        }
+    },
+    getMessagesByGroup: async function (userID1, userID2) {
+        try {
+            let mes = new model_required('message');
+            let acc = new model_required('account');
+            let student = model_required('student');
+            let partner = model_required('partner');
+            let lecturer = model_required('lecturer');
+            let admin = model_required('admin');
+            acc.hasOne(partner, { targetKey: 'userID', foreignKey: 'account_userID' });
+            acc.hasOne(student, { targetKey: 'userID', foreignKey: 'account_userID' });
+            acc.hasOne(lecturer, { targetKey: 'userID', foreignKey: 'account_userID' });
+            acc.hasOne(admin, { targetKey: 'userID', foreignKey: 'account_userID' });
+            // mes.belongsTo(acc, { foreignKey: 'senderID', targetKey: 'userID' });
+            mes.belongsTo(acc, { foreignKey: 'receiverID', targetKey: 'userID' });
+            
+
+            let arr = await mes.findAll({
+                include: [
+                    {
+                        model: acc,
+                        required: true,
+                        include: [
+                            {
+                                model: student,
+                                attributes: ['name']
+                            },
+                            {
+                                model: lecturer,
+                                attributes: ['name']
+                            },
+                            {
+                                model: partner,
+                                attributes: ['name']
+                            },
+                            {
+                                model: admin,
+                                attributes: ['name']
+                            }
+                        ],
+                        attributes: [],
+                    }
+                ],
+                where: {
+                    [Op.or]: [
+                        {
+                            senderID: userID1,
+                            receiverID: userID2
+                        },
+                        {
+                            senderID: userID2,
+                            receiverID: userID1
+                        },
+                    ]
+                },
+                order: [['createdAt', 'ASC']],
+                raw: true
+            })
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
     getMessagesByID: async function (messageID) {
         try {
             let mes = new model_required('message');
@@ -434,7 +511,7 @@ var database_query = {
             let job = new model_required('internship_job');
             let partner = new model_required('partner');
             let term = model_required('term');
-            job.belongsTo(term,{foreignKey:'termID',targetKey:'termID'})
+            job.belongsTo(term, { foreignKey: 'termID', targetKey: 'termID' })
             job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
             let arr = await job.findOne({
                 include: [
@@ -443,7 +520,7 @@ var database_query = {
                         required: true,
                         attributes: ['name', 'logo'],
                     },
-                    {model:term}
+                    { model: term }
                 ],
                 where: [{ jobID: jobID }],
                 raw: true
@@ -493,7 +570,7 @@ var database_query = {
             let file = model_required("file");
             let job = model_required("internship_job");
             let lecturer_student = model_required("lecturer_student");
-            plan_report.belongsTo(lecturer_student,{foreignKey:'planReportID',targetKey:'planReportID'});
+            plan_report.belongsTo(lecturer_student, { foreignKey: 'planReportID', targetKey: 'planReportID' });
             plan_report.belongsTo(file, { foreignKey: 'fileID', targetKey: 'fileID' });
             plan_report.belongsTo(job, { foreignKey: 'jobID', targetKey: 'jobID' });
 
@@ -501,7 +578,7 @@ var database_query = {
                 include: [
                     { model: file },
                     { model: job },
-                    {model:lecturer_student}
+                    { model: lecturer_student }
                 ],
                 where: {
                     studentID: studentID,
@@ -527,10 +604,10 @@ var database_query = {
                     {
                         model: account,
                         include: [
-                            {model:student, attributes:['name']},
-                            {model:lecturer, attributes:['name']}
+                            { model: student, attributes: ['name'] },
+                            { model: lecturer, attributes: ['name'] }
                         ],
-                        attributes:['userID']
+                        attributes: ['userID']
                     }],
                 where: { planReportID: planReportID },
                 raw: true
@@ -653,12 +730,14 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getAssessionByID : async function(assessorID, studentID){
+    getAssessionByID: async function (assessorID, studentID) {
         try {
             let student_assession = model_required('student_assession')
             let result = student_assession.findOne({
-                where: { assessorID: assessorID,
-                    studentID: studentID },
+                where: {
+                    assessorID: assessorID,
+                    studentID: studentID
+                },
                 raw: true
             })
             return Promise.resolve(result);
@@ -666,11 +745,11 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getListStudentFollowPartner: async function(partnerID){
+    getListStudentFollowPartner: async function (partnerID) {
         try {
             let student_follow_partner = model_required("student_follow_partner");
-            let result = student_follow_partner.findAll({                
-                where: { partnerID:partnerID },
+            let result = student_follow_partner.findAll({
+                where: { partnerID: partnerID },
                 raw: true
             });
             return Promise.resolve(result);
@@ -678,7 +757,7 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getLecturer_Student: async function(planReportID){
+    getLecturer_Student: async function (planReportID) {
         try {
             let lecturer_student = model_required("lecturer_student");
             let result = lecturer_student.findOne({
@@ -690,34 +769,36 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getMarkTable: async function(lecturerID){
+    getMarkTable: async function (lecturerID) {
         try {
             let lecturer_student = model_required("lecturer_student");
             let student_follow_lecturer = model_required("student_follow_lecturer");
             let student = model_required("student");
             let plan_report = model_required("plan_report");
-            student.hasMany(plan_report,{foreignKey:'studentID', sourceKey:'account_userID'});
-            plan_report.hasOne(lecturer_student,{foreignKey:'planReportID', sourceKey:'planReportID'});
-            student_follow_lecturer.belongsTo(student,{foreignKey:'studentID', targetKey:'account_userID'});
+            student.hasMany(plan_report, { foreignKey: 'studentID', sourceKey: 'account_userID' });
+            plan_report.hasOne(lecturer_student, { foreignKey: 'planReportID', sourceKey: 'planReportID' });
+            student_follow_lecturer.belongsTo(student, { foreignKey: 'studentID', targetKey: 'account_userID' });
             let result = student_follow_lecturer.findAll(
                 {
-                    where:{ lecturerID:lecturerID, status:'accepted'},
-                    include:[{
-                        model:student,
-                        require:true,
-                        include:[{
-                            model:plan_report,
-                            include:[
-                                {model:lecturer_student,
-                                attributes:['mark','comment']}
+                    where: { lecturerID: lecturerID, status: 'accepted' },
+                    include: [{
+                        model: student,
+                        require: true,
+                        include: [{
+                            model: plan_report,
+                            include: [
+                                {
+                                    model: lecturer_student,
+                                    attributes: ['mark', 'comment']
+                                }
                             ],
-                            where:{ isFinal:1},
-                            attributes:[]
+                            where: { isFinal: 1 },
+                            attributes: []
                         }]
                     }],
-                    raw:true
+                    raw: true
                 },
-                
+
             )
             return Promise.resolve(result);
         } catch (error) {
@@ -733,6 +814,9 @@ module.exports = database_query;
 // var a= 145234;
 // console.log(typeof a);
 // database_query.getMessages(1032,1,5).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getMessagesByGroup(3, 2).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getConversation(3).then(r => console.log(r)).catch(e => console.log(e))
+
 // database_query.getUserByType('admin').then( r => console.log(r)).catch(e => console.log(e));
 // database_query.getMessagesByID(1).then(r => console.log(r)).catch(e => log(e));
 // database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));

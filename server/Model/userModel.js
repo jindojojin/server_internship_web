@@ -190,7 +190,7 @@ var userModel = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    getUsers: async function (start, total, userType, userID,userRequest) {
+    getUsers: async function (start, total, userType, userID, userRequest) {
         if (typeof start != 'number' || start < 1 || typeof total != 'number' || total < 1) return Promise.reject(new Error("startID không hợp lệ"));
         if (userType != 'admin' &&
             userType != 'lecturer' &&
@@ -199,12 +199,12 @@ var userModel = {
         try {
             let listUserFollowed = await database_query.getListUserStudentFollow(userID);
             let result
-            if(userRequest == 'admin'){
-                result = await database_query.getListUsersForAdmin(start,total,userType);
-            }else{
+            if (userRequest == 'admin') {
+                result = await database_query.getListUsersForAdmin(start, total, userType);
+            } else {
                 result = await database_query.getListUsers(start, total, userType);
             }
-           
+
             result.forEach(element => {
                 element.status = "unfollowed";
                 listUserFollowed.forEach(userFollowed => { //duyet ket qua tìm được vơi danh sách đã follow
@@ -241,10 +241,48 @@ var userModel = {
                 delete element['account.lecturer.account_userID'];
                 delete element['account.partner.name'];
                 delete element['account.partner.account_userID'];
-                delete element['account.addmin.name'];
-                delete element['account.addmin.account_userID'];
+                delete element['account.admin.name'];
+                delete element['account.admin.account_userID'];
             });
             return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    getMessagesByGroup: async function (userID) {
+        try {
+            let listUserSendMessage = await database_query.getConversation(userID);
+            let arrResult = [];
+            for (let user of listUserSendMessage) {
+                let result;
+                
+                    result = await database_query.getMessagesByGroup(userID, user.receiverID);
+                    result.forEach(element => {
+                    if (element['account.student.name'] != null) {
+                        element.senderName = element['account.student.name'];
+
+                    } else if (element['account.partner.name'] != null) {
+                        element.senderName = element['account.partner.name'];
+
+                    } else if (element['account.lecturer.name'] != null) {
+                        element.senderName = element['account.lecturer.name'];
+
+                    } else if (element['account.admin.name'] != null) {
+                        element.senderName = element['account.admin.name'];
+                    }
+                    delete element['account.student.name'];
+                    delete element['account.student.account_userID'];
+                    delete element['account.lecturer.name'];
+                    delete element['account.lecturer.account_userID'];
+                    delete element['account.partner.name'];
+                    delete element['account.partner.account_userID'];
+                    delete element['account.admin.name'];
+                    delete element['account.admin.account_userID'];
+                });
+                arrResult.push(result);
+            }
+
+            return Promise.resolve(JSON.stringify(arrResult));
         } catch (error) {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
@@ -296,20 +334,20 @@ var userModel = {
             return Promise.reject(error)
         }
     },
-    getMyAssesion: async function(userID, studentID){
+    getMyAssesion: async function (userID, studentID) {
         try {
-            let arr = await database_query.getAssessionByID(userID,studentID);
+            let arr = await database_query.getAssessionByID(userID, studentID);
             return Promise.resolve(arr);
         } catch (error) {
             return Promise.resolve(error);
         }
     },
-    updateMyAssession: async function(userID,studentID,comment){
+    updateMyAssession: async function (userID, studentID, comment) {
         try {
-            let assession = await database_query.getAssessionByID(userID,studentID);
-            if( assession != null){
-                await database_update.update_student_assession(userID,studentID,comment);
-            }else{
+            let assession = await database_query.getAssessionByID(userID, studentID);
+            if (assession != null) {
+                await database_update.update_student_assession(userID, studentID, comment);
+            } else {
                 await database_insert.insertStudenAssession(comment);
             }
             return Promise.resolve(true);
@@ -336,3 +374,4 @@ module.exports = userModel;
 // userModel.checkUser("16021031","16021031").then(r => console.log(r)).catch(e => console.log(e));
 // userModel.getMyAssesion(20004,2);
 // userModel.updateMyAssession(20015,2,'Sinh viên xuất sắc updated').then( r => console.log(r)).catch(e => console.log(e));
+// userModel.getMessagesByGroup(3).then(r => console.log(r)).catch(e => console.log(e));

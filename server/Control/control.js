@@ -18,6 +18,8 @@ module.exports = {
         // action= send/reply message, trả về true hoặc false
         app.get('/user/message/action=markRead/messageID=:messageID', (req, res) => user_router.markMessageAsRead(req, res))
         app.get('/user/message/action=markUnRead/messageID=:messageID', (req, res) => user_router.markMessageAsUnread(req, res))
+        app.get('/user/messagesGroupBySender',(req,res)=>user_router.getMessagesByGroup(req,res))
+        //lấy về mảng tin nhắn nhóm theo người gửi
         app.put('/user/update/password', jsonParser, (req, res) => user_router.change_password(req, res));
         // thay đổi mật khẩu ; trả về true hoặc false
         app.put('/user/update/profile', (req, res) => user_router.change_profile(req, res)); //chưa viết 
