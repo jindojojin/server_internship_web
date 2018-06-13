@@ -248,7 +248,11 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            return Promise.resolve(arr);
+            let result={};
+            let totalAtServer = await user.findAll({attributes:['userID'],raw:true});
+            result.total = totalAtServer.length;
+            result.arr = arr;
+            return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
         }
@@ -265,7 +269,11 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            return Promise.resolve(arr);
+            let result={};
+            let totalAtServer = await user.findAll({attributes:['userID'],raw:true});
+            result.total = totalAtServer.length;
+            result.arr = arr;
+            return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
         }
