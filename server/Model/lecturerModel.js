@@ -158,16 +158,16 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    getExelMarkTable: async function (lecturerID) {
-        try {
-            import XlsExport from '../node_modules/xlsexport/xls-export';
-            let table = await this.getMarkTable();
-            var file = new XlsExport(table, 'ấdfafsadf');
-            file.exportToXLS('adb.xls');
-            return Promise.resolve(file);
-        } catch (error) {
-            return Promise.reject(null);
-        }
-    }
+    // getExelMarkTable: async function (lecturerID) {
+    //     try {
+    //         // import XlsExport from '../node_modules/xlsexport/xls-export';
+    //         let table = await this.getMarkTable();
+    //         var file = new XlsExport(table, 'ấdfafsadf');
+    //         file.exportToXLS('adb.xls');
+    //         return Promise.resolve(file);
+    //     } catch (error) {
+    //         return Promise.reject(null);
+    //     }
+    // }
 }
 module.exports = lecturer_model;

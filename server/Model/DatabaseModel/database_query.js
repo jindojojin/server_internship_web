@@ -62,7 +62,11 @@ var database_query = {
                 where: { type: type },
                 raw: true
             })
-            return Promise.resolve(arr);
+            let result={};
+            let totalAtServer = await acc.findAll({attributes:['account_userID'],raw:true});
+            result.total = totalAtServer.length;
+            result.arr = arr;
+            return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(new Error("không tìm thấy kết quả phù hợp"))
         }
@@ -156,7 +160,11 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            return Promise.resolve(arr);
+            let result={};
+            let totalAtServer = await job.findAll({attributes:['jobID'],raw:true});
+            result.total = totalAtServer.length;
+            result.arr = arr;
+            return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
         }
@@ -891,6 +899,31 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error)            
         }
+    },
+    getListJobByTerm:async function(termID){
+        try {
+            let job = new model_required('internship_job');
+            let partner = new model_required('partner');
+            let term = model_required('term');
+            job.belongsTo(term, { foreignKey: 'termID', targetKey: 'termID' })
+            job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
+            let arr = await job.findAll({
+                include: [
+                    {
+                        model: partner,
+                        required: true,
+                        attributes: ['name', 'logo'],
+                    },
+                    { model: term }
+                ],
+                where: { termID:termID },
+                raw: true
+            });
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error);
+
+        }
     }
 };
 module.exports = database_query;
@@ -924,4 +957,5 @@ module.exports = database_query;
 // database_query.getAssessionByID(20004,2).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getListStudentFollowPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getPartnerInfo().then(r => console.log(r)).catch(e => console.log(e))
-database_query.getStudentWithLecturer(1,20).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getStudentWithLecturer(1,20).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getListJobByTerm(1).then(r => console.log(r)).catch(e => console.log(e))

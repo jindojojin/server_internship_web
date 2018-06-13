@@ -140,7 +140,6 @@ module.exports = {
         //trả về danh sách các công ty được yêu cầu kiểm tra
         app.put('/admin/partnerInfo',jsonParser,(req,res)=> admin_router.updatePartnerInfo(req,res))
         //xác nhận / từ chối thông tin đối tác sinh viên gửi lên
-
         app.get('/admin/studentWithLecturer/start=:start/total=:total',(req,res)=> admin_router.getListStudent_Lecturer(req,res))
         // trả về danh sách sinh viên và giảng viên hướng dẫn tương ứng
 
