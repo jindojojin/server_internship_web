@@ -180,6 +180,20 @@ var admin_router ={
             res.status(500);            
             res.send();
         })
+    },
+    setLecturerForStudent: function(req,res){
+        let studentID = req.body.studentID;
+        let lecturerID = req.body.lecturerID;
+        admin_model.setLecturerForStudent(studentID,lecturerID)
+        .then(
+            r=>{res.status(201); 
+                res.send()}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
     }
 }
 module.exports= admin_router;

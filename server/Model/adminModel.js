@@ -169,6 +169,15 @@ var adminModel = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    setLecturerForStudent:async function(studentID,lecturerID){
+        try{
+            await database_insert.insertStudentFollowLecturer(studentID,lecturerID);
+            await database_update.update_student_follow_X(studentID,lecturerID,"lecturer");
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error)
+        } 
     }
 
 }
@@ -177,3 +186,4 @@ module.exports = adminModel;
 // adminModel.createTerm("00014586","20100212","học kì ngon");
 // adminModel.createAccount("studentZ", "studentZ", "student").then(r => console.log(r)).catch(e => console.log(e));
 // adminModel.updateTerm(6,{start:"2015-12-01",end:"2016-05-04",title:"Học kì phụ"}).then(r => console.log(r)).catch(e => console.log(e));
+adminModel.setLecturerForStudent(31,20005).then(r => console.log(r)).catch(e => console.log(e));

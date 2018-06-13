@@ -62,8 +62,8 @@ var database_query = {
                 where: { type: type },
                 raw: true
             })
-            let result={};
-            let totalAtServer = await acc.findAll({attributes:['account_userID'],raw:true});
+            let result = {};
+            let totalAtServer = await acc.findAll({ attributes: ['account_userID'], raw: true });
             result.total = totalAtServer.length;
             result.arr = arr;
             return Promise.resolve(result);
@@ -90,7 +90,7 @@ var database_query = {
             let student_follow_job = new model_required("student_follow_job");
             let internship_job = new model_required("internship_job");
             let partner_info = model_required("partner_info");
-            student_follow_job.belongsTo(partner_info,{foreignKey:'otherPartnerID',targetKey:'partner_infoID'})
+            student_follow_job.belongsTo(partner_info, { foreignKey: 'otherPartnerID', targetKey: 'partner_infoID' })
             let partner = model_required("partner");
             student_follow_job.belongsTo(internship_job, { foreignKey: 'jobID', targetKey: 'jobID' });
             internship_job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
@@ -106,7 +106,7 @@ var database_query = {
                                 attributes: ['name', 'logo']
                             }
                         },
-                        {model:partner_info}
+                        { model: partner_info }
 
                     ],
                     where: {
@@ -126,7 +126,7 @@ var database_query = {
                                 attributes: ['name', 'logo']
                             }
                         },
-                        {model:partner_info}
+                        { model: partner_info }
 
                     ],
                     where: {
@@ -160,8 +160,8 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            let result={};
-            let totalAtServer = await job.findAll({attributes:['jobID'],raw:true});
+            let result = {};
+            let totalAtServer = await job.findAll({ attributes: ['jobID'], raw: true });
             result.total = totalAtServer.length;
             result.arr = arr;
             return Promise.resolve(result);
@@ -248,8 +248,8 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            let result={};
-            let totalAtServer = await user.findAll({attributes:['userID'],raw:true});
+            let result = {};
+            let totalAtServer = await user.findAll({ attributes: ['userID'], raw: true });
             result.total = totalAtServer.length;
             result.arr = arr;
             return Promise.resolve(result);
@@ -269,8 +269,8 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            let result={};
-            let totalAtServer = await user.findAll({attributes:['userID'],raw:true});
+            let result = {};
+            let totalAtServer = await user.findAll({ attributes: ['userID'], raw: true });
             result.total = totalAtServer.length;
             result.arr = arr;
             return Promise.resolve(result);
@@ -394,7 +394,7 @@ var database_query = {
         try {
             let message = model_required('message');
             let result = await message.findAll({
-                where: {receiverID:userID},
+                where: { receiverID: userID },
                 attributes: ['senderID'],
                 group: ['senderID'],
                 raw: true
@@ -409,7 +409,7 @@ var database_query = {
         try {
             let message = model_required('message');
             let result = await message.findAll({
-                where: {senderID:userID},
+                where: { senderID: userID },
                 attributes: ['receiverID'],
                 group: ['receiverID'],
                 raw: true
@@ -429,19 +429,19 @@ var database_query = {
             let partner = model_required('partner');
             let lecturer = model_required('lecturer');
             let admin = model_required('admin');
-            acc.hasOne(partner, {  targetKey: 'userID', foreignKey: 'account_userID' });
+            acc.hasOne(partner, { targetKey: 'userID', foreignKey: 'account_userID' });
             acc.hasOne(student, { targetKey: 'userID', foreignKey: 'account_userID' });
             acc.hasOne(lecturer, { targetKey: 'userID', foreignKey: 'account_userID' });
             acc.hasOne(admin, { targetKey: 'userID', foreignKey: 'account_userID' });
-            mes.belongsTo(acc, { as:'sender', foreignKey: 'senderID', targetKey: 'userID' });
-            mes.belongsTo(acc, {as: 'receiver', foreignKey: 'receiverID', targetKey: 'userID' });
-            
+            mes.belongsTo(acc, { as: 'sender', foreignKey: 'senderID', targetKey: 'userID' });
+            mes.belongsTo(acc, { as: 'receiver', foreignKey: 'receiverID', targetKey: 'userID' });
+
 
             let arr = await mes.findAll({
                 include: [
                     {
                         model: acc,
-                        as:'sender',
+                        as: 'sender',
                         required: true,
                         include: [
                             {
@@ -462,9 +462,9 @@ var database_query = {
                             }
                         ],
                         attributes: [],
-                    },{
+                    }, {
                         model: acc,
-                        as:'receiver',
+                        as: 'receiver',
                         required: true,
                         include: [
                             {
@@ -830,19 +830,21 @@ var database_query = {
     },
     getMarkTable: async function (lecturerID) {
         try {
-            let lecturer_student = model_required("lecturer_student");
             let student_follow_lecturer = model_required("student_follow_lecturer");
             let student = model_required("student");
+            student_follow_lecturer.belongsTo(student, {foreignKey: 'studentID', targetKey: 'account_userID' });
+            
             let plan_report = model_required("plan_report");
             student.hasMany(plan_report, { foreignKey: 'studentID', sourceKey: 'account_userID' });
+            
+            let lecturer_student = model_required("lecturer_student");          
             plan_report.hasOne(lecturer_student, { foreignKey: 'planReportID', sourceKey: 'planReportID' });
-            student_follow_lecturer.belongsTo(student, { foreignKey: 'studentID', targetKey: 'account_userID' });
+
             let result = student_follow_lecturer.findAll(
                 {
                     where: { lecturerID: lecturerID, status: 'accepted' },
                     include: [{
                         model: student,
-                        require: true,
                         include: [{
                             model: plan_report,
                             include: [
@@ -852,7 +854,6 @@ var database_query = {
                                 }
                             ],
                             where: { isFinal: 1 },
-                            attributes: []
                         }]
                     }],
                     raw: true
@@ -864,51 +865,51 @@ var database_query = {
             return Promise.reject(error);
         }
     },
-    getPartnerInfo: async function (){
+    getPartnerInfo: async function () {
         try {
             let partner_info = model_required("partner_info");
             let student = model_required("student");
-            partner_info.belongsTo(student,{foreignKey:'requesterID', targetKey:'account_userID'});
+            partner_info.belongsTo(student, { foreignKey: 'requesterID', targetKey: 'account_userID' });
             let result = await partner_info.findAll({
-                where:{status:'waiting'},
-                include:[{model:student, attributes:['name']}],
-                raw:true
+                where: { status: 'waiting' },
+                include: [{ model: student, attributes: ['name'] }],
+                raw: true
             })
             return Promise.resolve(result)
         } catch (error) {
             return Promise.reject(error)
         }
     },
-    getStudentWithLecturer: async function (start,total){
+    getStudentWithLecturer: async function (start, total) {
         try {
             let student = model_required("student");
             let student_follow_lecturer = model_required("student_follow_lecturer");
-            student.hasMany(student_follow_lecturer,{as:'follow' ,sourceKey:'account_userID', foreignKey:'studentID'});
+            student.hasMany(student_follow_lecturer, { as: 'follow', sourceKey: 'account_userID', foreignKey: 'studentID' });
             let lecturer = model_required("lecturer");
-            student_follow_lecturer.belongsTo(lecturer,{foreignKey:'lecturerID',targetKey:'account_userID'});
+            student_follow_lecturer.belongsTo(lecturer, { foreignKey: 'lecturerID', targetKey: 'account_userID' });
             let arr = await student.findAll({
-                include:[{
-                    model:student_follow_lecturer,
-                    as:'follow',
-                    include:[{model:lecturer,attributes:['name','account_userID','department']}],
-                    attributes:[],
+                include: [{
+                    model: student_follow_lecturer,
+                    as: 'follow',
+                    include: [{ model: lecturer, attributes: ['name', 'account_userID', 'department'] }],
+                    attributes: [],
                 }],
-                attributes:['name','studentCode','email','vnumail','account_userID'],
-                offset:start-1,
-                limit:total,
-                raw:true
+                attributes: ['name', 'studentCode', 'email', 'vnumail', 'account_userID'],
+                offset: start - 1,
+                limit: total,
+                raw: true
             });
-            let totalAtServer = await student.findAll({attributes:['account_userID'],raw:true});
+            let totalAtServer = await student.findAll({ attributes: ['account_userID'], raw: true });
             // result.total = totalAtServer.length;
-            var result={};
+            var result = {};
             result.total = totalAtServer.length;
             result.arr = arr;
             return Promise.resolve(result);
         } catch (error) {
-            return Promise.reject(error)            
+            return Promise.reject(error)
         }
     },
-    getListJobByTerm:async function(termID){
+    getListJobByTerm: async function (termID) {
         try {
             let job = new model_required('internship_job');
             let partner = new model_required('partner');
@@ -924,7 +925,7 @@ var database_query = {
                     },
                     { model: term }
                 ],
-                where: { termID:termID },
+                where: { termID: termID },
                 raw: true
             });
             return Promise.resolve(arr);
