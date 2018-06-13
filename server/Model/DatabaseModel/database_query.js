@@ -269,7 +269,7 @@ var database_query = {
                 raw: true
             });
             let result = {};
-            let totalAtServer = await user.findAll({ attributes: ['userID'], raw: true });
+            let totalAtServer = await user.findAll({ attributes: ['account_userID'], raw: true });
             arr[0].total = totalAtServer.length;
             // result.arr = arr;
             return Promise.resolve(arr);

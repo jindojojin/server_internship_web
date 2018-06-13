@@ -215,6 +215,7 @@ var userModel = {
             });
             return Promise.resolve(result);
         } catch (error) {
+            console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
