@@ -207,6 +207,20 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    update_student_folow_job: async function(studentID,jobID,job){
+        try {
+            let table = new model_require("student_follow_job");
+            await table.update(job, {
+                where: {
+                    jobID:jobID,
+                    studentID:studentID,
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 
 }

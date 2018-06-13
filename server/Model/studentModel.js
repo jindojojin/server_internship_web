@@ -209,6 +209,15 @@ var student_model = {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
+    },
+    choseJobToWork: async function(studentID,jobID){
+        try {
+            await database_update.update_student_folow_job(studentID,jobID,{status:'working'});
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
     }
 }
 module.exports = student_model;

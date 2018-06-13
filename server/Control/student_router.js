@@ -163,6 +163,20 @@ var student_router = {
             res.status(500);
             res.send();
         })  
+    },
+    choseJobToWork: function(req,res){
+        let studentID = req.cookies.userID;
+        let jobID = req.params.jobID;
+        student_model.choseJobToWork(studentID,jobID)
+        .then(r => {
+            res.status(201);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
     }
 }
 

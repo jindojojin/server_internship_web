@@ -85,6 +85,8 @@ var database_query = {
             if (statusOption != "all" && statusOption != "waiting" && statusOption != "accepted" && statusOption != "working") return Promise.reject(new Error("statusOption không hợp lệ"))
             let student_follow_job = new model_required("student_follow_job");
             let internship_job = new model_required("internship_job");
+            let partner_info = model_required("partner_info");
+            student_follow_job.belongsTo(partner_info,{foreignKey:'otherPartnerID',targetKey:'partner_infoID'})
             let partner = model_required("partner");
             student_follow_job.belongsTo(internship_job, { foreignKey: 'jobID', targetKey: 'jobID' });
             internship_job.belongsTo(partner, { foreignKey: 'partnerID', targetKey: 'account_userID' });
@@ -94,13 +96,13 @@ var database_query = {
                     include: [
                         {
                             model: internship_job,
-                            require: true,
                             include: {
                                 model: partner,
                                 require: true,
                                 attributes: ['name', 'logo']
                             }
                         },
+                        {model:partner_info}
 
                     ],
                     where: {
@@ -120,6 +122,7 @@ var database_query = {
                                 attributes: ['name', 'logo']
                             }
                         },
+                        {model:partner_info}
 
                     ],
                     where: {
@@ -877,7 +880,7 @@ module.exports = database_query;
 // database_query.getTerms().then(r => console.log(r)).catch( e => console.log(e));
 // database_query.getStudentFollowLecturer(20004).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getJobByID(3).then(r => console.log(r)).catch( e => console.log(e))
-// database_query.getListJobStudentFollow(3,"waiting").then(r => console.log(r)).catch( e => console.log(e))
+// database_query.getListJobStudentFollow(2,"all").then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListJobsByKeySearch("%The%requirements%","content",1,10).then(r => console.log(r)).catch( e => console.log(e))
 // database_query.getListUsers(1,10,"partner").then(r => console.log(r)).catch(e => console.log(e));
 // database_query.getListUserStudentFollow(2).then(r => console.log(r)).catch(e => console.log(e));

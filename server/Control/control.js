@@ -70,6 +70,7 @@ module.exports = {
         // cập nhập báo cáo
         app.post('/student/addNewPartnerInfo',jsonParser,(req,res)=> student_router.addNewPartnerInfo(req,res));
         // thêm thông tin công ty không có trong danh sách đối tác
+        app.get('/student/workForJob/jobID=:jobID',(req,res)=>student_router.choseJobToWork(req,res))
         
 
 
