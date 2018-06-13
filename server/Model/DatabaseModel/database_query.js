@@ -160,11 +160,10 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            let result = {};
             let totalAtServer = await job.findAll({ attributes: ['jobID'], raw: true });
-            result.total = totalAtServer.length;
-            result.arr = arr;
-            return Promise.resolve(result);
+            arr[0].total = totalAtServer.length;
+            // result.arr = arr;
+            return Promise.resolve(arr);
         } catch (error) {
             return Promise.reject(error);
         }
@@ -248,11 +247,11 @@ var database_query = {
                 limit: total,
                 raw: true
             });
-            let result = {};
+            // let result = {};
             let totalAtServer = await user.findAll({ attributes: ['userID'], raw: true });
-            result.total = totalAtServer.length;
-            result.arr = arr;
-            return Promise.resolve(result);
+            arr[0].total = totalAtServer.length;
+            // result.arr = arr;
+            return Promise.resolve(arr);
         } catch (error) {
             return Promise.reject(error);
         }
@@ -271,9 +270,9 @@ var database_query = {
             });
             let result = {};
             let totalAtServer = await user.findAll({ attributes: ['userID'], raw: true });
-            result.total = totalAtServer.length;
-            result.arr = arr;
-            return Promise.resolve(result);
+            arr[0].total = totalAtServer.length;
+            // result.arr = arr;
+            return Promise.resolve(arr);
         } catch (error) {
             return Promise.reject(error);
         }
