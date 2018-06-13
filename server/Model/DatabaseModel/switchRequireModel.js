@@ -56,6 +56,9 @@ var models = function (type) {
         case 'term' :
             model = new require('./models/term')(sequelize, Sequelize);
             break;
+            case 'partner_info' :
+            model = new require('./models/partner_info')(sequelize, Sequelize);
+            break;
         default:
             return null;
     }

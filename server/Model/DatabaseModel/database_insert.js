@@ -30,6 +30,15 @@ var database_insert = {
             return Promise.reject(error)
         }
     },
+    insertStudentFollowJobByObject: async function(studentFollowJobObject){
+        try {
+            let table = new model_required('student_follow_job'); 
+            let result = await table.create(studentFollowJobObject);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
     insertStudentFollowJob: async function (studentID,jobID){
         try {
             let table = new model_required('student_follow_job'); 
@@ -142,6 +151,15 @@ var database_insert = {
         try {
             let table = new model_required('internship_job');
             let result = await table.create(job);
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)
+        }
+    },
+    insertPartnerInfo: async function (partnerInfo){
+        try {
+            let table = new model_required('partner_info');
+            let result = await table.create(partnerInfo);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error)

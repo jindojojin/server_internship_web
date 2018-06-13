@@ -63,8 +63,13 @@ module.exports = {
         app.put('/student/planReports/file', (req, res) => student_router.changeFileInPlanReport(req, res));
         //thay đổi file báo cáo trong planReport
         app.post('/student/PlanReports',jsonParser,(req,res)=> student_router.createNewPlanReport(req,res));
+        // tạo mới báo cáo
         app.delete('/student/comments/commentID=:commentID',(req,res)=>student_router.deleteComment(req,res));
+        // xóa báo cáo
         app.put('/student/PlanReports',jsonParser,(req,res) =>student_router.updatePlanReport(req,res));
+        // cập nhập báo cáo
+        app.post('/student/addNewPartnerInfo',jsonParser,(req,res)=> student_router.addNewPartnerInfo(req,res));
+        // thêm thông tin công ty không có trong danh sách đối tác
         
 
 
@@ -130,6 +135,9 @@ module.exports = {
         app.put('/admin/update/profile/userID=:userID',(req,res)=> admin_router.updateProfileForUser(req,res));
         app.get('/admin/changePasswordForUser/userID=:userID/newPassword=:newPassword',(req,res)=> admin_router.change_password_for_user(req,res));
         //cập nhập mật khẩu cho người dùng
+        app.get('/admin/partnerInfos',(req,res)=>admin_router.sendListPartnerInfo(req,res))
+        //trả về danh sách các công ty được yêu cầu kiểm tra
+        app.put('/admin/partnerInfo',jsonParser,(req,res)=> admin_router.updatePartnerInfo(req,res))
 
 
         // app.use('**',(req,res)=>{res.status(400); res.send("Server không phục vụ yêu cầu này, vui lòng kiểm tra lại đường dẫn")} );

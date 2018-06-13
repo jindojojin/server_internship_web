@@ -2,7 +2,7 @@ var database_query = require('./DatabaseModel/database_query');
 var database_insert = require('./DatabaseModel/database_insert');
 var database_delete = require('./DatabaseModel/database_delete');
 var database_update = require('./DatabaseModel/database_update');
-var se = require('./secure');
+var secure = require('./secure');
 var regex = require('../regex')
 var adminModel = {
     getTerms: async function () {
@@ -101,7 +101,7 @@ var adminModel = {
             let newPassword = accountEdited.password;
             delete accountEdited.password;
             await database_update.update_account(userID, accountEdited);
-            await this.change_password_for_user(userID,newPassword);
+            await this.change_password_for_user(userID, newPassword);
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error)
@@ -121,12 +121,45 @@ var adminModel = {
     change_password_for_user: async function (userID, newPassword) {
         try {
             let new_salt = secure.createSalt();
-            let new_hash = secure.encrypt(new_password, new_salt);
+            let new_hash = secure.encrypt(newPassword, new_salt);
             let result = await database_update.change_password(userID, new_hash, new_salt);
             console.log(result);
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
+        }
+    },
+    getPartnerInfo: async function () {
+        try {
+            let result = await database_query.getPartnerInfo();
+            return Promise.resolve(JSON.stringify(result));
+        } catch (error) {
+            return Promise.reject(error);
+        }
+    },
+    updatePartnerInfo: async function (adminID, newPartnerInfo) {
+        try {
+            if (newPartnerInfo.status != "accepted" && newPartnerInfo.status != "denied") return Promise.reject(new Error("không xác định được hành động"))
+
+            let partnerInfoID = newPartnerInfo.partner_infoID;
+            await database_update.update_partner_info(partnerInfoID, newPartnerInfo);
+            let messageForStudent = {
+                title: 'Thông báo tự động về việc đăng kí thực tập tại công ty không có trong danh sách đối tác',
+                senderID: adminID,
+                receiverID: newPartnerInfo.requesterID,
+            }
+
+            if (newPartnerInfo.status == "acepted") {
+                await database_insert.insertStudentFollowJobByObject({ studentID: newPartnerInfo.requesterID, status: 'working', otherPartnerID: partnerInfoID });
+                messageForStudent.content = "Chúc mừng, Thông tin đối tác bạn đã gửi đã được quản trị viên kiểm tra và được chấp nhận"
+            } else { messageForStudent.content = "Rất tiếc, Thông tin đổi tác bạn đã gửi đã được quản trị viên kiểm tra nhưng không được chấp nhận vì không đủ điều kiện" }
+
+            await database_insert.insertMessage(messageForStudent);
+            return Promise.resolve(true);
+
+        } catch (error) {
+            return Promise.reject(error);
+
         }
     }
 

@@ -132,7 +132,34 @@ var admin_router ={
         let newPassword = req.params.newPassword;
         admin_model.change_password_for_user(userID,newPassword)
         .then(
+            r=>{res.status(201); 
+                res.send()}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
+    },
+    sendListPartnerInfo:function(req,res){
+        admin_model.getPartnerInfo()
+        .then(
             r=>{res.status(200); 
+                res.send(r)}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
+    },
+    updatePartnerInfo:function(req,res){
+        let partnerInfo = req.body;
+        let adminID = req.cookies.userID;
+        console.log(partnerInfo);
+        admin_model.updatePartnerInfo(adminID,partnerInfo)
+        .then(
+            r=>{res.status(201); 
                 res.send()}
         )
         .catch(e =>{

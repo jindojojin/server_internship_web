@@ -194,6 +194,19 @@ var database_update = {
         } catch (error) {
             return Promise.reject(error);
         }
+    },
+    update_partner_info: async function(partner_infoID, newPartnerInfo){
+        try {
+            let partner_info = new model_require("partner_info");
+            await partner_info.update(newPartnerInfo, {
+                where: {
+                    partner_infoID: partner_infoID
+                }
+            });
+            return Promise.resolve(true);
+        } catch (error) {
+            return Promise.reject(error);
+        }
     }
 
 }

@@ -146,6 +146,23 @@ var student_router = {
             res.status(500);
             res.send();
         })  
+    },
+    addNewPartnerInfo: function(req,res){
+        console.log("đã nhận được một yêu cầu xác thực công ty");
+        // let studentID = req.params.studentID;
+        let studentID = req.cookies.userID;
+        let partnerInfo = req.body;
+        console.log(partnerInfo);
+        student_model.createPartnerInfo(studentID,partnerInfo)
+        .then(r => {
+            res.status(201);
+            res.send();
+        })
+        .catch(e => {
+            console.log(e);
+            res.status(500);
+            res.send();
+        })  
     }
 }
 

@@ -2,10 +2,15 @@
 
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('student_follow_job', {
-		jobID: {
+		student_follow_jobID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
 			primaryKey: true,
+			autoIncrement: true
+		},
+		jobID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
 			references: {
 				model: 'internship_job',
 				key: 'jobID'
@@ -14,7 +19,6 @@ module.exports = function(sequelize, DataTypes) {
 		studentID: {
 			type: DataTypes.INTEGER(11),
 			allowNull: false,
-			primaryKey: true,
 			references: {
 				model: 'student',
 				key: 'account_userID'
@@ -24,6 +28,14 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(10),
 			allowNull: false,
 			defaultValue: 'waiting'
+		},
+		otherPartnerID: {
+			type: DataTypes.INTEGER(11),
+			allowNull: true,
+			references: {
+				model: 'partner_info',
+				key: 'partner_infoID'
+			}
 		}
 	}, {
 		tableName: 'student_follow_job'

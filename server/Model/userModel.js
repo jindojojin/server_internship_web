@@ -251,39 +251,82 @@ var userModel = {
     },
     getMessagesByGroup: async function (userID) {
         try {
-            let listUserSendMessage = await database_query.getConversation(userID);
+            let listUserSendMessage = await database_query.getUserSentMessage(userID);
+            let listUserRecivedMessage = await database_query.getUserReceivedMessage(userID);
+            let arrUser=[];// mảng người dùng đã nhắn tin với userID
+            for( sender of listUserSendMessage){
+                let alreadyHave=false;
+                for( user of arrUser){
+                    if (user.senderID == sender.senderID) { alreadyHave = true; break}
+                }
+                if(alreadyHave == false){
+                arrUser.push(sender);
+                }
+            }
+            for( receiver of listUserRecivedMessage){
+                let alreadyHave=false;
+                for( user of arrUser){
+                    if (user.senderID == receiver.receiverID) { alreadyHave = true; break}
+                }
+                if(alreadyHave == false){
+                    receiver.senderID = receiver.receiverID;
+                    delete receiver.receiverID;
+                    arrUser.push(receiver);
+                }
+            }
             let arrResult = [];
-            for (let user of listUserSendMessage) {
+            for (let user of arrUser) {
                 let result;
-                
-                    result = await database_query.getMessagesByGroup(userID, user.receiverID);
-                    result.forEach(element => {
-                    if (element['account.student.name'] != null) {
-                        element.senderName = element['account.student.name'];
+                result = await database_query.getMessagesByGroup(userID, user.senderID);
+                result.forEach(element => {
+                    if (element['sender.student.name'] != null && element['sender.student.account_userID'] != userID) {
+                        element.senderName = element['sender.student.name'];
 
-                    } else if (element['account.partner.name'] != null) {
-                        element.senderName = element['account.partner.name'];
+                    } else if (element['sender.partner.name'] != null && element['sender.partner.account_userID'] != userID) {
+                        element.senderName = element['sender.partner.name'];
 
-                    } else if (element['account.lecturer.name'] != null) {
-                        element.senderName = element['account.lecturer.name'];
+                    } else if (element['sender.lecturer.name'] != null && element['sender.lecturer.account_userID'] != userID) {
+                        element.senderName = element['sender.lecturer.name'];
 
-                    } else if (element['account.admin.name'] != null) {
-                        element.senderName = element['account.admin.name'];
+                    } else if (element['sender.admin.name'] != null && element['sender.admin.account_userID'] != userID) {
+                        element.senderName = element['sender.admin.name'];
+
+                    } else if (element['receiver.student.name'] != null && element['receiver.student.account_userID'] != userID) {
+                        element.senderName = element['receiver.student.name'];
+
+                    } else if (element['receiver.partner.name'] != null && element['receiver.partner.account_userID'] != userID) {
+                        element.senderName = element['receiver.partner.name'];
+
+                    } else if (element['receiver.lecturer.name'] != null && element['receiver.lecturer.account_userID'] != userID) {
+                        element.senderName = element['receiver.lecturer.name'];
+
+                    } else if (element['receiver.admin.name'] != null && element['receiver.admin.account_userID'] != userID) {
+                        element.senderName = element['receiver.admin.name'];
                     }
-                    delete element['account.student.name'];
-                    delete element['account.student.account_userID'];
-                    delete element['account.lecturer.name'];
-                    delete element['account.lecturer.account_userID'];
-                    delete element['account.partner.name'];
-                    delete element['account.partner.account_userID'];
-                    delete element['account.admin.name'];
-                    delete element['account.admin.account_userID'];
+                    delete element['sender.student.name'];
+                    delete element['sender.student.account_userID'];
+                    delete element['sender.lecturer.name'];
+                    delete element['sender.lecturer.account_userID'];
+                    delete element['sender.partner.name'];
+                    delete element['sender.partner.account_userID'];
+                    delete element['sender.admin.name'];
+                    delete element['sender.admin.account_userID'];
+
+                    delete element['receiver.student.name'];
+                    delete element['receiver.student.account_userID'];
+                    delete element['receiver.lecturer.name'];
+                    delete element['receiver.lecturer.account_userID'];
+                    delete element['receiver.partner.name'];
+                    delete element['receiver.partner.account_userID'];
+                    delete element['receiver.admin.name'];
+                    delete element['receiver.admin.account_userID'];
                 });
                 arrResult.push(result);
             }
 
             return Promise.resolve(JSON.stringify(arrResult));
         } catch (error) {
+            console.log(error)
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
@@ -374,4 +417,4 @@ module.exports = userModel;
 // userModel.checkUser("16021031","16021031").then(r => console.log(r)).catch(e => console.log(e));
 // userModel.getMyAssesion(20004,2);
 // userModel.updateMyAssession(20015,2,'Sinh viên xuất sắc updated').then( r => console.log(r)).catch(e => console.log(e));
-// userModel.getMessagesByGroup(3).then(r => console.log(r)).catch(e => console.log(e));
+// userModel.getMessagesByGroup(20014).then(r => console.log(r)).catch(e => console.log(e));

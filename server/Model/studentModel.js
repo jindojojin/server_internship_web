@@ -169,7 +169,7 @@ var student_model = {
                 let fileToInsert = { fileName: fileUpload.name, path: databasePath };
                let fileInserted = await database_insert.insertFile(fileToInsert);
             //    console.log(fileInserted);
-                await database_update.update_plan_report(planReportID,{fileID:fileInserted.fileID});
+                await database_update.update_plan_report(planReportID, { fileID: fileInserted.fileID });
             } else {
                 // console.log("file đã có trong database");
 
@@ -179,6 +179,30 @@ var student_model = {
                 await database_update.update_file(planReport[0]['file.fileID'], fileToUpdate);
                 let fs = require('fs');
                 fs.unlinkSync(oldFile);//xóa file cũ khỏi bộ nhớ
+            }
+            return Promise.resolve(true);
+        } catch (error) {
+            console.log(error);
+            return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    createPartnerInfo: async function (studentID, partnerInfo) {
+        try {
+            console.log(partnerInfo);
+            partnerInfo.requesterID = studentID;
+            await database_insert.insertPartnerInfo(partnerInfo);
+            let arrAdmin = await database_query.getUserByType("admin");
+            let student = await database_query.getUserInfor(studentID,"student");
+            let studentName = student.name;
+            let message = {
+                senderID: studentID,
+                title: 'Thông báo tự động về yêu cầu xác nhận công ty thực tập',
+                content: 'Sinh viên ' + studentName + ' đã gửi một yêu cầu xác nhận thông tin của một công ty'
+            }
+            for (admin of arrAdmin) {
+                console.log(admin);
+                message.receiverID = admin.userID;
+                await database_insert.insertMessage(message);
             }
             return Promise.resolve(true);
         } catch (error) {
