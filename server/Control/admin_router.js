@@ -167,6 +167,19 @@ var admin_router ={
             res.status(500);            
             res.send();
         })
+    },
+    getListStudent_Lecturer:function (req,res){
+        let start = req.params.start;
+        let total = req.params.total;
+        admin_model.getListStudent_Lecturer(start,total).then(
+            r=>{res.status(200); 
+                res.send(r)}
+        )
+        .catch(e =>{
+            console.log(e);
+            res.status(500);            
+            res.send();
+        })
     }
 }
 module.exports= admin_router;

@@ -1,4 +1,5 @@
-const model_require = require('../Model/DatabaseModel/switchRequireModel')
+const model_require = require('../Model/DatabaseModel/switchRequireModel');
+const lecturer_model = require('../Model/lecturerModel');
 var path = require('path');
 var data_control = {
     route: function (app) {
@@ -16,8 +17,15 @@ var data_control = {
                 res.status(404);
                 res.send();
             }
+        }),
+        app.get('/getMarkTable/lecturerID=:lecturerID', function (req,res){
+                let lecturerID= req.params.lecturerID;
+                lecturer_model.getExelMarkTable(lecturerID)
+                .then(r=> res.sendFile(r));
+        
         })
     }
+    
 }
 
 module.exports = data_control;

@@ -862,6 +862,35 @@ var database_query = {
         } catch (error) {
             return Promise.reject(error)
         }
+    },
+    getStudentWithLecturer: async function (start,total){
+        try {
+            let student = model_required("student");
+            let student_follow_lecturer = model_required("student_follow_lecturer");
+            student.hasMany(student_follow_lecturer,{as:'follow' ,sourceKey:'account_userID', foreignKey:'studentID'});
+            let lecturer = model_required("lecturer");
+            student_follow_lecturer.belongsTo(lecturer,{foreignKey:'lecturerID',targetKey:'account_userID'});
+            let arr = await student.findAll({
+                include:[{
+                    model:student_follow_lecturer,
+                    as:'follow',
+                    include:[{model:lecturer,attributes:['name','account_userID','department']}],
+                    attributes:[],
+                }],
+                attributes:['name','studentCode','email','vnumail','account_userID'],
+                offset:start-1,
+                limit:total,
+                raw:true
+            });
+            let totalAtServer = await student.findAll({attributes:['account_userID'],raw:true});
+            // result.total = totalAtServer.length;
+            var result={};
+            result.total = totalAtServer.length;
+            result.arr = arr;
+            return Promise.resolve(result);
+        } catch (error) {
+            return Promise.reject(error)            
+        }
     }
 };
 module.exports = database_query;
@@ -895,4 +924,4 @@ module.exports = database_query;
 // database_query.getAssessionByID(20004,2).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getListStudentFollowPartner(20014).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getPartnerInfo().then(r => console.log(r)).catch(e => console.log(e))
-
+database_query.getStudentWithLecturer(1,20).then(r => console.log(r)).catch(e => console.log(e))

@@ -161,6 +161,14 @@ var adminModel = {
             return Promise.reject(error);
 
         }
+    },
+    getListStudent_Lecturer: async function(start,total){
+        try {
+            let arr = await database_query.getStudentWithLecturer(start,total);
+            return Promise.resolve(arr);
+        } catch (error) {
+            return Promise.reject(error)
+        }
     }
 
 }

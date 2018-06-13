@@ -22,31 +22,31 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    acceptStudent: async function (action, studentID,lecturerID, lecturerName) {
+    acceptStudent: async function (action, studentID, lecturerID, lecturerName) {
         try {
             switch (action) {
-                case "accept":{
-                        await database_update.update_student_follow_X(studentID,lecturerID,"lecturer");
-                        let message = { // tao 1 doi tuong ban ghi message de insert
-                            senderID: lecturerID,
-                            receiverID: studentID,
-                            title: 'Thông báo tự động từ hệ thống về việc đăng ký giảng viên',
-                            content: 'Chúc mừng, Giảng viên '+lecturerName+' đã đồng ý làm giảng viên hướng dẫn thực tập của bạn.',
-                        }
-                        await database_insert.insertMessage(message);
-                        return Promise.resolve(true);
+                case "accept": {
+                    await database_update.update_student_follow_X(studentID, lecturerID, "lecturer");
+                    let message = { // tao 1 doi tuong ban ghi message de insert
+                        senderID: lecturerID,
+                        receiverID: studentID,
+                        title: 'Thông báo tự động từ hệ thống về việc đăng ký giảng viên',
+                        content: 'Chúc mừng, Giảng viên ' + lecturerName + ' đã đồng ý làm giảng viên hướng dẫn thực tập của bạn.',
+                    }
+                    await database_insert.insertMessage(message);
+                    return Promise.resolve(true);
                 }
 
                 case "deny":
-                        await database_delete.deleteStudentFollowLecturer(studentID,lecturerID);
-                        let message = { // tao 1 doi tuong ban ghi message de insert
-                            senderID: lecturerID,
-                            receiverID: studentID,
-                            title: 'Thông báo tự động từ hệ thống về việc đăng ký giảng viên',
-                            content: 'Rất tiếc !, giảng viên '+lecturerName+'đã từ chối làm giảng viên hướng dẫn thực tập của bạn. Hãy nhanh chóng đăng ký với giảng viên khác',
-                        }
-                        await database_insert.insertMessage(message);
-                        return Promise.resolve(true);
+                    await database_delete.deleteStudentFollowLecturer(studentID, lecturerID);
+                    let message = { // tao 1 doi tuong ban ghi message de insert
+                        senderID: lecturerID,
+                        receiverID: studentID,
+                        title: 'Thông báo tự động từ hệ thống về việc đăng ký giảng viên',
+                        content: 'Rất tiếc !, giảng viên ' + lecturerName + 'đã từ chối làm giảng viên hướng dẫn thực tập của bạn. Hãy nhanh chóng đăng ký với giảng viên khác',
+                    }
+                    await database_insert.insertMessage(message);
+                    return Promise.resolve(true);
                     break;
 
                 default:
@@ -57,7 +57,7 @@ var lecturer_model = {
             return Promise.reject(new Error("thêm bảng thất bại"));
         }
     },
-    getMyStudents: async function(lecturerID){
+    getMyStudents: async function (lecturerID) {
         try {
             let result = await database_query.getStudentAcceptedByLecturer(lecturerID);
             result.forEach(element => {
@@ -76,13 +76,13 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    creatNewPlanReport: async function(newPlanReport){
+    creatNewPlanReport: async function (newPlanReport) {
         try {
             // console.log(newPlanReport);
-            if( typeof(newPlanReport.deadline) == 'string'){
+            if (typeof (newPlanReport.deadline) == 'string') {
                 newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
             }
-            if(newPlanReport.jobID == "") delete newPlanReport.jobID;
+            if (newPlanReport.jobID == "") delete newPlanReport.jobID;
             await database_insert.insertPlanReport(newPlanReport);
             return Promise.resolve(true);
         } catch (error) {
@@ -90,22 +90,22 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    updatePlanReport: async function(newPlanReport){
+    updatePlanReport: async function (newPlanReport) {
         try {
             // console.log(newPlanReport)
-            if( typeof(newPlanReport.deadline) == 'string'){
+            if (typeof (newPlanReport.deadline) == 'string') {
                 newPlanReport.deadline = newPlanReport.deadline.replace(/\-/g, "");
             }
             let planReportID = newPlanReport.planReportID;
             delete newPlanReport.planReportID;
-            await database_update.update_plan_report(planReportID,newPlanReport);
+            await database_update.update_plan_report(planReportID, newPlanReport);
             return Promise.resolve(true);
         } catch (error) {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    deletePlanReport: async function(planReportID){
+    deletePlanReport: async function (planReportID) {
         try {
             await database_delete.deletePlan_report(planReportID);
             return Promise.resolve(true);
@@ -114,10 +114,10 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    deleteComment: async function(commenterID,commentID){
+    deleteComment: async function (commenterID, commentID) {
         try {
             let cmt = await database_query.getCommentByID(commentID);
-            if(commenterID != cmt.commenterID) return Promise.reject(new Error("không phải là bình luận của người dùng này"));
+            if (commenterID != cmt.commenterID) return Promise.reject(new Error("không phải là bình luận của người dùng này"));
             await database_delete.deleteComment(commentID);
             return Promise.resolve(true);
         } catch (error) {
@@ -125,7 +125,7 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    getPointOfPlanReport: async function(planReportID){
+    getPointOfPlanReport: async function (planReportID) {
         try {
             let result = await database_query.getLecturer_Student(planReportID);
             console.log(result);
@@ -135,12 +135,12 @@ var lecturer_model = {
             return Promise.reject(new Error("truy vấn database thất bại"));
         }
     },
-    updatePointOfPlanReport: async function(planReportID,newPointForPlanReport){
+    updatePointOfPlanReport: async function (planReportID, newPointForPlanReport) {
         try {
             let point = await database_query.getLecturer_Student(planReportID);
-            if( point != null){
-                await database_update.update_lecturer_student(planReportID,newPointForPlanReport);
-            }else{
+            if (point != null) {
+                await database_update.update_lecturer_student(planReportID, newPointForPlanReport);
+            } else {
                 await database_insert.insertLecturerStudent(newPointForPlanReport);
             }
             return Promise.resolve(true);
@@ -148,7 +148,7 @@ var lecturer_model = {
             return Promise.reject(error);
         }
     },
-    getMarkTable: async function(lecturerID){
+    getMarkTable: async function (lecturerID) {
         try {
             let result = await database_query.getMarkTable(lecturerID);
             console.log(result);
@@ -156,6 +156,17 @@ var lecturer_model = {
         } catch (error) {
             console.log(error);
             return Promise.reject(new Error("truy vấn database thất bại"));
+        }
+    },
+    getExelMarkTable: async function (lecturerID) {
+        try {
+            import XlsExport from '../node_modules/xlsexport/xls-export';
+            let table = await this.getMarkTable();
+            var file = new XlsExport(table, 'ấdfafsadf');
+            file.exportToXLS('adb.xls');
+            return Promise.resolve(file);
+        } catch (error) {
+            return Promise.reject(null);
         }
     }
 }
