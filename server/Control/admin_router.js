@@ -67,7 +67,8 @@ var admin_router ={
         console.log("đã nhận được 1 yêu cầu thêm tài khoản");
         let username = req.body.username;
         let password = req.body.password;
-        let type = req.body.type;
+        let type = req.body.role;
+        // console.log(req.body);
         admin_model.createAccount(username,password,type)
         .then(
             r => {res.status(201); 

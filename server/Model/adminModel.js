@@ -53,8 +53,9 @@ var adminModel = {
 
     createAccount: async function (username, password, type) {
         try {
-            let salt = se.createSalt();
-            let pass = se.encrypt(password, salt);
+            console.log(type);
+            let salt = secure.createSalt();
+            let pass = secure.encrypt(password, salt);
             let nickname = username;
             let acc = { username: username, password: pass, nickname: nickname, salt: salt, type: type };
             let acc_inserted = await database_insert.insertAccount([acc]); // vì hàm insertAccount nhận vào 1 mảng

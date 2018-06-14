@@ -15,7 +15,7 @@ var database_insert = {
     insertProfile: async function (listProfile, usertype) {
         try {
             let table = new model_required(usertype); // chọn bảng dựa theo kiểu người dùng
-            let result = await table.bulkCreate(listProfile);
+            let result = await table.bulkCreate(listProfile,{raw:true});
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error)
