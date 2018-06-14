@@ -60,7 +60,7 @@ var adminModel = {
             let acc = { username: username, password: pass, nickname: nickname, salt: salt, type: type };
             let acc_inserted = await database_insert.insertAccount([acc]); // vì hàm insertAccount nhận vào 1 mảng
             let insertedID = acc_inserted[0].dataValues.userID;
-            await database_insert.insertProfile([{ account_userID: insertedID }], type);
+            await database_insert.insertProfile([{ account_userID: insertedID, name:username }], type);
             return Promise.resolve(true);
         } catch (error) {
             return Promise.reject(error);

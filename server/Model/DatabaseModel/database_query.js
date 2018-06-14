@@ -241,6 +241,8 @@ var database_query = {
     },
     getListUsers: async function (start, total, userType) {
         try {
+            start = parseInt(start);
+            total = parseInt(total);
             let user = new model_required(userType);
             let arr = await user.findAll({
                 offset: start - 1,

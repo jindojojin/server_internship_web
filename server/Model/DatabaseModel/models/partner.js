@@ -20,6 +20,10 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING(100),
 			allowNull: false
 		},
+		address: {
+			type: DataTypes.STRING(500),
+			allowNull: false
+		},
 		note: {
 			type: DataTypes.STRING(300),
 			allowNull: false
