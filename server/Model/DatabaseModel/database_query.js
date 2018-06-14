@@ -640,7 +640,7 @@ var database_query = {
                 where: {
                     studentID: studentID,
                 },
-                order:[['planReportID','DESC']],
+                order: [['planReportID', 'DESC']],
                 raw: true
             });
             return Promise.resolve(result)
@@ -831,34 +831,60 @@ var database_query = {
         try {
             let student_follow_lecturer = model_required("student_follow_lecturer");
             let student = model_required("student");
-            student_follow_lecturer.belongsTo(student, {foreignKey: 'studentID', targetKey: 'account_userID' });
-            
+            student_follow_lecturer.belongsTo(student, { foreignKey: 'studentID', targetKey: 'account_userID' });
+
             let plan_report = model_required("plan_report");
-            student.hasMany(plan_report, { foreignKey: 'studentID', sourceKey: 'account_userID' });
-            
-            let lecturer_student = model_required("lecturer_student");          
+            // student.hasMany(plan_report, { foreignKey: 'studentID', sourceKey: 'account_userID' });
+
+            let lecturer_student = model_required("lecturer_student");
             plan_report.hasOne(lecturer_student, { foreignKey: 'planReportID', sourceKey: 'planReportID' });
 
-            let result = student_follow_lecturer.findAll(
+            let listStudent = await student_follow_lecturer.findAll(
                 {
                     where: { lecturerID: lecturerID, status: 'accepted' },
                     include: [{
                         model: student,
-                        include: [{
-                            model: plan_report,
-                            include: [
-                                {
-                                    model: lecturer_student,
-                                    attributes: ['mark', 'comment']
-                                }
-                            ],
-                            where: { isFinal: 1 },
-                        }]
+                        // include: [{
+                        //     model: plan_report,
+                        //     include: [
+                        //         {
+                        //             model: lecturer_student,
+                        //             attributes: ['mark', 'comment']
+                        //         }
+                        //     ],
+                        //     where: { isFinal: 1 },
+                        // }]
                     }],
                     raw: true
                 },
 
             )
+            console.log(listStudent.length);
+            let result=[];
+            for (let student of listStudent) {
+                let report = await plan_report.findAll({
+                    where: { studentID: student['student.account_userID'], isFinal: 1 },
+                    include: [
+                        {
+                            model: lecturer_student,
+                            attributes: ['mark', 'comment']
+                        }
+                    ],
+                    raw:true
+                })
+                // console.log(report);
+                if(report.length >0){
+                    report.forEach(element => {
+                        student.report=element;
+                        result.push(student);
+                    });
+                }else{
+                    student.report = {};
+                    result.push(student);
+                }
+                
+            }
+            // console.log(result.length)
             return Promise.resolve(result);
         } catch (error) {
             return Promise.reject(error);
@@ -968,3 +994,4 @@ module.exports = database_query;
 // database_query.getPartnerInfo().then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getStudentWithLecturer(1,20).then(r => console.log(r)).catch(e => console.log(e))
 // database_query.getListJobByTerm(1).then(r => console.log(r)).catch(e => console.log(e))
+// database_query.getMarkTable(20004).then(r => console.log(r)).catch(e => console.log(e))
