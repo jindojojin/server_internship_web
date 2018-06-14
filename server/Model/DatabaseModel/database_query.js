@@ -880,6 +880,7 @@ var database_query = {
     },
     getStudentWithLecturer: async function (start, total) {
         try {
+            total = parseInt(total);
             let student = model_required("student");
             let student_follow_lecturer = model_required("student_follow_lecturer");
             student.hasMany(student_follow_lecturer, { as: 'follow', sourceKey: 'account_userID', foreignKey: 'studentID' });

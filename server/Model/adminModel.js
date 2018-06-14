@@ -165,6 +165,7 @@ var adminModel = {
     },
     getListStudent_Lecturer: async function(start,total){
         try {
+            console.log(start+'  '+total)
             let arr = await database_query.getStudentWithLecturer(start,total);
             return Promise.resolve(arr);
         } catch (error) {
