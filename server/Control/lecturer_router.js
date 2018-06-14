@@ -1,8 +1,21 @@
 var lecturer_model = require('../Model/lecturerModel')
 var student_model = require('../Model/studentModel')
+function isLecturer(req) {
+    console.log(req.cookies);
+    let userToken = req.cookies.userToken;
+    if (userToken != null) {
+        let user = require('../Model/secure').verifyUserToken(userToken);
+        if (user.type == 'lecturer') return true;
+        else { return false };
+    }
+    else {
+        return false
+    }
+}
 
 var lecturer_router = {
     getStudentFollowMe: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được 1 yêu cầu xem student follow lecturer");
         let lecturerID = req.cookies.userID;
         lecturer_model.getStudentFollowMe(lecturerID)
@@ -19,6 +32,7 @@ var lecturer_router = {
             })
     },
     acceptStudent: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         let action = req.params.action;
         let studentID = parseInt(req.params.studentID);
         let lecturerID = parseInt(req.cookies.userID);
@@ -37,6 +51,7 @@ var lecturer_router = {
             })
     },
     getListStudent(req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được 1 yêu cầu xem student đang hướng dẫn của lecturer");
         let lecturerID = req.cookies.userID;
         lecturer_model.getMyStudents(lecturerID)
@@ -53,6 +68,7 @@ var lecturer_router = {
             })
     },
     sendListPlanReportOfStudent: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được một yêu cầu xem báo cáo từ lecturer");
         let studentID = req.params.studentID;
         student_model.getPlanReport(studentID)
@@ -68,6 +84,7 @@ var lecturer_router = {
 
     },
     createNewPlanReport: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được một yêu cầu tạo báo cáo thực tập từ lecturer");
         // let studentID = req.params.studentID;
         let newPlanReport = req.body;
@@ -83,6 +100,7 @@ var lecturer_router = {
             })
     },
     updatePlanReport: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được một yêu cầu chỉnh sửa báo cáo thực tập từ lecturer");
         let newPlanReport = req.body;
         lecturer_model.updatePlanReport(newPlanReport)
@@ -97,6 +115,7 @@ var lecturer_router = {
             })
     },
     deletePlanReport: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được một yêu cầu xóa báo cáo thực tập từ lecturer");
         let planReportID = req.params.planReportID;
         lecturer_model.deletePlanReport(planReportID)
@@ -111,6 +130,7 @@ var lecturer_router = {
             })
     },
     deleteComment: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được một yêu cầu xóa bình luận từ lecturer");
         let lecturerID = req.cookies.userID;
         let commentID = req.params.commentID;
@@ -126,6 +146,7 @@ var lecturer_router = {
             })
     },
     sendPointOfPlanReport: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         let planReportID = req.params.planReportID;
         lecturer_model.getPointOfPlanReport(planReportID)
             .then(r => {
@@ -139,6 +160,7 @@ var lecturer_router = {
             })
     },
     updatePointOfPlanReport: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         console.log("đã nhận được một yêu cầu chỉnh sửa điểm cho báo cáo thực tập từ lecturer");
         let planReportID = req.params.planReportID;
         let newPointForPlanReport = req.body;
@@ -153,7 +175,8 @@ var lecturer_router = {
                 res.send();
             })
     },
-    sendMarkTable: function(req,res){
+    sendMarkTable: function (req, res) {
+        if (!isLecturer(req)) { res.status(401); res.send(); return 0 }
         let lecturerID = req.cookies.userID;
         lecturer_model.getMarkTable(lecturerID)
             .then(r => {
