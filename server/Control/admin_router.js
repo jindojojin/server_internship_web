@@ -183,8 +183,9 @@ var admin_router ={
         })
     },
     setLecturerForStudent: function(req,res){
-        let studentID = req.body.studentID;
-        let lecturerID = req.body.lecturerID;
+        let studentID = parseInt(req.params.studentID);
+        let lecturerID = parseInt(req.params.lecturerID);
+        // console.log(req);
         admin_model.setLecturerForStudent(studentID,lecturerID)
         .then(
             r=>{res.status(201); 

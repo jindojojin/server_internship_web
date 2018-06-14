@@ -640,6 +640,7 @@ var database_query = {
                 where: {
                     studentID: studentID,
                 },
+                order:[['planReportID','DESC']],
                 raw: true
             });
             return Promise.resolve(result)

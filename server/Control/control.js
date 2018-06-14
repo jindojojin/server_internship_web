@@ -142,7 +142,7 @@ module.exports = {
         //xác nhận / từ chối thông tin đối tác sinh viên gửi lên
         app.get('/admin/studentWithLecturer/start=:start/total=:total',(req,res)=> admin_router.getListStudent_Lecturer(req,res))
         // trả về danh sách sinh viên và giảng viên hướng dẫn tương ứng
-        app.post('/admin/setLecturer',jsonParser,(req,res)=> admin_router.setLecturerForStudent(req,res))
+        app.get('/admin/setLecturer/studentID=:studentID/lecturerID=:lecturerID',(req,res)=> admin_router.setLecturerForStudent(req,res))
 
 
         // app.use('**',(req,res)=>{res.status(400); res.send("Server không phục vụ yêu cầu này, vui lòng kiểm tra lại đường dẫn")} );
