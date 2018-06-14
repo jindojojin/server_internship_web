@@ -62,11 +62,11 @@ var database_query = {
                 where: { type: type },
                 raw: true
             })
-            let result = {};
-            let totalAtServer = await acc.findAll({ attributes: ['account_userID'], raw: true });
-            result.total = totalAtServer.length;
-            result.arr = arr;
-            return Promise.resolve(result);
+            // let result = {};
+            // let totalAtServer = await acc.findAll({ attributes: ['account_userID'], raw: true });
+            // result.total = totalAtServer.length;
+            // result.arr = arr;
+            return Promise.resolve(arr);
         } catch (error) {
             return Promise.reject(new Error("không tìm thấy kết quả phù hợp"))
         }
@@ -248,7 +248,7 @@ var database_query = {
                 raw: true
             });
             // let result = {};
-            let totalAtServer = await user.findAll({ attributes: ['userID'], raw: true });
+            let totalAtServer = await user.findAll({ attributes: ['account_userID'], raw: true });
             arr[0].total = totalAtServer.length;
             // result.arr = arr;
             return Promise.resolve(arr);
@@ -419,7 +419,6 @@ var database_query = {
 
         }
     },
-
     getMessagesByGroup: async function (userID1, userID2) {
         try {
             let mes = new model_required('message');
