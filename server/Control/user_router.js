@@ -14,7 +14,6 @@ function isUser(req) {
 }
 module.exports = {
     validate_user: function (req, res) {
-        if (!isUser(req)) { res.status(401); res.send(); return 0 }
         let username = req.body.username;
         let password = req.body.userpassword;
         user.checkUser(username, password)
@@ -144,7 +143,6 @@ module.exports = {
             });
     },
     getListJobs: function (req, res) {
-        if (!isUser(req)) { res.status(401); res.send(); return 0 }
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         let userID = req.cookies.userID;
@@ -176,7 +174,6 @@ module.exports = {
         });
     },
     getListUsers: function (req, res) {
-        if (!isUser(req)) { res.status(401); res.send(); return 0 }
         let start = parseInt(req.params.start);
         let total = parseInt(req.params.total);
         let userID = req.cookies.userID;
